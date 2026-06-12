@@ -1,5 +1,23 @@
+# Explicitly tracked directories (overriding any global ignores)
 !vendor/
 !assets/
 !bin/
-!vendor/
 !styles/
+
+# phpBB Ignores
+/config.php
+/cache/*
+!/cache/.htaccess
+!/cache/index.htm
+/files/*
+!/files/.htaccess
+!/files/index.htm
+/store/*
+!/store/.htaccess
+!/store/index.htm
+
+# PHP Ignores
+*.log
+*.cache
+*.env
+*.lock
