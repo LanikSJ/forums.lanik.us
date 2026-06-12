@@ -1,0 +1,12 @@
+services:
+    vse.smartsubjects.listener:
+        class: vse\smartsubjects\event\main_listener
+        arguments:
+            - '@auth'
+            - '@dbal.conn'
+            - '@request'
+            - '@user'
+            - '%tables.forums%'
+            - '%tables.posts%'
+        tags:
+            - { name: event.listener }

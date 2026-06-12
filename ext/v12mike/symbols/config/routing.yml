@@ -1,0 +1,6 @@
+v12mike_symbols_route:
+        path: /symbols/{tab_id}
+        defaults: { _controller: v12mike.symbols.controller:handle }
+        requirements:
+            _permission: 'access content'
+            tab_id: '(accent\-chars|math\-symbols|misc\-symbols|greek\-chars)'

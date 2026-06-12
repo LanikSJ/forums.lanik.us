@@ -1,0 +1,27 @@
+services:
+    david63.extservicescheck.admin.controller:
+        class: david63\extservicescheck\controller\admin_controller
+        arguments:
+            - '@request'
+            - '@template'
+            - '@language'
+            - '@david63.extservicescheck.core.functions'
+            - '@david63.extservicescheck.core.yml_formatter'
+            - '%core.root_path%ext/david63/extservicescheck/adm/style/images'
+
+    david63.extservicescheck.core.functions:
+        class: david63\extservicescheck\core\functions
+        arguments:
+            - '@ext.manager'
+            - '@user'
+            - '@language'
+            - '@log'
+
+    david63.extservicescheck.core.yml_formatter:
+        class: david63\extservicescheck\core\yml_formatter
+        arguments:
+            - '@language'
+            - '@david63.extservicescheck.core.functions'
+
+    _defaults:
+        public: true

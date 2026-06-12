@@ -1,0 +1,11 @@
+services:
+    rmcgirr83.separateusersandbots.listener:
+        class: rmcgirr83\separateusersandbots\event\listener
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@?rmcgirr83.hidebots.listener'
+        tags:
+            - { name: event.listener }

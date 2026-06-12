@@ -1,0 +1,12 @@
+{% if BREADCRUMB_MENU %}
+	<div id="breadcrumb-menu">
+		<ul id="crumb-index" class="hidden">
+			{{ BREADCRUMB_MENU }}
+
+			{% EVENT paybas_breadcumbmenu_append %}
+		</ul>
+	</div>
+
+	{% INCLUDEJS '@paybas_breadcrumbmenu/jquery-ui-1.12.1.custom.min.js' %}
+	{% INCLUDEJS '@paybas_breadcrumbmenu/breadcrumb-menu.js' %}
+{% endif %}

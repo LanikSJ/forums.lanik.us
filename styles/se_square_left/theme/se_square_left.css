@@ -1,0 +1,403 @@
+/*  phpBB3 Style Sheet
+----------------------------------------------------------------------
+Style name:			SE Square
+Based on style:		prosilver (the default phpBB 3.3.x style)
+Original author:	Tom Beddard ( http://www.subblue.com/ )
+Modified by:		Stoker ( https://phpbb3bbcodes.com/ )
+----------------------------------------------------------------------
+*/
+html, body {
+	color: #536482;
+	background-color: #1d3649;
+}
+body * {
+  border-radius: 0px !important;
+}
+#wrap {
+	box-shadow: 0 0 6px 2px #fff;
+}
+li.header dl.row-item * {
+    text-transform: none;
+	font-size: max(14px);
+	font-weight: normal;
+	line-height: 20px;
+	margin-top:0px;
+}
+.headerbar, .forumbg, .forabg {
+	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 92px, #0084C4 100%) repeat-x #0084C4;
+}
+.navbar {
+	background-color: #e5eef5;
+	border: 1px solid #bcd4e3; 
+}
+.badge {
+	border-radius: 50% !important; 
+}
+.panel {
+	background-color: #ECF1F3;
+	color: #28313F;
+	border: 1px solid #bcd4e3; 
+}
+a.forumtitle {
+    font-size: 1.4em;
+}
+a.topictitle {
+	font-size: 1.2em;
+}
+ul.topics li.row dl.row-item {
+	display: flex;
+	align-items: center;
+	margin-top: 0px;
+	min-height: 40px;
+}
+ul.forums li.row dl.row-item {
+	display: flex;
+	align-items: center;
+	margin-top: 0px;
+	min-height: 46px;
+}
+.bg1, .bg2, .bg3 {
+	border: 1px solid #bcd4e3; 
+}
+.tabs .tab > a {
+	background: #BACCD9;
+	color: #536482;
+}
+.tabs .tab > a:hover {
+	background: #DDEDFB;
+	color: #D31141;
+}
+.tabs .activetab > a,
+.tabs .activetab > a:hover {
+	background-color: #ECF1F3;
+	border-bottom:none;
+}
+.online {
+	background-image: none;
+	border-right: 4px solid #238d31;
+	border-left: 4px solid #238d31;
+}
+.offline {
+	background-image: none;
+	border-right: 4px solid #C70039;
+	border-left: 4px solid #C70039; 
+}
+@media (min-width: 701px) {
+	#wrap {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100dvh - 50px);  
+	}
+	#page-body {
+		flex: 1;
+	}
+}
+@media (max-width: 700px) {
+	#wrap {
+		display: flex;
+		flex-direction: column;
+		min-height: 100svh;  
+	}
+	#page-body {
+		flex: 1;
+	}
+}
+ul#nav-main span {
+	font-size: 1.2em;
+	line-height: 1.2em;
+}
+ul#nav-main i {
+	transform: scale(1.5);
+	margin: 0 5px;
+}
+ul#nav-main i.fa-bell {
+	transform: scale(1.4) !important;
+}
+ul#nav-main i.fa-inbox {
+	transform: scale(1.6) !important;
+}
+ul#nav-main .dropdown ul.dropdown-contents a {
+	font-size: 10px;
+}
+.copyright {
+	height: auto;
+	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 92px, #0084C4 100%) repeat-x #0084C4;
+	margin-top:4px;
+	padding: 8px 0px;
+	color:#fff;
+}
+.copyright a {
+	color:#fff;
+}
+.copyright p.footer-row {
+	line-height:12px;
+}
+/* Colour unread titles */
+[class*="forum_unread"] a.forumtitle,
+[class*="forum_unread_subforum"] a.forumtitle,
+[class*="forum_unread"] a.lastsubject,
+[class*="forum_unread_subforum"] a.lastsubject,
+[class*="topic_unread"] a.topictitle,
+[class*="global_unread"] a.topictitle,
+[class*="announce_unread"] a.topictitle,
+[class*="sticky_unread"] a.topictitle {
+	color: #CC0000;
+}
+/* Forum and Topic icons, Cleansilver */
+.global_read,
+.global_read_mine, 
+.global_read_locked, 
+.global_read_locked_mine, 
+.global_unread, 
+.global_unread_mine, 
+.global_unread_locked, 
+.global_unread_locked_mine, 
+.announce_read, 
+.announce_read_mine, 
+.announce_read_locked, 
+.announce_read_locked_mine, 
+.announce_unread, 
+.announce_unread_mine, 
+.announce_unread_locked, 
+.announce_unread_locked_mine, 
+.forum_link, 
+.forum_read, 
+.forum_read_locked, 
+.forum_read_subforum, 
+.forum_unread, 
+.forum_unread_locked, 
+.forum_unread_subforum, 
+.sticky_read, 
+.sticky_read_mine, 
+.sticky_read_locked, 
+.sticky_read_locked_mine, 
+.sticky_unread, 
+.sticky_unread_mine, 
+.sticky_unread_locked, 
+.sticky_unread_locked_mine, 
+.topic_moved, 
+.topic_read, 
+.topic_read_mine, 
+.topic_read_hot, 
+.topic_read_hot_mine, 
+.topic_read_locked, 
+.topic_read_locked_mine, 
+.topic_unread, 
+.topic_unread_mine, 
+.topic_unread_hot, 
+.topic_unread_hot_mine, 
+.topic_unread_locked, 
+.topic_unread_locked_mine,
+.pm_read,
+.pm_unread {
+    background-image: none;
+}
+.row-item:before,
+.row-item:after {
+    font-size: 30px;
+    left: 15px;
+    padding: 0px;
+    position: absolute;
+	top: 50%;
+    transform: translateY(-50%);
+	font-family: FontAwesome;
+}
+.topic_read_mine::after, 
+.topic_read_locked_mine::after, 
+.topic_unread_mine::after,
+.topic_unread_locked_mine::after,
+.sticky_read_locked_mine::after, 
+.sticky_unread_mine::after,
+.sticky_read_mine::after, 
+.sticky_unread_locked_mine::after, 
+.topic_read_hot_mine::after, 
+.topic_unread_hot_mine::after,
+.announce_read_mine::after, 
+.announce_read_locked_mine::after, 
+.announce_unread_mine::after, 
+.announce_unread_locked_mine::after {
+	content: "\f005";
+	font-size: 1.25em;
+	color:#fcba03;
+	position: absolute;
+	top: 20%;
+	left: 30px;
+}
+.global_read:before,
+.global_read_mine:before {
+	content: "\f0ac"; 
+	color: #0076b1;
+	font-size: 33px;
+	left: 11px;
+}
+.global_unread:before,
+.global_unread_mine:before {
+	content: "\f0ac"; 
+	font-size: 33px;
+	left: 11px;
+}
+.announce_read:before,
+.announce_read_mine:before{
+	content: "\f06a"; 
+	color: #0076b1;
+	font-size: 33px;
+	left: 11px;
+}
+.announce_unread:before,
+.announce_unread_mine:before {
+	content: "\f06a"; 
+	font-size: 33px;
+	left: 11px;
+}
+.sticky_read:before,
+.sticky_read_mine:before { 
+	content: "\f08d"; 
+	color: #0076b1; 
+	left: 16px;
+}
+.sticky_unread:before,
+.sticky_unread_mine:before {
+	content: "\f08d"; 
+	left: 16px;
+}
+.topic_read:before,
+.topic_read_mine:before{
+	content: "\f15c";
+	color: #0076b1;
+	left: 13px;
+}
+.topic_unread:before,
+.topic_unread_mine:before{
+	content: "\f15c";
+	left: 13px;
+}
+.topic_moved:before { 
+	content: "\f14d";  
+	color: #0076b1;
+	left: 13px;
+}
+.topic_read_hot:before,
+.topic_read_hot_mine:before { 
+	content: '\f06d';  
+	color: #0076b1;
+	left: 14px;	
+}
+.topic_unread_hot:before,
+.topic_unread_hot_mine:before { 
+    content: '\f06d';
+    left: 14px;
+}
+.global_read_locked:before,
+.global_read_locked_mine:before,
+.announce_read_locked:before,
+.announce_read_locked_mine:before,
+.sticky_read_locked:before,
+.sticky_read_locked_mine:before,
+.topic_read_locked:before,
+.topic_read_locked_mine:before {
+	content: "\f023"; 
+	color: #0076b1; 
+	font-size: 34px;
+	left: 15px;
+}
+.global_unread_locked:before,
+.global_unread_locked_mine:before,
+.announce_unread_locked:before,
+.announce_unread_locked_mine:before,
+.sticky_unread_locked:before,
+.sticky_unread_locked_mine:before,
+.topic_unread_locked:before,
+.topic_unread_locked_mine:before {
+	content: "\f023"; 
+	font-size: 34px;
+	left: 15px;
+}
+.forum_read_locked:before {
+	content: "\f023"; 
+	color: #0076b1; 
+	font-size: 38px;
+	left:13px;
+}
+.forum_unread_locked:before {
+	content: "\f023"; 
+	font-size: 38px;
+	left:13px;
+}
+.forum_link:before { 
+	content: '\f0c1'; 
+	color: #0076b1;
+	left:10px;
+}
+.forum_read:before	{ 
+	content: "\f039"; 
+	color: #0076b1;
+	left:10px;
+}
+.forum_unread:before {
+	content: "\f039";
+	left:10px;
+}
+.forum_read_subforum:before{
+	content: "\f03a";
+	color: #0076b1;
+	left:10px;
+}
+.forum_unread_subforum:before{
+	content: "\f03a";
+	left:10px;
+}
+.pm_read:before	{ 
+	content: "\f0e6";  
+	color: #0076b1;
+	font-size: 30px;
+	left:10px;
+}
+.pm_unread:before { 
+	content: "\f086"; 
+	font-size: 30px;
+	left:10px;
+}
+.pm_unread:before,
+.topic_unread:before,
+.topic_unread_locked:before,
+.topic_unread_hot:before,
+.topic_unread_hot_mine:before,
+.topic_unread_mine:before,
+.topic_unread_locked_mine:before,
+.sticky_unread:before,
+.sticky_unread_locked:before,
+.sticky_unread_locked_mine:before,
+.sticky_unread_mine:before,
+.announce_unread:before,
+.announce_unread_mine:before,
+.announce_unread_locked:before,
+.announce_unread_locked_mine:before,
+.global_unread:before,
+.global_unread_mine:before,
+.global_unread_locked:before,
+.global_unread_locked_mine:before,
+.forum_unread:before,
+.forum_unread_subforum:before,
+.forum_unread_locked:before,
+.forum_unread_subforum_locked:before {
+    color: #CC0000;
+}
+/* Left profile switch */
+.postprofile {
+	border-width: 0 1px 0 0;
+	float: left;margin-right: 8px;
+}
+.pm .postprofile {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-left: none;
+}
+.postprofile dd, .postprofile dt {
+	margin-left: 0;
+}
+@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
+	.postprofile {
+		float: none;
+		width: auto;
+	}
+} 

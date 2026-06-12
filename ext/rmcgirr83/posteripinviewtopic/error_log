@@ -1,0 +1,4 @@
+[29-Oct-2024 10:41:04 America/New_York] PHP Fatal error:  Uncaught Error: Class "phpbb\extension\base" not found in /home1/lanikus/public_html/forums/ext/rmcgirr83/posteripinviewtopic/ext.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/rmcgirr83/posteripinviewtopic/ext.php on line 15

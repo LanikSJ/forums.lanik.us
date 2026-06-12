@@ -1,0 +1,13 @@
+Subject: Mensagem aguardando aprovação - "{TOPIC_TITLE}"
+
+Olá {USERNAME},
+
+A mensagem "{POST_SUBJECT}" em "{SITENAME}" está aguardando aprovação.
+
+Se você deseja visualizar a mensagem, clique no seguinte link:
+{U_VIEW_POST}
+
+Se você deseja visualizar o tópico, clique no seguinte link:
+{U_TOPIC}
+
+{EMAIL_SIG}

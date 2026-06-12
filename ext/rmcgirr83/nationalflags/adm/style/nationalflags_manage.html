@@ -1,0 +1,129 @@
+{% INCLUDE 'overall_header.html' %}
+{% if S_ADD_FLAG %}
+
+<a href="{{ U_BACK }}" style="float: {{ S_CONTENT_FLOW_END }};">&laquo; {{ lang('BACK') }}</a>
+
+<h1>{{ lang('TITLE') }}</h1>
+<fieldset>
+	<dl>
+		<dt><label>{{ lang('BUY_ME_A_BEER_SHORT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('BUY_ME_A_BEER_EXPLAIN') }}</span></dt>
+		<dd><a href="{{ lang('BUY_ME_A_BEER_URL') }}" target="_blank" rel="noreferrer noopener"><img src="{{ lang('PAYPAL_IMAGE_URL') }}" border="0" alt="{{ lang('PAYPAL_ALT') }}" style="cursor:pointer;margin-top:15px;"></a></dd>
+	</dl>
+</fieldset>
+{% if !S_ERROR %}
+<div class="warningbox">
+	<p>{% if not S_UPLOAD_FLAG %}{{ lang('ACP_NO_UPLOAD') }}{% else %}{% if S_CAN_OVERWRITE %}{{ lang('FLAG_UPLOAD_NOTICE') }}{% else %}{{ lang('FLAG_UPLOAD_NO_OVERWRITE') }}{% endif %}{% endif %}</p>
+</div>
+{% elseif S_ERROR %}
+<div class="errorbox">
+	<h3>{{ lang('ERROR') }}</h3>
+	<p>{{ ERROR_MSG }}</p>
+</div>
+{% endif %}
+
+<form id="acp_add_flag" method="post" action="{{ U_ACTION }}" {{ S_FORM_ENCTYPE }}>
+	<fieldset>
+		{% if FOUND_FLAG %}
+		<dl>
+			<dt>{{ lang('FLAG_FOUND') }}{{ lang('COLON') }}</dt>
+			<dd>{{ FLAG_IMAGE }}<br><img src="{{ FOUND_FLAG }}" alt="{{ FLAG_NAME }}" title="{{ FLAG_NAME }}" /></dd>
+		</dl>
+		{% endif %}
+		{% if S_UPLOAD_FLAG %}
+		<dl>
+			<dt><label>{{ lang('FILENAME') }}{{ lang('COLON') }}</label></dt>
+			<dd>
+				<input type="file" name="flag_upload" class="inputbox autowidth" />
+				<input type="hidden" name="old_flag" value="{{ FLAG_IMAGE }}" />
+			</dd>
+		</dl>
+		{% endif %}
+		<dl>
+			<dt><label>{{ lang('FLAG_NAME') }}{{ lang('COLON') }}</label><br><span>{{ lang('FLAG_NAME_EXPLAIN') }}</span></dt>
+			<dd><input name="flag_name" type="text" value="{{ FLAG_NAME }}" maxlength="255" /></dd>
+		</dl>
+		{% if S_ADD_FLAG and not S_UPLOAD_FLAG %}<dl>
+			<dt><label>{{ lang('FLAG_IMG') }}{{ lang('COLON') }}</label><br><span>{{ lang('FLAG_IMG_EXPLAIN') }}</span></dt>
+			<dd><input name="flag_image" type="text" value="{{ FLAG_IMAGE }}" maxlength="255" /></dd>
+		</dl>{% endif %}
+		<dl>
+			<dt><label>{{ lang('FLAG_DEFAULT') }}{{ lang('COLON') }}</label><br><span>{{ lang('FLAG_DEFAULT_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="flag_default" value="1" {% if FLAG_DEFAULT %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="flag_default" value="0" {% if not FLAG_DEFAULT %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+	<fieldset>
+		<dl>
+			<dt>{{ L_IMAGES_ON_SERVER }}{{ lang('COLON') }}</dt>
+			<dd>{{ FLAG_LIST }}</dd>
+		</dl>
+	</fieldset>
+</form>
+
+{% elseif S_FLAGS %}
+
+<fieldset>
+	<dl>
+		<dt><label>{{ lang('BUY_ME_A_BEER_SHORT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('BUY_ME_A_BEER_EXPLAIN') }}</span></dt>
+		<dd><a href="{{ lang('BUY_ME_A_BEER_URL') }}" target="_blank" rel="noreferrer noopener"><img src="{{ lang('PAYPAL_IMAGE_URL') }}" border="0" alt="{{ lang('PAYPAL_ALT') }}" style="cursor:pointer;margin-top:15px;"></a></dd>
+	</dl>
+</fieldset>
+<h1>{{ TOTAL_FLAGS }} {{ lang('ACP_FLAGS') }}</h1>
+
+<p>{{ lang('ACP_FLAGS_EXPLAIN') }}</p>
+
+<form id="acp_flags" method="post" action="{{ U_ACTION }}">
+	<fieldset class="quick">
+		<input class="button2" name="add" type="submit" value="{{ lang('FLAG_ADD') }}" />
+	</fieldset>
+
+	{% if loops.pagination|length %}
+	<div class="pagination top-pagination">
+		{% INCLUDE 'pagination.html' %}
+	</div>
+	{% endif %}
+
+	<table class="table1 fixed-width-table">
+		<thead>
+			<tr>
+				<th>{{ lang('FLAG_NAME') }}</th>
+				<th>{{ lang('FLAG_DEFAULT') }}</th>
+				<th>{{ lang('ACP_FLAG_USERS') }}</th>
+				<th style="text-align: center;">{{ lang('FLAG_IMG') }}</th>
+				<th style="text-align: center;">{{ lang('OPTIONS') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for flags in loops.flags %}
+			{% if flags.S_ROW_COUNT is even %}<tr class="row1">{% else %}<tr class="row2">{% endif %}
+				<td>{{ flags.FLAG_NAME }}</td>
+				<td>{% if flags.FLAG_DEFAULT %}{{ lang('YES') }}{% else %}{{ lang('NO') }}{% endif %}</td>
+				<td>{{ flags.USER_COUNT }}</td>
+				<td style="text-align: center;"><a href="{{ flags.U_FLAG }}"><img src="{{ flags.FLAG_IMG }}" alt="{{ flags.FLAG_NAME }}" title="{{ flags.FLAG_NAME }}" /></a></td>
+				<td style="text-align: center; white-space: nowrap;">
+					&nbsp;<a href="{{ flags.U_EDIT }}">{{ ICON_EDIT }}</a> <a href="{{ flags.U_DELETE }}">{{ ICON_DELETE }}</a>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	{% if loops.pagination|length %}
+		<div class="pagination">
+			{% INCLUDE 'pagination.html' %}
+		</div>
+	{% endif %}
+
+	<fieldset class="quick">
+		<input class="button2" name="add" type="submit" value="{{ lang('FLAG_ADD') }}" />
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+</form>
+{% endif %}
+{% INCLUDE 'overall_footer.html' %}

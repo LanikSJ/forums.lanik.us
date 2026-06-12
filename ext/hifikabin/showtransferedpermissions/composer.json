@@ -1,0 +1,33 @@
+{
+    "name": "hifikabin/showtransferedpermissions",
+    "type": "phpbb-extension",
+    "description": "Adds a reminder panel when you have transfered permissions from another user",
+    "version": "3.2.1",
+    "time": "2020-08-17",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "James Newcombe",
+            "email": "webmaster@hifikabin.me.uk",
+            "homepage": "http://phpbb.hifikabin.me.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.7",
+        "phpbb/phpbb": ">=3.2.0",
+        "composer/installers": "~1.0.0"
+    },
+    "extra": {
+        "display-name": "Show Transfered Permissions",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/show_transfered_permissions",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

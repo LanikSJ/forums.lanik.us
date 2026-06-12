@@ -1,0 +1,40 @@
+{
+    "name": "phpbb/topicprefixes",
+    "type": "phpbb-extension",
+    "description": "An official phpBB extension for topic prefixes.",
+    "homepage": "https://www.phpbb.com/customise/db/extension/topicprefixes/",
+    "version": "1.0.2",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Matt Friedman",
+            "homepage": "https://imattpro.github.io",
+            "role": "Extensions Development Team Lead"
+        },
+        {
+            "name": "Ruslan Uzdenov",
+            "homepage": "http://www.phpbbguru.net",
+            "role": "Extensions Development Team"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "composer/installers": "^1.0 || ^2.0",
+        "phpbb/phpbb": ">=3.2.0"
+    },
+    "require-dev": {
+        "phing/phing": "~2.4"
+    },
+    "extra": {
+        "display-name": "phpBB Topic Prefixes",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/topicprefixes",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

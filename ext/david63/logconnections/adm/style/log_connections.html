@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<form id="logconnections" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<legend>{{ lang('LOG_CONNECTIONS_OPTIONS') }}</legend>
+
+			<dl>
+				<dt><label for="log_connect_new_user">{{ lang('LOG_NEW_USER') }}{{ lang('COLON') }}</label><br><span>{{ lang('LOG_NEW_USER_EXPLAIN') }}</span></dt>
+				<dd>
+					<input type="radio" id="log_connect_new_user1" name="log_connect_new_user" value="1"{% if LOG_NEW_USER %} checked="checked"{% endif %} />
+					<label class="set" for="log_connect_new_user1">{{ lang('YES') }}</label>
+					<input type="radio" id="log_connect_new_user0" name="log_connect_new_user" value="0"{% if not LOG_NEW_USER %} checked="checked"{% endif %} />
+					<label class="unset" for="log_connect_new_user0">{{ lang('NO') }}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="log_connect_user">{{ lang('LOG_CONNECTION') }}{{ lang('COLON') }}</label><br><span>{{ lang('LOG_CONNECTION_EXPLAIN') }}</span></dt>
+				<dd>
+					<input type="radio" id="log_connect_user1" name="log_connect_user" value="1"{% if LOG_CONNECTION %} checked="checked"{% endif %} />
+					<label class="set" for="log_connect_user1">{{ lang('YES') }}</label>
+					<input type="radio" id="log_connect_user0" name="log_connect_user" value="0"{% if not LOG_CONNECTION %} checked="checked"{% endif %} />
+					<label class="unset" for="log_connect_user0">{{ lang('NO') }}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="log_browser">{{ lang('LOG_BROWSER') }}{{ lang('COLON') }}</label><br><span>{{ lang('LOG_BROWSER_EXPLAIN') }}</span></dt>
+				<dd>
+					<input type="radio" id="log_browser1" name="log_browser" value="1"{% if LOG_BROWSER %} checked="checked"{% endif %} />
+					<label class="set" for="log_browser1">{{ lang('YES') }}</label>
+					<input type="radio" id="log_browser0" name="log_browser" value="0"{% if not LOG_BROWSER %} checked="checked"{% endif %} />
+					<label class="unset" for="log_browser0">{{ lang('NO') }}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="log_connect_failed">{{ lang('LOG_FAILED') }}{{ lang('COLON') }}</label><br><span>{{ lang('LOG_FAILED_EXPLAIN') }}</span></dt>
+				<dd>
+					<input type="radio" id="log_connect_failed1" name="log_connect_failed" value="1"{% if LOG_FAILED %} checked="checked"{% endif %} />
+					<label class="set" for="log_connect_failed1">{{ lang('YES') }}</label>
+					<input type="radio" id="log_connect_failed0" name="log_connect_failed" value="0"{% if not LOG_FAILED %} checked="checked"{% endif %} />
+					<label class="unset" for="log_connect_failed0">{{ lang('NO') }}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="log_connect_logout">{{ lang('LOG_LOGOUT') }}{{ lang('COLON') }}</label><br><span>{{ lang('LOG_LOGOUT_EXPLAIN') }}</span></dt>
+				<dd>
+					<input type="radio" id="log_connect_logout1" name="log_connect_logout" value="1"{% if LOG_LOGOUT %} checked="checked"{% endif %} />
+					<label class="set" for="log_connect_logout1">{{ lang('YES') }}</label>
+					<input type="radio" id="log_connect_logout0" name="log_connect_logout" value="0"{% if not LOG_LOGOUT %} checked="checked"{% endif %} />
+					<label class="unset" for="log_connect_logout0">{{ lang('NO') }}</label>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset>
+			<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+			<p class="submit-buttons">
+				<input class="adm-button" type="submit" id="submit" name="submit" value="{{ lang('SAVE') }}" />&nbsp;
+				<input class="adm-button" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+			</p>
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+{% endblock %}

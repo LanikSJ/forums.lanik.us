@@ -1,0 +1,83 @@
+{% INCLUDE 'overall_header.html' %}
+<h1>{{ lang('ACP_FLAG_SETTINGS') }}</h1>
+<fieldset>
+	<dl>
+		<dt><label>{{ lang('BUY_ME_A_BEER_SHORT') }}{{ lang('COLON') }}</label><br /><span>{{ lang('BUY_ME_A_BEER_EXPLAIN') }}</span></dt>
+		<dd><a href="{{ lang('BUY_ME_A_BEER_URL') }}" target="_blank" rel="noreferrer noopener"><img src="{{ lang('PAYPAL_IMAGE_URL') }}" border="0" alt="{{ lang('PAYPAL_ALT') }}" style="cursor:pointer;margin-top:15px;"></a></dd>
+	</dl>
+</fieldset>
+
+{% if ERROR %}
+	<div class="errorbox"><h3>{{ lang('WARNING') }}</h3>
+		<p>{{ ERROR }}</p>
+	</div>
+{% endif %}
+
+<form id="acp_flags_config" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<dl>
+			<dt><label>{{ lang('FLAGS_ON_INDEX') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_ON_INDEX_EXPLAIN') }}</dt>
+			<dd><label><input type="radio" class="radio" name="flags_display_index" value="1" {% if FLAGS_DISPLAY_INDEX %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="flags_display_index" value="0" {% if not FLAGS_DISPLAY_INDEX %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_NUM_DISPLAY') }}</label><br>{{ lang('FLAGS_NUM_DISPLAY_EXPLAIN') }}</dt>
+			<dd><input type="number" name="flags_num_display" min="1" max="100" value="{{ FLAGS_NUM_DISPLAY }}" /></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_REQUIRED') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_REQUIRED_EXPLAIN') }}</dt>
+			<dd><label><input type="radio" class="radio" name="flags_required" value="1" {% if FLAGS_REQUIRED %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="flags_required" value="0" {% if not FLAGS_REQUIRED %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_MSG') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_DISPLAY_MSG_EXPLAIN') }}</dt>
+			<dd><label><input type="radio" class="radio" name="flags_display_msg" value="1" {% if FLAGS_DISPLAY_MSG %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="flags_display_msg" value="0" {% if not FLAGS_DISPLAY_MSG %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_VIEWTOPIC_POSITION') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_VIEWTOPIC_POSITION_EXPLAIN') }}</dt>
+			<dd><select name="flag_position">{{ FLAG_POSITION }}</select></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_AVATARS') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_DISPLAY_AVATARS_EXPLAIN') }}</dt>
+			<dd><label><input type="radio" class="radio" name="flags_avatars" value="1" {% if FLAGS_AVATARS %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="flags_avatars" value="0" {% if not FLAGS_AVATARS %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('FLAGS_DISPLAY_OPTIONS') }}</legend>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_TO_GUESTS') }}{{ lang('COLON') }}</label><br>{{ lang('FLAGS_DISPLAY_TO_GUESTS_EXPLAIN') }}</dt>
+			<dd><label><input type="radio" class="radio" name="flags_display_to_guests" value="1" {% if FLAGS_DISPLAY_TO_GUESTS %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+			<label><input type="radio" class="radio" name="flags_display_to_guests" value="0" {% if not FLAGS_DISPLAY_TO_GUESTS %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_VIEWFORUM') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="flags_viewforum" value="1" {% if FLAGS_VIEWFORUM %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="flags_viewforum" value="0" {% if not FLAGS_VIEWFORUM %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_FORUMROW') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="flags_forumrow" value="1" {% if FLAGS_FORUMROW %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="flags_forumrow" value="0" {% if not FLAGS_FORUMROW %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_SEARCH') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="flags_search" value="1" {% if FLAGS_SEARCH %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="flags_search" value="0" {% if not FLAGS_SEARCH %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
+			<dt><label>{{ lang('FLAGS_DISPLAY_MEMBERLIST') }}{{ lang('COLON') }}</label></dt>
+			<dd><label><input type="radio" class="radio" name="flags_memberlist" value="1" {% if FLAGS_MEMBERLIST %}checked="checked"{% endif %} /> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="flags_memberlist" value="0" {% if not FLAGS_MEMBERLIST %}checked="checked"{% endif %} /> {{ lang('NO') }}</label></dd>
+		</dl>
+	</fieldset>
+	<fieldset class="submit-buttons">
+		<legend>{{ lang('SUBMIT') }}</legend>
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}" />
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+</form>
+{% INCLUDE 'overall_footer.html' %}

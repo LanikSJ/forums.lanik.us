@@ -1,0 +1,97 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_INACTIVE_USERS_LIST}</h1>
+{L_INACTIVE_USERS_LIST_EXPLAIN}
+
+<form id="inactive" method="post" action="{U_ACTION}">
+
+<fieldset>
+	<p style="text-align: center;">
+		{L_SORT_BY}: {S_SORT_KEY} {S_SORT_DIR}
+	</p>
+	<p style="text-align: center;"> 
+		{L_SHOW_ONLY} {S_LIMIT_DAYS}
+		<input class="button2" type="submit" value="{L_GO}" name="sort" />
+	</p>
+</fieldset>
+
+<div class="pagination" style="float: left;">
+	<!-- IF PAGINATION -->
+		<a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{S_ON_PAGE}</a> <span>{PAGINATION}</span>
+	<!-- ELSE -->
+		{S_ON_PAGE}
+	<!-- ENDIF -->
+</div>
+
+<div class="pagination" style="float: right;">
+    <p>{PAGE_NUMBER} [ {TOTAL_USERS} ]</p>
+</div>
+
+<table cellspacing="1"  style="clear: both;">
+    <thead>
+    <tr>
+        <th>{L_USERNAME}</th>
+        <th>{L_ACC_STATUS}</th>
+        <th>{L_POSTS}</th>
+        <th>{L_REG_DATE}</th>
+        <th>{L_LAST_VISIT}</th>
+        <th>{L_MARK}</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <!-- BEGIN users -->
+	    <!-- IF users.S_ROW_COUNT is even --><tr class="row2"><!-- ELSE --><tr class="row1"><!-- ENDIF -->
+		
+	        <td><a href="{users.ADMIN_URL}"><b class="gen" style="color: #{users.USER_COLOR}">{users.USERNAME}</b></a> <!-- IF users.DEACTIVATED_CHECK -->{L_STATUS_DEACTIVATED}<!-- ENDIF --></td>
+	        <td><!-- IF users.USER_TYPE == '0' -->registered<!-- ENDIF --><!-- IF users.USER_TYPE == '1' --><a href="{users.ACTIVATE_LINK}" style="text-decoration: underline;">deactivated</a><!-- ENDIF --></td>
+	        <td>{users.POSTS}</td>
+	        <td>{users.REG_DATE}</td>
+	        <td>
+				<!-- IF users.S_ONLINE -->
+					{L_ONLINE_NOW}
+				<!-- ELSE -->
+					<!-- IF users.NEVER_VISIT -->
+						{L_NEVER_VISIT}
+					<!-- ELSE -->
+						{users.LAST_VISIT}
+					<!-- ENDIF -->
+				<!-- ENDIF -->
+			</td>
+	        <td>&nbsp;<input type="checkbox" class="radio" name="mark[]" value="{users.USER_ID}" />&nbsp;</td>
+	    </tr>
+	<!-- BEGINELSE -->    
+		<tr>
+			<td colspan="6" style="text-align: center;">{L_NO_MEMBERS}</td>
+		</tr>
+    <!-- END users -->
+    </tbody>
+</table>
+
+<div class="pagination" style="float: left;">
+	<!-- IF PAGINATION -->
+		<a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{S_ON_PAGE}</a> <span>{PAGINATION}</span>
+	<!-- ELSE -->
+		{S_ON_PAGE}
+	<!-- ENDIF -->
+</div>
+
+<div class="pagination" style="float: right;">
+    <p>{PAGE_NUMBER} [ {TOTAL_USERS} ]</p>
+</div>
+
+<fieldset style="clear: both;">
+	<div style="text-align: right;">
+		<p>
+			<a href="javascript:marklist('inactive', 'mark', true);">{L_MARK_ALL}</a> &bull; <a href="javascript:marklist('inactive', 'mark', false);">{L_UNMARK_ALL}</a>
+		</p>
+		<p>
+			<select name="action">{S_INACTIVE_OPTIONS}</select>
+			<input class="button2" type="submit" name="submit" value="{L_SUBMIT}" />
+		</p>
+    </div>
+</fieldset>
+
+</form>
+
+<!-- INCLUDE overall_footer.html -->

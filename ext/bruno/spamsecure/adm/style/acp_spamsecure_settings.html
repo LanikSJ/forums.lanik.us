@@ -1,0 +1,165 @@
+{% INCLUDECSS 'css/spamsecure_acp.css' %}
+
+{% set switch_type = TOGGLECTRL_TYPE ?? 'toggle' %}
+
+{% include 'overall_header.html' %}
+
+<h1>{{ lang('SPSE_TITLE') }}</h1>
+	<p>{{ lang('SPSE_CONFIG_DESC', SPSE_EXT_NAME, SPSE_EXT_VER) }}<br><br>{{ lang('SPSE_SPAMSECURE_INFO') }}</p>
+
+{% if SPSE_S_ERROR %}
+	<div class="errorbox">
+		<h3>{{ lang('WARNING') }}</h3>
+		<p>{{ SPSE_ERROR_MSG }}</p>
+	</div>
+{% endif %}
+
+{% if SPSE_NOTES %}
+	<div class="errorbox notice">
+		{{ SPSE_NOTES }}
+	</div>
+{% endif %}
+
+<fieldset class="spamsecure-permission-info">
+	<legend>{{ lang('SPSE_PERM_TITLE') }}</legend>
+	{{ lang('SPSE_PERMISSION_BEFORE') }}<a href="{{ U_USER_PERMISSIONS }}"><strong>{{ lang('SPSE_USERS_PERMISSIONS') }}</strong></a> {{ lang('SPSE_ANDOR') }} <a href="{{ U_GROUP_PERMISSIONS }}"><strong>{{ lang('SPSE_GROUPS_PERMISSIONS') }}</strong></a>{{ lang('SPSE_PERMISSION_AFTER',  SPSE_EXT_NAME) }}
+</fieldset>
+
+<form id="bruno_spamsecure_acp" name="bruno_spamsecure_acp" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('SPSE_SETTINGS_VARIANT') }}</legend>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_SEARCH_COMPLETE') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_SEARCH_COMPLETE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select name="spamsecure_search_complete">
+					<option {{ SPSE_SEARCH_COMPLETE  == 1 ?  'selected'}} value="1">{{ lang('SPSE_ALL') }}</option>
+					<option {{ SPSE_SEARCH_COMPLETE  == 0 ?  'selected'}} value="0">{{ lang('SPSE_ONLY_MESSAGE') }}</option>
+						{{ CF_FORUM_OPTIONS }}
+				</select>
+
+			</dd>
+		</dl>
+	</fieldset>
+		<fieldset>
+		<legend>{{ lang('SPSE_SETTINGS_CHARS') }}</legend>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_LANG_KYRILL') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_LANG_KYRILL_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_invalid_chars_lang_kyrill', SPSE_LANG_KYRILL, switch_type) }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_LANG_CHINESE') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_LANG_CHINESE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_invalid_chars_lang_chinese', SPSE_LANG_CHINESE, switch_type) }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_LANG_HINDI') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_LANG_HINDI_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_invalid_chars_lang_hindi', SPSE_LANG_HINDI, switch_type) }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_LANG_CUSTOM') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_LANG_CUSTOM_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_invalid_chars_lang_custom', SPSE_LANG_CUSTOM, switch_type) }}
+			</dd>
+		</dl>
+		<dl id="dim_spse_coustom">
+			<dt>
+				<label>{{ lang('SPSE_INVALID_CHARS') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_INVALID_CHARS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" name="spamsecure_invalid_chars_input_custom"  maxlength="255" size="100" value="{{ SPSE_INVALID_CHARS }}">
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('SPSE_INVALID_CHARS_COUNTER_SWITCH') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_INVALID_CHARS_COUNTER_SWITCH_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_invalid_chars_counter_switch', SPSE_INVALID_CHARS_COUNTER_SWITCH, switch_type) }}
+			</dd>
+		</dl>
+		<dl id="dim_spse_counter">
+			<dt>
+				<label>{{ lang('SPSE_INVALID_CHARS_COUNTER') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_INVALID_CHARS_COUNTER_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="number" name="spamsecure_invalid_chars_counter"  min="1" step="1.0" value="{{ SPSE_INVALID_CHARS_COUNTER }}">
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('SPSE_SETTINGS_REGEX') }}</legend>
+		<dl>
+			<dt>
+				<label>{{ lang('SSPE_NO_LINKS') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SSPE_NO_LINKS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_no_links', SSPE_NO_LINKS, switch_type) }}
+			</dd>
+		</dl>
+		<dl>
+			<dt>
+				<label>{{ lang('SSPE_REGEX_INDIVIDUAL_CHECK') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SSPE_REGEX_INDIVIDUAL_CHECK_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('spamsecure_regex_individual_check', SSPE_REGEX_INDIVIDUAL_CHECK, switch_type) }}
+			</dd>
+		</dl>
+		<dl id="dim_spse_regex">
+			<dt>
+				<label>{{ lang('SPSE_INVALID_REGEX') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('SPSE_INVALID_REGEX_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="text" name="spamsecure_invalid_regex"  maxlength="255" size="100" value="{{ SPSE_INVALID_REGEX }}">
+			</dd>
+		</dl>
+	</fieldset>
+
+ 	<fieldset class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}" >&nbsp;
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+	<p class="spamsecure_acp_copyright">
+		{{ SPSE_EXT_NAME }} &copy; {{ lang('SPSE_LANG_AUTHOR') }}<br>
+		{{ lang('SPSE_LANG_DESC') ~ lang('SPSE_LANG_EXT_VER') }} &bull; {{ lang('SPSE_LANG_AUTHOR') }}
+	</p>
+</form>
+
+{% INCLUDEJS 'acp_spsedimmer.js' %}
+{% include 'overall_footer.html' %}
+
+{% macro switch(name, checked = false, type = 'toggle') -%}
+	{% if type == 'toggle' || type == 'checkbox' -%}
+		<input type="checkbox" class="{{ type }}" name="{{ name }}" value="1"{{ checked ? ' checked' }}>
+	{%- elseif type == 'radio' -%}
+		<label><input type="radio" class="radio" name="{{ name }}" value="1"{{ checked ? ' checked' }}> {{ lang('YES') }}</label>
+		<label><input type="radio" class="radio" name="{{ name }}" value="0"{{ !checked ? ' checked' }}> {{ lang('NO') }}</label>
+	{%- endif %}
+{%- endmacro %}

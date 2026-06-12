@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% if PHP_VALID and PHPBB_VALID %}
+		<fieldset>
+			<legend>{{ lang('LEGEND') }}</legend>
+				{{ OK_EXPLAIN }}<br>
+				{% if S_LEGEND_ERROR %}
+					{{ ERROR_EXPLAIN }}<br>
+				{% endif %}
+				{% if S_LEGEND_QUERY %}
+					{{ EXTENSION_QUERY_EXPLAIN }}<br>
+					{{ FILE_QUERY_EXPLAIN }}<br>
+				{% endif %}
+				{% if S_LEGEND_ISSUE %}
+					{{ ISSUE_EXPLAIN }}<br>
+					{{ ISSUE_OPEN_EXPLAIN }}<br>
+				{% endif %}
+				{% if S_LEGEND_ERROR %}
+					{{ DISABLE_EXPLAIN }}<br>
+					{{ FILE_EXPLAIN }}<br>
+					{{ FILE_OPEN_EXPLAIN }}
+				{% endif %}
+		</fieldset>
+
+		<div class="table">
+			<div class="table-header">
+				<div class="table-header-cell-narrow-left">&nbsp;</div>
+				<div class="table-header-cell">{{ lang('EXTENSION_NAME') }}</div>
+				<div class="table-header-cell">{{ lang('VENDOR') }}</div>
+				<div class="table-header-cell">{{ lang('VERSION') }}</div>
+				<div class="table-header-cell">{{ lang('EXT_STATUS') }}</div>
+				<div class="table-header-cell-right">{{ lang('STATUS') }}</div>
+			</div>
+
+			<div class="table-body">
+				{% for row in ext_row %}
+					{# Create an array of the STATUS_IMAGE vars for later use #}
+					{% set image_ary = [] %}
+					{% for files in row.file_data %}
+						{% set image_ary = image_ary|merge([files.STATUS_IMAGE]) %}
+					{% endfor %}
+
+					{% if row.S_ROW_COUNT is even %}<div class="table-row1">{% else %}<div class="table-row2">{% endif %}
+						<div class="table-body-cell-tiny">
+							{# Find the image data in the array #}
+							{% if 'error' in image_ary %}
+								<img src="{{ EXT_IMAGE_PATH }}/error.png" title="{{ lang('ICON_EXTN_ERROR') }}" />
+							{% elseif 'query' in image_ary %}
+								<img src="{{ EXT_IMAGE_PATH }}/query_extn.png" title="{{ lang('ICON_EXTN_QUERY') }}" />
+							{% elseif 'issue' in image_ary %}
+								<img src="{{ EXT_IMAGE_PATH }}/issue.png" title="{{ lang('ICON_EXTN_ISSUE') }}" />
+							{% elseif 'alert' in image_ary %}
+								<img src="{{ EXT_IMAGE_PATH }}/alert.png" title="{{ lang('ICON_EXTN_QUERY') }}" />
+							{% else %}
+								<img src="{{ EXT_IMAGE_PATH }}/ok.png" title="{{ lang('ICON_EXTN_OK') }}" />
+							{% endif %}
+						</div>
+						<div class="table-body-cell-bold tooltips">{{ row.DISPLAY_NAME }}
+							<span class="tooltipstext">{{ row.META_NAME }}</span>
+						</div>
+						<div class="table-body-cell-narrow">{{ row.VENDOR }}</div>
+						<div class="table-body-cell-narrow">{{ row.VERSION }}</div>
+						<div class="table-body-cell-narrow">
+							{{ row.EXT_STATUS }}
+							{% if row.EXT_ENABLED and ('error' in image_ary or 'query' in image_ary) %}
+								<a href="{{ row.U_ACTION }}"><img src="{{ EXT_IMAGE_PATH }}/disable.png" title="{{ lang('ICON_EXTN_DISABLE') }}" /></a>
+							{% endif %}
+						</div>
+						<div class="table-body-cell">
+							{% for files in row.file_data %}
+								{% if files.STATUS_IMAGE == 'error' %}
+									<span class="pointer showkey files{{ files.FILE_KEY }}" key="{{ files.FILE_KEY }}"><img src="{{ EXT_IMAGE_PATH }}/compare_open.png" title="{{ lang('ICON_FILE_CLOSED') }}" /></span>
+									<span class="pointer showkey file_hide files_open{{ files.FILE_KEY }} " key="{{ files.FILE_KEY }}"><img src="{{ EXT_IMAGE_PATH }}/compare_close.png" title="{{ lang('ICON_FILE_OPEN') }}" /></span>
+								{% elseif files.STATUS_IMAGE == 'query' %}
+									<img src="{{ EXT_IMAGE_PATH }}/query_file.png" title="{{ lang('ICON_FILE_QUERY') }}" />
+								{% elseif files.STATUS_IMAGE == 'issue' %}
+									<span class="pointer showkey files{{ files.FILE_KEY }}" key="{{ files.FILE_KEY }}"><img src="{{ EXT_IMAGE_PATH }}/issue_file.png" title="{{ lang('ICON_FILE_CLOSED') }}" /></span>
+									<span class="pointer showkey file_hide files_open{{ files.FILE_KEY }} " key="{{ files.FILE_KEY }}"><img src="{{ EXT_IMAGE_PATH }}/issue.png" title="{{ lang('ICON_FILE_OPEN') }}" /></span>
+								{% endif %}
+								{{ files.STATUS }}
+								{% if not files.last %}
+									<br>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+
+					{% for files in row.file_data %}
+						<div class="table-row-span" id="{{ files.FILE_KEY }}">
+							<div class="table-header-cell">{{ lang('ORIGINAL_FILE') }}</div>
+							<div class="table-body">
+								<div class="table-row"><pre>{{ files.OLD_FILE }}</pre></div>
+							</div>
+								<div class="table-header-cell">{{ lang('NEW_FILE') }}</div>
+							<div class="table-body">
+								<div class="table-row" id="{{ files.NEW_FILE_KEY }}"><pre>{{ files.NEW_FILE }}</pre></div>
+								<br>
+								<a class="copy" id="{{ files.NEW_FILE_KEY }}" href="#" name="copy_pre">{{ lang('COPY_CLIPBOARD') }}</a>
+							</div>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>
+
+		<fieldset>
+			<legend>{{ lang('COMMON_ERRORS') }}</legend>
+			{{ lang('COMMON_ERRORS_EXPLAIN') }}
+		</fieldset>
+
+		{% INCLUDEJS '@' ~ NAMESPACE ~ '/js/extservicescheck.js' %}
+	{% endif %}
+{% endblock %}

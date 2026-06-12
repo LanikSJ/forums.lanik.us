@@ -1,0 +1,41 @@
+{
+    "name": "bruno/spamsecure",
+    "type": "phpbb-extension",
+    "description": "Allows spam protection to be applied to guests running on the server via PHP,",
+    "homepage": "https://cruiser-lounge.de",
+    "version": "1.0.7",
+    "time": "2024-07-30",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "bruno/spamsecure",
+            "email": "stephan-kaufmann@arcor.de",
+            "homepage": "https://cruiser-lounge.de",
+            "role": "Lead Developer"
+        },
+        {
+            "name": "Christian Esch aka Chris1278",
+            "email": "smilie-man@gmx.de",
+            "homepage": "https://www.phpbb.de/community/memberlist.php?mode=viewprofile&u=87861",
+            "role": "Co-Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0,<8.1.0",
+        "phpbb/phpbb": ">=3.2.10,<3.4.0@dev",
+        "composer/installers": "~1.0.0"
+    },
+    "extra": {
+        "display-name": "Spamsecure by 69bruno",
+        "lang-min-ver": "1.0.6",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.10,<3.4.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/spamsecure",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

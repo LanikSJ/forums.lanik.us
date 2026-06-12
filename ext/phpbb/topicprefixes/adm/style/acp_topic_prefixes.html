@@ -1,0 +1,72 @@
+{% include 'overall_header.html' %}
+
+<a id="maincontent"></a>
+
+<h1>{{ lang('TOPIC_PREFIXES') }}</h1>
+
+<p>{{ lang('TOPIC_PREFIXES_EXPLAIN') }}</p>
+
+	<form id="acp_topic_prefixes_forum" method="post" action="{{ U_ACTION }}">
+		<fieldset>
+			<dl>
+				<dt><label for="select_forum">{{ lang('SELECT_FORUM') ~ lang('COLON') }}</label></dt>
+				<dd>
+					<select id="select_forum" name="forum_id"><option value="0">{{ lang('SELECT_FORUM') }}</option>{{ S_FORUM_OPTIONS }}</select>
+					<input type="submit" value="{{ lang('GO') }}" class="button2">
+				</dd>
+			</dl>
+		</fieldset>
+	</form>
+
+{% if FORUM_ID %}
+
+	<table class="table1 zebra-table fixed-width-table">
+		<thead>
+			<tr>
+				<th style="width:75%">{{ lang('TOPIC_PREFIX_TAG') }}</th>
+				<th>{{ lang('TOPIC_PREFIX_ENABLED') }}</th>
+				<th>{{ lang('ACTION') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for prefix in loops.prefixes %}
+			<tr>
+				<td><strong>{{ prefix.PREFIX_TAG }}</strong></td>
+				<td>
+					<a href="{{ prefix.U_EDIT }}" style="text-decoration: none" title="{{ lang('TOPIC_PREFIX_TOGGLE_STATE') }}" data-ajax="tp_toggle">
+						<i class="fa fa-fw tp-toggle-{{ prefix.PREFIX_ENABLED ? 'on' : 'off' }} acp-icon"></i>
+					</a>
+				</td>
+				<td class="actions">
+					<span class="up-disabled" style="display:none;">{{ ICON_MOVE_UP_DISABLED }}</span>
+					<span class="up"><a href="{{ prefix.U_MOVE_UP }}" data-ajax="row_up">{{ ICON_MOVE_UP }}</a></span>
+					<span class="down-disabled" style="display:none;">{{ ICON_MOVE_DOWN_DISABLED }}</span>
+					<span class="down"><a href="{{ prefix.U_MOVE_DOWN }}" data-ajax="row_down">{{ ICON_MOVE_DOWN }}</a></span>
+					<a href="{{ prefix.U_DELETE }}" data-ajax="row_delete">{{ ICON_DELETE }}</a>
+				</td>
+			</tr>
+		{% else %}
+			<tr>
+				<td colspan="3" style="text-align: center;">{{ lang('TOPIC_PREFIXES_EMPTY') }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+	<form id="acp_add_topic_prefix" method="post" action="{{ U_ACTION }}">
+		<fieldset class="quick">
+			{{ lang('CREATE_TOPIC_PREFIX') ~ lang('COLON') }}
+			<input type="text" name="prefix_tag" value="" maxlength="200" placeholder="{{ lang('TOPIC_PREFIX_PLACEHOLDER') }}">
+			<input class="button2" name="submit" type="submit" value="{{ lang('SUBMIT') }}">
+			<input type="hidden" name="action" value="add">
+			<input type="hidden" name="forum_id" value="{{ FORUM_ID }}">
+			{{ S_FORM_TOKEN }}
+			{{ S_HIDDEN_FIELDS }}
+		</fieldset>
+	</form>
+
+{% endif %}
+
+{% INCLUDEJS '@phpbb_topicprefixes/acp_topic_prefixes.js' %}
+{% INCLUDECSS '@phpbb_topicprefixes/acp_topic_prefixes.css' %}
+{% include 'overall_footer.html' %}

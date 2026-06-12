@@ -1,0 +1,13 @@
+Subject: Citação em "{TOPIC_TITLE}"
+
+Olá {USERNAME},
+
+"{AUTHOR_NAME}" citou você no tópico "{TOPIC_TITLE}" em "{SITENAME}".
+
+Se você deseja visualizar a mensagem citada, clique no seguinte link:
+{U_VIEW_POST}
+
+Se você deseja parar de receber notificações de respostas com citações suas, por favor atualize configurações de notificação aqui:
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

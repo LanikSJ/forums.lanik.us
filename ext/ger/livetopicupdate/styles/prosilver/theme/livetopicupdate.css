@@ -1,0 +1,7 @@
+#liveupdatebar {
+    display: none;
+    cursor: pointer;
+    padding: 5px;
+    text-align: center;
+    font-size: 1.3em;
+}

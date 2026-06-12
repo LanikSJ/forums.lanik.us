@@ -1,0 +1,68 @@
+<!-- IF not S_IS_AJAX -->
+<!-- INCLUDE overall_header.html -->
+<!-- ENDIF -->
+
+<h3>{{ lang('RS_POST_GIVE_' ~ RS_MODE|upper) }}</h3>
+
+<form method="post" action="{S_CONFIRM_ACTION}" data-rate="rate_post">
+<div class="panel {{ 'rs-bg-' ~ RS_MODE }}">
+	<div class="inner"><span class="corners-top"><span></span></span>
+
+	<fieldset>
+		<!-- IF S_RS_POWER_ENABLE -->
+			<!-- IF RS_POWER_POINTS_LEFT -->
+			<div style="margin-bottom: 10px">
+				<div class="progress-bar">
+					<div class="empty-progress" style="width:{RS_POWER_PROGRESS_EMPTY}%"></div>
+				</div>
+				<span style="opacity: 0.6">{RS_POWER_POINTS_LEFT}</span><br/>
+			</div>
+			<!-- ENDIF -->
+
+			<!-- IF .reputation -->
+			<dl>
+				<dt style="width: 60%"><label>{L_RS_POINTS_TO_GIVE}{L_COLON}</label></dt>
+				<dd style="margin-left: 61%">
+					<select name="points" id="points">
+						<!-- BEGIN reputation -->{reputation.REPUTATION_POWER}<!-- END reputation -->
+					</select>
+				</dd>
+			</dl>
+			<!-- ENDIF -->
+		<!-- ENDIF -->
+
+		{% if RS_AUC %}
+		<dl>
+			<dt style="width: 60%"><label>{L_RS_AUC_USER_ROLE}{L_COLON}</label></dt>
+			<dd style="margin-left: 61%">
+				<select name="rs-auc-user-role">
+					<option value="seller">{L_RS_BUYER}</option> {# Do not change, no error here. The label goes for the voter, and the value goes for the target user. #}
+					<option value="buyer">{L_RS_SELLER}</option>
+				</select>
+			</dd>
+		</dl>
+		{% endif %}
+
+		<!-- IF S_RS_COMMENT_ENABLE -->
+		<dl class="comment">
+			<dt></dt>
+			<textarea name="comment" id="comment" class="inputbox" cols="40" rows="3" style="width: 98%; max-width: none" placeholder="{{ lang(S_RS_COMMENT_REQUIRED ? 'RS_COMMENT_REQUIRED' : 'RS_COMMENT_OPTIONAL') }}"></textarea>
+			<!-- IF ERROR_MSG --><dl class="error">{ERROR_MSG}</dl><!-- ENDIF -->
+		</dl>
+		<!-- ENDIF -->
+	</fieldset>
+
+	<fieldset class="submit-buttons">
+		<input type="hidden" name="submit_vote" value="1" />
+		{% if RS_AUC %} <input type="hidden" name="auc" value="1" /> {% endif %}
+		<input type="submit" name="submit" value="{L_RS_RATE_BUTTON}" class="button1" />&nbsp;
+		<input type="submit" name="cancel" value="{L_CANCEL}" class="button2" />
+	</fieldset>
+
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+
+<!-- IF not S_IS_AJAX -->
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

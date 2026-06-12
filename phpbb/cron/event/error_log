@@ -1,0 +1,4 @@
+[11-Jun-2026 16:18:23 America/Boise] PHP Fatal error:  Uncaught Error: Interface "Symfony\Component\EventDispatcher\EventSubscriberInterface" not found in /home1/lanikus/public_html/forums/phpbb/cron/event/cron_runner_listener.php:26
+Stack trace:
+#0 {main}
+  thrown in /home1/lanikus/public_html/forums/phpbb/cron/event/cron_runner_listener.php on line 26

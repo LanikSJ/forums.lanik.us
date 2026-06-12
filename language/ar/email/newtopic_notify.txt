@@ -1,0 +1,15 @@
+Subject: موضوع جديد في "{FORUM_NAME}"
+List-Unsubscribe: <{U_STOP_WATCHING_FORUM}>
+
+مرحبًا {USERNAME}،
+
+المنتدى "{FORUM_NAME}" تلقى موضوعًا جديدًا بعنوان  "{TOPIC_TITLE}" <!-- IF AUTHOR_NAME !== '' --> كتبه {AUTHOR_NAME}<!-- ENDIF --> منذ آخر زيارة لك لـ"{SITENAME}" لن يتم إرسال إشعارات جديدة لك حتى تقوم بزيارة المنتدى.
+{U_FORUM}
+
+للاطلاع على الموضوع مباشرة يمكنك زيارة:
+{U_TOPIC}
+
+إذا لم ترغب في متابعة المنتدى، اضغط على الرابط التالي:
+{U_STOP_WATCHING_FORUM}
+
+{EMAIL_SIG}

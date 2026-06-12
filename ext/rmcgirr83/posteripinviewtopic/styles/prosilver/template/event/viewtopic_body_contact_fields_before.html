@@ -1,0 +1,3 @@
+{% if postrow.POSTER_IP_VISIBLE %}
+	<dd class="profile-posts"><strong>{{ lang('IP') }}{{ lang('COLON') }}</strong> <a href="{{ postrow.QUERY_URL }}" class="posterip" data-ajax="true">{{ postrow.POSTER_IP }}</a></dd>
+{% endif %}

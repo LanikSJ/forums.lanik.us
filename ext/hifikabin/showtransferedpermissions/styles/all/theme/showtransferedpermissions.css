@@ -1,0 +1,35 @@
+.show_permissions {
+	background-image: -o-linear-gradient(
+		45deg, 
+		yellow 25%, 
+		white 25%, 
+		white 50%, 
+		yellow 50%, 
+		yellow 75%, 
+		white 75%, 
+		white 100%
+	);
+	background-image: linear-gradient(
+		45deg, 
+		yellow 25%, 
+		white 25%, 
+		white 50%, 
+		yellow 50%, 
+		yellow 75%, 
+		white 75%, 
+		white 100%
+	);
+	background-size: 56.57px 56.57px;
+	border-radius: 5px;
+	padding: 20px;
+	margin-bottom: 5px;
+	font-size: 170%;
+}
+
+#permissions_text {
+	color: red;
+}
+
+#permissions_center  {
+	text-align: center;
+}

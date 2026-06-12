@@ -1,0 +1,9 @@
+{% if U_RESTORE_PERMISSIONS %}
+	<div class="show_permissions" id="permissions_text">
+		<div id="permissions_center">
+			{{ lang('TRANSFERRED_BEFORE') }}
+			<a id="permissions_text" href="{{ U_RESTORE_PERMISSIONS }}"><i class="icon fa-refresh fa-fw" aria-hidden="true"></i><strong>{{ lang('TRANSFERRED_RESTORE') }}</strong><i class="icon fa-refresh fa-fw" aria-hidden="true"></i></a>
+			{{ lang('TRANSFERRED_AFTER') }}
+		</div>
+	</div>
+{% endif %}

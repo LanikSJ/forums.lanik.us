@@ -1,0 +1,15 @@
+services:
+    anavaro.autoban.acplistener:
+        class: anavaro\autoban\event\acplistener
+        arguments:
+            - '@language'
+        tags:
+            - { name: event.listener }
+    anavaro.autoban.mainlistener:
+        class: anavaro\autoban\event\mainlistener
+        arguments:
+            - '@config'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }

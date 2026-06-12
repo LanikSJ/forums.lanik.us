@@ -1,0 +1,81 @@
+imports:
+    - { resource: tables.yml }
+    - { resource: flag_constants.yml }
+
+services:
+    rmcgirr83.nationalflags.admin.controller:
+        class: rmcgirr83\nationalflags\controller\admin_controller
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@pagination'
+            - '@controller.helper'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@log'
+            - '@ext.manager'
+            - '@path_helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%flag_constants%'
+            - '%rmcgirr83.nationalflags.table.nationalflags%'
+            - '@rmcgirr83.nationalflags.nationalflags'
+            - '@files.factory'
+            - '@filesystem'
+            - '@language'
+
+    rmcgirr83.nationalflags.main.controller:
+        class: rmcgirr83\nationalflags\controller\main_controller
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'
+            - '@pagination'
+            - '@controller.helper'
+            - '@language'
+            - '@request'
+            - '@ext.manager'
+            - '@path_helper'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%rmcgirr83.nationalflags.table.nationalflags%'
+            - '@rmcgirr83.nationalflags.nationalflags'
+            - '@files.factory'
+
+    rmcgirr83.nationalflags.listener:
+        class: rmcgirr83\nationalflags\event\listener
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@controller.helper'
+            - '@dbal.conn'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@ext.manager'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '@rmcgirr83.nationalflags.nationalflags'
+        tags:
+            - { name: event.listener }
+
+    rmcgirr83.nationalflags.nationalflags:
+        class: rmcgirr83\nationalflags\core\nationalflags
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@cache'
+            - '@dbal.conn'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '%rmcgirr83.nationalflags.table.nationalflags%'
+            - '@ext.manager'
+            - '@path_helper'
+            - '%flag_constants%'
+            - '@?phpbb.collapsiblecategories.operator'

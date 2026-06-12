@@ -1,0 +1,501 @@
+/* global phpbb */
+
+function PhpbbWebpush() {
+	'use strict';
+
+	/** @type {string} URL to service worker */
+	let serviceWorkerUrl = '';
+
+	/** @type {string} URL to subscribe to push */
+	let subscribeUrl = '';
+
+	/** @type {string} URL to unsubscribe from push */
+	let unsubscribeUrl = '';
+
+	/** @type { {creationTime: number, formToken: string} } Form tokens */
+	this.formTokens = {
+		creationTime: 0,
+		formToken: '',
+	};
+
+	/** @type {{endpoint: string, expiration: string}[]} Subscriptions */
+	let subscriptions;
+
+	/** @type {string} Title of error message */
+	let ajaxErrorTitle = '';
+
+	/** @type {string} VAPID public key */
+	let vapidPublicKey = '';
+
+	/** @type {HTMLElement} Subscribe button */
+	let subscribeButton;
+
+	/** @type {HTMLElement} Unsubscribe button */
+	let unsubscribeButton;
+
+	/** @type {HTMLElement} Toggle popup button */
+	let togglePopupButton;
+
+	/** @type {string} URL to toggle popup prompt preference */
+	let togglePopupUrl = '';
+
+	/** @type {function} Escape key handler for popup */
+	let popupEscapeHandler;
+
+	/**
+	 * Init function for phpBB Web Push
+	 * @type {array} options
+	 */
+	this.init = function(options) {
+		serviceWorkerUrl = options.serviceWorkerUrl;
+		subscribeUrl = options.subscribeUrl;
+		unsubscribeUrl = options.unsubscribeUrl;
+		togglePopupUrl = options.togglePopupUrl;
+		this.formTokens = options.formTokens;
+		subscriptions = options.subscriptions;
+		ajaxErrorTitle = options.ajaxErrorTitle;
+		vapidPublicKey = options.vapidPublicKey;
+
+		subscribeButton = document.querySelector('#subscribe_webpush');
+		unsubscribeButton = document.querySelector('#unsubscribe_webpush');
+		togglePopupButton = document.querySelector('#toggle_popup_prompt');
+
+		// Set up toggle popup button handler if it exists (on UCP settings page)
+		if (togglePopupButton) {
+			togglePopupButton.addEventListener('click', togglePopupHandler);
+		}
+
+		// Service workers are only supported in secure context
+		if (window.isSecureContext !== true) {
+			setDisabledState();
+			return;
+		}
+
+		if ('serviceWorker' in navigator && 'PushManager' in window) {
+			navigator.serviceWorker.register(serviceWorkerUrl)
+				.then(() => {
+					subscribeButton.addEventListener('click', subscribeButtonHandler);
+					unsubscribeButton.addEventListener('click', unsubscribeButtonHandler);
+
+					updateButtonState();
+					initPopupPrompt();
+				})
+				.catch(error => {
+					console.info(error);
+					// Service worker could not be registered
+					setDisabledState();
+				});
+		} else {
+			setDisabledState();
+		}
+	};
+
+	/**
+	 * If subscribing is disabled, hide dropdown toggle and update subscribe button text
+	 *
+	 * @return void
+	 */
+	function setDisabledState() {
+		subscribeButton.disabled = true;
+
+		const notificationList = document.getElementById('notification_list');
+		const subscribeToggle = notificationList.querySelector('.wpn-notification-dropdown-footer');
+
+		if (subscribeToggle) {
+			subscribeToggle.style.display = 'none';
+		}
+
+		if (subscribeButton.type === 'submit' || subscribeButton.classList.contains('button')) {
+			subscribeButton.value = subscribeButton.getAttribute('data-l-unsupported');
+		}
+	}
+
+	/**
+	 * Update button state depending on notifications state
+	 *
+	 * @return void
+	 */
+	function updateButtonState() {
+		if (Notification.permission === 'granted') {
+			navigator.serviceWorker.getRegistration(serviceWorkerUrl)
+				.then(registration => {
+					if (typeof registration === 'undefined') {
+						return;
+					}
+
+					registration.pushManager.getSubscription()
+						.then(subscribed => {
+							if (isValidSubscription(subscribed)) {
+								setSubscriptionState(true);
+							}
+						});
+				});
+		}
+	}
+
+	/**
+	 * Initialize popup prompt
+	 */
+	function initPopupPrompt() {
+		const popup = document.getElementById('wpn_popup_prompt');
+		if (!popup || Notification.permission === 'denied') {
+			return;
+		}
+
+		// Check if user denied prompt on this browser
+		if (promptDenied.get() === 'true') {
+			return;
+		}
+
+		// Check if this browser already has a subscription
+		navigator.serviceWorker.getRegistration(serviceWorkerUrl)
+			.then(registration => {
+				if (typeof registration === 'undefined') {
+					showPopup(popup);
+					return;
+				}
+
+				registration.pushManager.getSubscription()
+					.then(subscription => {
+						if (!isValidSubscription(subscription)) {
+							showPopup(popup);
+						}
+					});
+			});
+	}
+
+	/**
+	 * Show popup with event handlers
+	 */
+	function showPopup(popup) {
+		setTimeout(() => {
+			popup.style.display = 'flex';
+		}, 1000);
+
+		const allowBtn = document.getElementById('wpn_popup_allow');
+		const denyBtn = document.getElementById('wpn_popup_deny');
+		const overlay = document.getElementById('wpn_popup_prompt');
+
+		if (allowBtn) {
+			allowBtn.addEventListener('click', (event) => {
+				event.stopPropagation();
+				hidePopup(popup);
+				subscribeButtonHandler(event).catch(error => {
+					console.error('Subscription handler error:', error);
+				});
+			});
+		}
+
+		if (denyBtn) {
+			denyBtn.addEventListener('click', (event) => {
+				event.stopPropagation();
+				hidePopup(popup);
+				promptDenied.set();
+			});
+		}
+
+		if (overlay) {
+			overlay.addEventListener('click', (event) => {
+				if (event.target === overlay) {
+					hidePopup(popup);
+					promptDenied.set();
+				}
+			});
+
+			popupEscapeHandler = (event) => {
+				if (event.key === 'Escape') {
+					hidePopup(popup);
+					promptDenied.set();
+				}
+			};
+
+			document.addEventListener('keydown', popupEscapeHandler);
+		}
+	}
+
+	/**
+	 * Hide popup
+	 * @param popup
+	 */
+	function hidePopup(popup) {
+		if (popup) {
+			popup.style.display = 'none';
+		}
+		document.removeEventListener('keydown', popupEscapeHandler);
+		popupEscapeHandler = null;
+	}
+
+	/**
+	 * Check whether subscription is valid
+	 *
+	 * @param {PushSubscription} subscription
+	 * @returns {boolean}
+	 */
+	const isValidSubscription = subscription => {
+		if (!subscription) {
+			return false;
+		}
+
+		if (subscription.expirationTime && subscription.expirationTime <= Date.now()) {
+			return false;
+		}
+
+		for (const curSubscription of subscriptions) {
+			if (subscription.endpoint === curSubscription.endpoint) {
+				return true;
+			}
+		}
+
+		// Subscription is not in valid subscription list for user
+		return false;
+	};
+
+	/**
+	 * Set subscription state for buttons
+	 *
+	 * @param {boolean} subscribed True if subscribed, false if not
+	 */
+	function setSubscriptionState(subscribed) {
+		if (subscribed) {
+			subscribeButton.classList.add('hidden');
+			unsubscribeButton.classList.remove('hidden');
+		} else {
+			subscribeButton.classList.remove('hidden');
+			unsubscribeButton.classList.add('hidden');
+		}
+	}
+
+	/**
+	 * Handler for pushing subscribe button
+	 *
+	 * @param {Object} event Subscribe button push event
+	 * @returns {Promise<void>}
+	 */
+	async function subscribeButtonHandler(event) {
+		event.preventDefault();
+
+		subscribeButton.removeEventListener('click', subscribeButtonHandler);
+
+		try {
+			// Prevent the user from clicking the subscribe button multiple times.
+			const result = await Notification.requestPermission();
+			if (result === 'denied') {
+				phpbb.alert(subscribeButton.getAttribute('data-l-err'), subscribeButton.getAttribute('data-l-msg'));
+				return;
+			}
+
+			const registration = await navigator.serviceWorker.getRegistration(serviceWorkerUrl);
+
+			// We might already have a subscription that is unknown to this instance of phpBB.
+			// Unsubscribe before trying to subscribe again.
+			if (typeof registration !== 'undefined') {
+				const subscribed = await registration.pushManager.getSubscription();
+				if (subscribed) {
+					await subscribed.unsubscribe();
+				}
+			}
+
+			const newSubscription = await registration.pushManager.subscribe({
+				userVisibleOnly: true,
+				applicationServerKey: urlB64ToUint8Array(vapidPublicKey),
+			});
+
+			const loadingIndicator = phpbb.loadingIndicator();
+			fetch(subscribeUrl, {
+				method: 'POST',
+				headers: {
+					'X-Requested-With': 'XMLHttpRequest',
+				},
+				body: getFormData(newSubscription),
+			})
+				.then(response => {
+					loadingIndicator.fadeOut(phpbb.alertTime);
+					return response.json();
+				})
+				.then(handleSubscribe)
+				.catch(error => {
+					loadingIndicator.fadeOut(phpbb.alertTime);
+					phpbb.alert(ajaxErrorTitle, error);
+				});
+		} catch (error) {
+			promptDenied.set(); // deny the prompt on error to prevent repeated prompting
+			hidePopup(document.getElementById('wpn_popup_prompt'));
+			console.error('Push subscription error:', error);
+			phpbb.alert(subscribeButton.getAttribute('data-l-err'), error.message || subscribeButton.getAttribute('data-l-unsupported'));
+		} finally {
+			subscribeButton.addEventListener('click', subscribeButtonHandler);
+		}
+	}
+
+	/**
+	 * Handler for pushing unsubscribe button
+	 *
+	 * @param {Object} event Unsubscribe button push event
+	 * @returns {Promise<void>}
+	 */
+	async function unsubscribeButtonHandler(event) {
+		event.preventDefault();
+
+		const registration = await navigator.serviceWorker.getRegistration(serviceWorkerUrl);
+		if (typeof registration === 'undefined') {
+			return;
+		}
+
+		const subscription = await registration.pushManager.getSubscription();
+		const loadingIndicator = phpbb.loadingIndicator();
+		fetch(unsubscribeUrl, {
+			method: 'POST',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest',
+			},
+			body: getFormData({ endpoint: subscription.endpoint }),
+		})
+			.then(() => {
+				loadingIndicator.fadeOut(phpbb.alertTime);
+				return subscription.unsubscribe();
+			})
+			.then(unsubscribed => {
+				if (unsubscribed) {
+					setSubscriptionState(false);
+				}
+			})
+			.catch(error => {
+				loadingIndicator.fadeOut(phpbb.alertTime);
+				phpbb.alert(ajaxErrorTitle, error);
+			});
+	}
+
+	/**
+	 * Handler for toggle popup prompt button
+	 *
+	 * @param {Object} event Toggle button push event
+	 */
+	function togglePopupHandler(event) {
+		event.preventDefault();
+
+		const loadingIndicator = phpbb.loadingIndicator();
+		const formData = new FormData();
+		formData.append('form_token', phpbb.webpush.formTokens.formToken);
+		formData.append('creation_time', phpbb.webpush.formTokens.creationTime.toString());
+
+		fetch(togglePopupUrl, {
+			method: 'POST',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest',
+			},
+			body: formData,
+		})
+			.then(response => response.json())
+			.then(data => {
+				loadingIndicator.fadeOut(phpbb.alertTime);
+				if (data.success) {
+					// Update button text based on new state
+					const button = document.getElementById('toggle_popup_prompt');
+					if (button) {
+						button.value = data.disabled ? button.getAttribute('data-l-enable') : button.getAttribute('data-l-disable');
+					}
+					if ('form_tokens' in data) {
+						updateFormTokens(data.form_tokens);
+					}
+				}
+			})
+			.catch(error => {
+				loadingIndicator.fadeOut(phpbb.alertTime);
+				phpbb.alert(ajaxErrorTitle, error);
+			});
+	}
+
+	/**
+	 * Handle subscribe response
+	 *
+	 * @param {Object} response Response from subscription endpoint
+	 */
+	function handleSubscribe(response) {
+		if (response.success) {
+			setSubscriptionState(true);
+			if ('form_tokens' in response) {
+				updateFormTokens(response.form_tokens);
+			}
+			promptDenied.remove();
+			hidePopup(document.getElementById('wpn_popup_prompt'));
+		}
+	}
+
+	/**
+	 * Get form data object including form tokens
+	 *
+	 * @param {Object} data Data to create form data from
+	 * @returns {FormData} Form data
+	 */
+	function getFormData(data) {
+		const formData = new FormData();
+		formData.append('form_token', phpbb.webpush.formTokens.formToken);
+		formData.append('creation_time', phpbb.webpush.formTokens.creationTime.toString());
+		formData.append('data', JSON.stringify(data));
+
+		return formData;
+	}
+
+	/**
+	 * Update form tokens with supplied ones
+	 *
+	 * @param {Object} formTokens
+	 */
+	function updateFormTokens(formTokens) {
+		phpbb.webpush.formTokens.creationTime = formTokens.creation_time;
+		phpbb.webpush.formTokens.formToken = formTokens.form_token;
+	}
+
+	/**
+	 * Convert a base64 string to Uint8Array
+	 *
+	 * @param base64String
+	 * @returns {Uint8Array}
+	 */
+	function urlB64ToUint8Array(base64String) {
+		const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+		const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+		const rawData = window.atob(base64);
+		const outputArray = new Uint8Array(rawData.length);
+		for (let i = 0; i < rawData.length; ++i) {
+			outputArray[i] = rawData.charCodeAt(i);
+		}
+
+		return outputArray;
+	}
+
+	const promptDenied = {
+		key: 'wpn_popup_denied',
+
+		set() {
+			localStorage.setItem(this.key, 'true');
+		},
+
+		get() {
+			return localStorage.getItem(this.key);
+		},
+
+		remove() {
+			localStorage.removeItem(this.key);
+		}
+	};
+}
+
+function domReady(callBack) {
+	'use strict';
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', callBack);
+	} else {
+		callBack();
+	}
+}
+
+phpbb.webpush = new PhpbbWebpush();
+
+domReady(() => {
+	'use strict';
+
+	/* global phpbbWebpushOptions */
+	phpbb.webpush.init(phpbbWebpushOptions);
+});

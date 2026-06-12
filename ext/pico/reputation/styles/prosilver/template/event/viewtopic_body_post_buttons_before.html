@@ -1,0 +1,53 @@
+<!-- IF S_REPUTATION and S_FORUM_REPUTATION and postrow.U_POST_AUTHOR and (postrow.S_RATE_POST || postrow.S_VIEW_REPUTATION) -->
+
+{# This is the clone of minirofile widget for the phones in vertical orientation. Its visibility is controlled by CSS. #}
+<!-- IF RS_CONTENT_WIDGET_TYPE < 2 && RS_MINIPROFILE_WIDGET_TYPE == 2 -->
+	<li class="button rs-widget rs-widget-clone<!-- IF postrow.POST_VOTE_CLASS --> {postrow.POST_VOTE_CLASS}<!-- ENDIF -->" {{ RS_AUC ? 'data-user-auc' : 'data-user' }}="{postrow.POSTER_ID}" data-post="{postrow.POST_ID}" data-skip-responsive="true">
+
+		<!-- IF postrow.S_RATE_POST and postrow.S_RATE_POST_NEGATIVE -->
+			<a href="{postrow.U_RATE_POST_NEGATIVE}" title="{L_RS_RATE_NEGATIVE}" class="rate-bad-icon">
+				<i class="icon fa-angle-down fa-fw" aria-hidden="true"></i>
+			</a>
+		<!-- ENDIF -->
+
+		<!-- IF postrow.S_VIEW_REPUTATION -->
+			<a href="{postrow.U_VIEW_USER_REPUTATION}" title="{{ lang(RS_AUC ? 'RS_USER_REPUTATION_AUC' : 'RS_USER_REPUTATION') }}" class="post-reputation {postrow.USER_REPUTATION_CLASS}">{postrow.USER_REPUTATION}</a>
+		<!-- ELSE -->
+			<div title="{{ lang(RS_AUC ? 'RS_USER_REPUTATION_AUC' : 'RS_USER_REPUTATION') }}" class="post-reputation {postrow.USER_REPUTATION_CLASS} guest">{postrow.USER_REPUTATION}</div>
+		<!-- ENDIF -->
+
+		<!-- IF postrow.S_RATE_POST -->
+			<a href="{postrow.U_RATE_POST_POSITIVE}" title="{L_RS_RATE_POSITIVE}" class="rate-good-icon">
+				<i class="icon fa-angle-up fa-fw" aria-hidden="true"></i>
+			</a>
+		<!-- ENDIF -->
+
+	</li>
+<!-- ENDIF -->
+
+{# Content widget #}
+<!-- IF RS_CONTENT_WIDGET_TYPE > 0 -->
+	<li class="button rs-widget<!-- IF postrow.POST_VOTE_CLASS --> {postrow.POST_VOTE_CLASS}<!-- ENDIF -->" data-post="{postrow.POST_ID}" data-skip-responsive="true">
+
+		<!-- IF postrow.S_RATE_POST and postrow.S_RATE_POST_NEGATIVE and RS_CONTENT_WIDGET_TYPE == 2 -->
+			<a href="{postrow.U_RATE_POST_NEGATIVE}" title="{L_RS_RATE_NEGATIVE}" class="rate-bad-icon">
+				<i class="icon fa-angle-down fa-fw" aria-hidden="true"></i>
+			</a>
+		<!-- ENDIF -->
+
+		<!-- IF postrow.S_VIEW_REPUTATION -->
+			<a href="{postrow.U_VIEW_POST_REPUTATION}" title="{L_RS_POST_REPUTATION}" class="post-reputation {postrow.POST_REPUTATION_CLASS}">{postrow.POST_REPUTATION}</a>
+		<!-- ELSE -->
+			<div title="{L_RS_POST_REPUTATION}" class="post-reputation {postrow.POST_REPUTATION_CLASS} guest">{postrow.POST_REPUTATION}</div>
+		<!-- ENDIF -->
+
+		<!-- IF postrow.S_RATE_POST and RS_CONTENT_WIDGET_TYPE == 2 -->
+			<a href="{postrow.U_RATE_POST_POSITIVE}" title="{L_RS_RATE_POSITIVE}" class="rate-good-icon">
+				<i class="icon fa-angle-up fa-fw" aria-hidden="true"></i>
+			</a>
+		<!-- ENDIF -->
+
+	</li>
+<!-- ENDIF -->
+
+<!-- ENDIF -->

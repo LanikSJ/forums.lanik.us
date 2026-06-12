@@ -1,0 +1,181 @@
+{#
+*
+* Force Account Reactivation. An extension for the phpBB Forum Software package.
+*
+* @copyright (c) 2024, LukeWCS, https://www.wcsaga.org/
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+* Note: This extension is 100% genuine handcraft and consists of selected
+*       natural raw materials. There was no AI involved in making it.
+*
+#}
+
+{% INCLUDE 'overall_header.html' %}
+
+<a id="maincontent"></a>
+
+<h1>{{ lang('FORACCREA_CONFIG_TITLE') }}</h1>
+<p>{{ lang('FORACCREA_CONFIG_DESC', FORACCREA_METADATA.ext_name) }}</p>
+
+{{ _self.notes(FORACCREA_NOTES) }}
+
+<form id="foraccrea_settings" method="post" action="{{ U_ACTION }}">
+	<fieldset>
+		<legend>{{ lang('FORACCREA_SETTINGS_TITLE') }}</legend>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_SERVICES_REQUIRED') ~ lang('COLON') }}</label><br>
+			</dt>
+			<dd>
+				{{ _self.status(FORACCREA_MAIL_ENABLED, 'EMAIL') }}<br>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_SERVICES_OPTIONAL') ~ lang('COLON') }}</label><br>
+			</dt>
+			<dd>
+				{{ _self.status(FORACCREA_NRU_ENABLED, 'G_NEWLY_REGISTERED') }}<br>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_ENABLE') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_ENABLE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('foraccrea_enable', FORACCREA_ENABLE) }}
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_TIME_RANGE') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_TIME_RANGE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.number('foraccrea_time_range', FORACCREA_TIME_RANGE, 1, 99) }}
+				{{ _self.select('foraccrea_time_range_type', FORACCREA_TIME_RANGE_TYPE_OPTS) }}
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_CONSIDER_NON_LOGIN') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_CONSIDER_NON_LOGIN_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('foraccrea_consider_non_login', FORACCREA_CONSIDER_NON_LOGIN) }}
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_EXCLUDE_GROUPS') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_EXCLUDE_GROUPS_EXPLAIN') }}</span>
+				<br><br>
+				<span>{{ lang('FORACCREA_MULTISELECT_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.select('foraccrea_exclude_groups', FORACCREA_EXCLUDE_GROUPS, true, 8) }}
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label>{{ lang('FORACCREA_EXCLUDE_NRU') ~ lang('COLON') }}</label><br>
+				<span>{{ lang('FORACCREA_EXCLUDE_NRU_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				{{ _self.switch('foraccrea_exclude_nru', FORACCREA_EXCLUDE_NRU) }}
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset>
+		<legend>{{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" name="submit" value="{{ lang('SUBMIT') }}">&nbsp;
+			<input class="button2" type="reset" name="reset" value="{{ lang('RESET') }}">
+		</p>
+	</fieldset>
+
+	{{ S_FORM_TOKEN }}
+</form>
+
+<script>
+	const foraccrea = Object.freeze({
+		mail_enabled: {{ FORACCREA_MAIL_ENABLED|json_encode }},
+		nru_enabled: {{ FORACCREA_NRU_ENABLED|json_encode }},
+	});
+</script>
+
+{{ _self.footer(FORACCREA_METADATA) }}
+
+{% INCLUDE 'overall_footer.html' %}
+
+{% INCLUDECSS '@lukewcs_forcereactivation/acp_foraccrea_settings.css' %}
+{% INCLUDEJS '@lukewcs_forcereactivation/acp_foraccrea_settings.js' %}
+
+{% macro switch(name, checked = false, type = null) -%}
+	{% set type = type ?? (TOGGLECTRL_TYPE in ['toggle', 'checkbox', 'radio'] ? TOGGLECTRL_TYPE : 'toggle') -%}
+	{% if type in ['toggle', 'checkbox'] -%}
+		<input type="checkbox" class="{{ type }}" name="{{ name }}" value="1"{{ checked ? ' checked' }}>
+	{%- elseif type == 'radio' -%}
+		<label><input type="radio" class="radio" name="{{ name }}" value="1"{{ checked ? ' checked' }}> {{ lang('YES') }}</label>
+		<label><input type="radio" class="radio" name="{{ name }}" value="0"{{ !checked ? ' checked' }}> {{ lang('NO') }}</label>
+	{%- endif %}
+	{#- v1.3.1 #}
+{%- endmacro %}
+
+{% macro number(name, value, min = null, max = null, step = null, placeholder = null) -%}
+	<input type="number" name="{{ name }}" value="{{ value }}"{{
+		(min !== null ? ' min="' ~ min ~ '"') ~
+		(max !== null ? ' max="' ~ max ~ '"') ~
+		(step !== null ? ' step="' ~ step ~ '"') ~
+		(placeholder !== null ? ' placeholder="' ~ placeholder ~ '"')
+	}}>
+{%- endmacro %}
+
+{% macro select(name, options, multiple = null, size = null) -%}
+	<select name="{{ name }}{{ multiple ? '[]' }}"{{
+		(size !== null ? ' size="' ~ size ~ '"') ~
+		(multiple ? ' multiple')
+	}}>
+		{% for opt in options %}
+			<option value="{{ opt.value }}"{{
+				(opt.bold ? ' class="sep"') ~
+				(opt.selected ? ' selected')
+			}}>{{ lang(opt.label) }}</option>
+		{% endfor %}
+	</select>
+{%- endmacro %}
+
+{% macro notes(notes) %}
+	{% set note_dot = notes|length > 1 ? '&bull; ' %}
+	{% if notes|length %}
+		<div class="successbox notice">
+			{% for note in notes %}
+				<p>{{ note_dot }}{{ note }}</p>
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endmacro %}
+
+{% macro footer(metadata) %}
+	<p class="{{ metadata.class }}">
+		{{ metadata.ext_name }} {{ metadata.ext_ver }} &copy; {{ metadata.ext_copyright }}
+		{% if metadata.lang_ver is defined %}
+			<br>
+			{{ metadata.lang_desc|e('html') }} {{ metadata.lang_ver|e('html') }} &copy; {{ metadata.lang_author|e('html') }}
+		{% endif %}
+	</p>
+{% endmacro %}
+
+{% macro status(condition, lang_var) -%}
+	<i class="icon fa fa-fw fa-lg {{ condition ? 'fa-check success' : 'fa-times error' }}"></i> {{ lang(lang_var) }}
+{%- endmacro %}

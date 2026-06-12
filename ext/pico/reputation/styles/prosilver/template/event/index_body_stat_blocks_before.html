@@ -1,0 +1,13 @@
+<!-- IF S_RS_TOPLIST -->
+	<div class="stat-block">
+		<h3><a href="{RS_URL_LASTVOTES}">{L_RS_TOPLIST}</a></h3>
+		<p>
+			<!-- BEGIN toplist -->
+				<strong>{toplist.USERNAME_FULL}</strong>
+				(<!-- IF S_VIEW_REPUTATION --><a href="{toplist.U_VIEW_USER_REPUTATION}">{toplist.USER_REPUTATION}</a><!-- ELSE -->{toplist.USER_REPUTATION}<!-- ENDIF -->)<!-- IF toplist.S_DIRECTION and not toplist.S_LAST_ROW --><br /><!-- ELSE IF not toplist.S_LAST_ROW -->{L_COMMA_SEPARATOR}<!-- ENDIF -->
+			<!-- BEGINELSE -->
+				{L_RS_NO_USERS}
+			<!-- END toplist -->
+		</p>
+	</div>
+<!-- ENDIF -->

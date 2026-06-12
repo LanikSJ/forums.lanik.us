@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml-stylesheet type="text/xsl" href="modx.prosilver.en.xsl"?>
+<!--NOTICE: Please open this file in your web browser. If presented with a security warning, you may safely tell it to allow the blocked content.-->
+<!--For security purposes, please check: http://www.phpbb.com/mods/ for the latest version of this MOD.\nAlthough MODs are checked before being allowed in the MODs Database there is no guarantee that there are no security problems within the MOD.\nNo support will be given for MODs not found within the MODs Database which can be found at http://www.phpbb.com/mods/-->
+<mod xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://www.phpbb.com/mods/xml/modx-1.2.6.xsd">
+	<header>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (online version)"/>
+		<meta name="generator" content="MODX file generated with PP MODX Creator by tumba25 (offline version)"/>
+		<license><![CDATA[http://opensource.org/licenses/gpl-license.php GNU General Public License v2]]></license>
+		<title lang="en"><![CDATA[Russian language pack for KeyCAPTCHA]]></title>
+		<title lang="ru"><![CDATA[Руссификация для KeyCAPTCHA]]></title>
+		<description lang="en"><![CDATA[Interactive KeyCAPTCHA is the unique anti-spam solution for your site.
+
+It is a free service providing effective protection by means of highly attractive and interactive CAPTCHA.
+
+Also, it can entertain your visitors with a nice and pleasant game.
+
+KeyCAPTCHA protects the following phpBB forms: Registration, New Topic (for guests), Post Reply (for guests), Login (After 3 incorrect attempts).]]></description>
+		<description lang="ru"><![CDATA[KeyCAPTCHA - интерактивная защита от спама.
+
+KeyCAPTCHA защищает следующие формы phpBB: Registration, New Topic (для незарегистрированных пользователей), Post Reply (для незарегистрированных пользователей), Login (После трех неудачных попыток).]]></description>
+		<author-notes lang="en"><![CDATA[Requirements:  php ver. 5 or later
+
+Installation:
+
+1. Register on our site (https://www.keycaptcha.com/accounts/reguser).
+2. Activate your account by clicking the activation link, which is sent to the e-mail you specified during registration.
+3. Log in to our site.
+4. At the page "My Sites" add information about your site, which you plan to protect with KeyCAPTCHA.
+5. Choose "Installation Instructions" in the right menu "Free Account"
+6. Follow the instalation instructions on the opened page.
+
+After installation, please, check all forms that you protected by KeyCAPTCHA.
+If you have any questions feel free to contact our Support Team (https://www.keycaptcha.com/tickets/list/0/).
+Our experts help you to install KeyCAPTCHA on your site for free.]]></author-notes>
+		<author-notes lang="ru"><![CDATA[Требования: php версии 5 или выше
+
+Установка:
+1. Зарегистрируйтесь на нашем сайте (https://www.keycaptcha.com/accounts/reguser).
+2. Активируйте Ваш аккаунт, перейдя по ссылке в письме, которое будет отправлено на e-mail, указанный Вами при регистрации.
+3. Зайдите на наш сайт, используя свой логин и пароль.
+4. На странице "Мои сайты" добавьте информацию о своем сайте, который Вы планируете защитить с помощью KeyCAPTCHA.
+5. Перейдите на страницу "Инструкция по установке", используя правое меню "Базовые настройки"
+6. Следуйте инструкциям на открывшейся странице.
+
+После установки проверьте все формы, которые Вы защитили с помощью KeyCAPTCHA.
+Вы можете задать любые вопросы, связанные с KeyCAPTCHA, нашей службе поддержке (https://www.keycaptcha.com/tickets/list/0/). Наши специалисты бесплатно окажут Вам помощь в установке KeyCAPTCHA на Ваш сайт]]></author-notes>
+		<author-group>
+			<author>
+				<realname><![CDATA[Maxim Vladykin]]></realname>
+				<username><![CDATA[KeyCAPTCHA]]></username>
+				<homepage><![CDATA[https://www.keycaptcha.com]]></homepage>
+				<email><![CDATA[support@keycaptcha.com]]></email>
+			</author>
+		</author-group>
+		<mod-version>2.0.2</mod-version>
+		<installation>
+			<level>easy</level>
+			<time>300</time>
+			<target-version>3.0.11</target-version>
+		</installation>
+		<link-group>
+			<link type="parent" href="../install_mod.xml" lang="en">Return to the main MOD</link>
+			<link type="parent" href="../install_mod.xml" lang="ru">Вернуться в основной мод</link>
+		</link-group>
+	</header>
+	<action-group>
+		<copy>
+			<file from="root/language/ru/*.*" to="language/ru/*.*"/>
+		</copy>
+	</action-group>
+</mod>

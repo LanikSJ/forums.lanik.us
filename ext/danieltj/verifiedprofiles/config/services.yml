@@ -1,0 +1,19 @@
+services:
+    danieltj.verifiedprofiles.listener:
+        class: danieltj\verifiedprofiles\event\listener
+        arguments:
+            - '@auth'
+            - '@request'
+            - '@template'
+            - '@language'
+            - '@user'
+            - '@danieltj.verifiedprofiles.includes.functions'
+        tags:
+            - { name: event.listener }
+
+    danieltj.verifiedprofiles.includes.functions:
+        class: danieltj\verifiedprofiles\includes\functions
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@dbal.conn'

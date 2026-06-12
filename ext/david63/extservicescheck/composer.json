@@ -1,0 +1,38 @@
+{
+	"name": "david63/extservicescheck",
+	"type": "phpbb-extension",
+	"description": "Checks the syntax of the .yml files in extensions.",
+	"version": "2.2.0-RC1",
+	"time": "2020-12-09",
+	"keywords": [
+		"phpbb",
+		"extension",
+		"services",
+		"config",
+		"yml",
+		"phpBB 3.3"
+	],
+	"license": "GPL-2.0-only",
+	"authors": [
+		{
+			"name": "David Wood",
+			"role": "Extension Developer"
+		}
+    ],
+	"require": {
+        "php": ">=5.4.0",
+        "composer/installers": "~1.0"
+    },
+	"extra": {
+		"display-name": "Extensions Check",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.2.0,<4.0.0@dev"
+		},
+		"version-check": {
+        	"host": "version.phpbbdev.space",
+        	"directory": "/versions",
+        	"filename": "extservicescheck_version_file.json",
+			"ssl": true
+    	}
+	}
+}

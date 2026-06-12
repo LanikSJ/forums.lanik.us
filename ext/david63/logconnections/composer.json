@@ -1,0 +1,35 @@
+{
+	"name": "david63/logconnections",
+	"type": "phpbb-extension",
+	"description": "This extension will log user connections, failed logins and new users.",
+	"version": "2.1.0-RC9",
+	"time": "2021-02-17",
+		"keywords": [
+		"phpbb",
+		"extension",
+		"log",
+		"connection",
+		"user"
+	],
+	"license": "GPL-2.0-only",
+	"authors": [{
+			"name": "David Wood",
+			"role": "Developer"
+		}],
+	"require": {
+        "php": ">=5.3.3",
+        "composer/installers": "~1.0"
+    },
+	"extra": {
+		"display-name": "Log User Connections",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+      },
+		"version-check": {
+        	"host": "version.phpbbdev.space",
+        	"directory": "/versions",
+        	"filename": "log_connections_version_file.json",
+			"ssl": false
+    	}
+	}
+}

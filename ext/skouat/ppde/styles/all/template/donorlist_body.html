@@ -1,0 +1,54 @@
+{% INCLUDE 'overall_header.html' %}
+<h2 class="solo">{{ lang('PPDE_DONORLIST_TITLE') }}</h2>
+
+<div class="action-bar top">
+	<div class="pagination">
+		{% if loops.donorrow|length %}{{ TOTAL_DONORS }}{% endif %}
+		{% if loops.pagination|length %}
+		{% INCLUDE 'pagination.html' %}
+		{% else %}
+		{% if loops.donorrow|length %}&bull; {% endif %}{{ PAGE_NUMBER }}
+		{% endif %}
+	</div>
+</div>
+
+<div class="forumbg forumbg-table">
+	<div class="inner">
+		<table class="table1" cellspacing="1" id="donorlist">
+			<thead>
+			<tr>
+				<th class="name"><a href="{{ U_SORT_USERNAME }}">{{ lang('USERNAME') }}</a></th>
+				<th class="joined"><a href="{{ U_SORT_AMOUNT }}">{{ lang('PPDE_DONORLIST_TOTAL_DONATION') }}</a></th>
+				<th class="joined">{{ lang('PPDE_DONORLIST_LAST_DONATION') }}</th>
+				<th class="active"><a href="{{ U_SORT_DONATED }}">{{ lang('PPDE_DONORLIST_LAST_DATE') }}</a></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for donorrow in loops.donorrow %}
+			<tr class="{% if donorrow.S_ROW_COUNT is even %}bg1{% else %}bg2{% endif %}">
+				<td>{{ donorrow.PPDE_DONOR_USERNAME }}</td>
+				<td>{{ donorrow.PPDE_TOTAL_DONATED_AMOUNT }}</td>
+				<td>{{ donorrow.PPDE_LAST_DONATED_AMOUNT }}</td>
+				<td>{{ donorrow.PPDE_LAST_PAYMENT_DATE }}</td>
+			</tr>
+			{% else %}
+			<tr class="bg1">
+				<td colspan="5">{{ lang('PPDE_NO_DONORS') }}</td>
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="action-bar bottom">
+	<div class="pagination">
+		{% if loops.donorrow|length %}{{ TOTAL_DONORS }}{% endif %}
+		{% if loops.pagination|length %}
+		{% INCLUDE 'pagination.html' %}
+		{% else %}
+		{% if loops.donorrow|length %}&bull; {% endif %}{{ PAGE_NUMBER }}
+		{% endif %}
+	</div>
+</div>
+{% INCLUDE 'overall_footer.html' %}

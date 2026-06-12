@@ -1,0 +1,21 @@
+imports:
+    - { resource: actions.yml }
+    - { resource: controllers.yml }
+    - { resource: entities.yml }
+    - { resource: notifications.yml }
+    - { resource: operators.yml }
+    - { resource: tables.yml }
+
+services:
+    skouat.ppde.listener:
+        class: skouat\ppde\event\listener
+        arguments:
+            - '@config'
+            - '@controller.helper'
+            - '@language'
+            - '@skouat.ppde.controller'
+            - '@skouat.ppde.controller.main.displaystats'
+            - '@template'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }

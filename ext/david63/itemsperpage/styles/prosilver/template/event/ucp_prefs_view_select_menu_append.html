@@ -1,0 +1,13 @@
+{% if not S_ITEMS_OVERRIDE %}
+	<hr>
+
+	<dl>
+		<dt><label for="topics_per_page">{{ lang('TOPICS_PER_PAGE') }}{{ lang('COLON') }}</label><br><span>{{ lang('ITEMS_RANGE') }}</span></dt>
+		<dd><input type="number" name="topics_per_page" id="topics_per_page" size="2" min="0" max="99" value="{S_TOPICS_PER_PAGE}" /></dd>
+	</dl>
+
+	<dl>
+		<dt><label for="posts_per_page">{{ lang('POSTS_PER_PAGE') }}{{ lang('COLON') }}</label><br><span>{{ lang('ITEMS_RANGE') }}</span></dt>
+		<dd><input type="number" name="posts_per_page" id="posts_per_page" size="2" min="0" max="99" value="{S_POSTS_PER_PAGE}" /></dd>
+	</dl>
+{% endif %}

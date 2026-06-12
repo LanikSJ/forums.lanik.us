@@ -1,0 +1,66 @@
+services:
+    # Helper --------------------------------------
+    gn36.versionchecknotifier.helper.version_checker:
+        class: gn36\versionchecknotifier\helper\version_checker
+        arguments:
+            - '@ext.manager'
+            - '@service_container'
+            - '@template'
+            - '@config'
+    # Controller ----------------------------------
+    gn36.versionchecknotifier.controller.redirector:
+        class: gn36\versionchecknotifier\controller\redirector
+        arguments:
+            - '@user'
+            - '@notification_manager'
+    
+    # Events --------------------------------------
+    gn36.versionchecknotifier.events.global_events:
+        class: gn36\versionchecknotifier\event\global_events
+        arguments:
+            - '@user'
+            - '@notification_manager'
+            - '@config'
+        tags:
+            - { name: event.listener }
+    # Cron --------------------------------------
+    gn36.versionchecknotifier.cron.versionchecknotifier:
+        class: gn36\versionchecknotifier\cron\versionchecknotifier
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@log'
+            - '@notification_manager'
+            - '@gn36.versionchecknotifier.helper.version_checker'
+        calls:
+            - [set_name, [gn36.versionchecknotifier.cron.versionchecknotifier]]
+        tags:
+            - { name: cron.task }
+    # Notifications --------------------------------------
+    gn36.versionchecknotifier.notification.type.ext_update:
+        class: gn36\versionchecknotifier\notification\ext_update
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '@language'
+            - '@user'
+            - '@auth'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%tables.user_notifications%'
+        tags:
+            - { name: notification.type }
+    gn36.versionchecknotifier.notification.type.phpbb_update:
+        class: gn36\versionchecknotifier\notification\phpbb_update
+        shared: false
+        arguments:
+            - '@dbal.conn'
+            - '@language'
+            - '@user'
+            - '@auth'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+            - '%tables.user_notifications%'
+        tags:
+            - { name: notification.type }

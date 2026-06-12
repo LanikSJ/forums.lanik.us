@@ -1,0 +1,59 @@
+<!-- IF not S_IS_AJAX -->
+<!-- INCLUDE overall_header.html -->
+<!-- ENDIF -->
+
+<h3>{L_RS_POST_REPUTATION}<!-- IF !S_IS_AJAX --> <a href="{POST_URL}">"{POST_SUBJECT}"</a><!-- ENDIF --></h3>
+
+<!-- IF !S_IS_AJAX --><p class="author">{L_RS_POST_BY} {POST_AUTHOR}</p><!-- ENDIF -->
+
+<div class="post-reputation-list">
+<!-- IF .reputation -->
+	<!-- BEGIN reputation -->
+	<div class="reputation-list-item <!-- IF reputation.POINTS > 0 -->rs-bg-positive<!-- ELSE -->rs-bg-negative<!-- ENDIF -->" id="rs-list-item-{reputation.ID}">
+		<!-- IF S_RS_AVATAR -->
+			<div class="reputation-avatar">
+				<!-- IF reputation.AVATAR -->
+					{reputation.AVATAR}
+				<!-- ELSE -->
+					<img src="{T_THEME_PATH}/images/no_avatar.gif" alt="" />
+				<!-- ENDIF -->
+			</div>
+		<!-- ENDIF -->
+		<div class="reputation-detail">
+			<div class="reputation-rating {reputation.POINTS_CLASS}<!-- IF S_RS_POINTS_IMG --> image<!-- ENDIF -->" title="{reputation.POINTS_TITLE}">{reputation.POINTS}</div>
+			<!-- IF reputation.S_DELETE -->
+				<a href="{reputation.U_DELETE}" class="reputation-delete rightside" title="{L_DELETE}">
+					<i class="icon fa-trash-o fa-fw" aria-hidden="true"></i>
+				</a>
+			<!-- ENDIF -->
+			<div><strong>{reputation.USERNAME}</strong> <span class="reputation-time"> | {reputation.TIME}</span></div>
+			<!-- IF S_RS_COMMENT and reputation.S_COMMENT -->
+			<div class="comment_message">
+				{reputation.COMMENT}
+			</div>
+			<!-- ENDIF -->
+		</div>
+	</div>
+	<!-- END reputation -->
+<!-- ELSE -->
+	<div class="reputation-list-item bg1">
+		<span>{L_RS_EMPTY_DATA}</span>
+	</div>
+<!-- ENDIF -->
+</div>
+
+<!-- IF .reputation -->
+<div class="footer-popup rs-sorting-{SORT_DIR}">
+	<label>{L_RS_SORT_BY}{L_COLON}</label>
+	<a href="{U_SORT_USERNAME}" class="sort_order {{ SORT_KEY == 'username' ? 'rs-sorting-link-active' : '' }}">{L_RS_FROM_USER}</a>&nbsp;
+	<a href="{U_SORT_TIME}" class="sort_order {{ SORT_KEY == 'time' ? 'rs-sorting-link-active' : '' }}">{L_TIME}</a>
+	{% if U_SORT_POINT %} &nbsp;<a href="{U_SORT_POINT}" class="sort_order {{ SORT_KEY == 'point' ? 'rs-sorting-link-active' : '' }}">{L_RS_POINTS}</a>{% endif %}
+	<!-- IF S_CLEAR and not S_IS_AJAX --><a href="{U_CLEAR}" class="reputation-clear" data-mode="clear_post" data-lang-confirm="{L_RS_CLEAR_POST_CONFIRM}">{L_RS_CLEAR_POST}</a><!-- ENDIF -->
+	<!-- IF S_IS_AJAX --><a href="#" class="rs-popup-close" onclick="phpbb.alert.close($('#reputation-popup'), true); return false;">{L_RS_CLOSE}</a><!-- ENDIF -->
+</div>
+<!-- ENDIF -->
+
+<!-- IF not S_IS_AJAX -->
+<br />
+<!-- INCLUDE overall_footer.html -->
+<!-- ENDIF -->

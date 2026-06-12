@@ -1,0 +1,11 @@
+Subject: تم رفض المشاركة - "{POST_SUBJECT}"
+
+مرحبًا {USERNAME}،
+
+مشاركتك "{POST_SUBJECT}" في "{SITENAME}" رُفضت من قبل مشرف أو مدير.
+
+لقد تم إعطاء السبب التالي للرفض:
+
+{REASON}
+
+{EMAIL_SIG}

@@ -1,0 +1,46 @@
+ul.flags {
+    width:100%;
+    text-align:center;
+	list-style-type: none;
+	padding-bottom: 6px;
+}
+
+ul.flags li {
+    display: inline-block;
+    font-size: inherit;
+    line-height: inherit;
+	padding-bottom: 2px;
+	width: 95px;
+}
+
+ul.flags li.flagslist {
+    text-align:center;
+	margin: 7px 2px 0;
+}
+
+.flagusers {
+    font-size: 1.2em;
+    line-height: 2.2em;
+    padding: 4px 0;
+}
+
+.memberlist_flags {
+	margin-top: -6px;
+}
+
+.flag_image {
+	font-size: 12px;
+	/*height: 32px;*/
+	vertical-align: bottom;
+}
+
+.avatarflag {
+	margin-left: 8px;
+}
+
+ul.topiclist dt.flag_inner {
+	font-size: 1.2em;
+	line-height: 2.2em;
+	padding: 4px 5px 4px 0;
+	margin-left: 5px;
+}

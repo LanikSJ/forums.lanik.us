@@ -1,0 +1,24 @@
+Subject: Notification de nouveau don - {{ SITENAME }}
+
+Bonjour {{ USERNAME }},
+
+Un don PayPal a été effectué pour votre forum.
+
+----------------------------
+ID de transaction : {{ TXN_ID }}
+
+Donateur : {{ PAYER_USERNAME }} ({{ PAYER_EMAIL }})
+
+Montant donné : {{ MC_GROSS }}
+Montant reçu : {{ NET_AMOUNT }}
+
+----------------------------
+
+Consultez le journal des transactions pour connaître le détail de cette transaction.
+
+-----
+
+Si vous ne souhaitez plus être notifié des dons reçus, cliquez sur le lien suivant :
+{{ U_NOTIFICATION_SETTINGS }}
+
+{{ EMAIL_SIG }}

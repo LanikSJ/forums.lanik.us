@@ -1,0 +1,30 @@
+{
+    "name": "danieltj/verifiedprofiles",
+    "type": "phpbb-extension",
+    "description": "Add a verification badge to user profiles on your forum.",
+    "version": "2.2.2",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Daniel James",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "~1.0.0",
+        "phpbb/phpbb": ">=3.3.0"
+    },
+    "extra": {
+        "display-name": "Verified Profiles",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.15"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/verified_profiles",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

@@ -1,0 +1,23 @@
+{% INCLUDE 'overall_header.html' %}
+<div class="forabg">
+	<div class="inner" id="flagusers">
+		<ul class="topiclist">
+			<li class="header">
+				<dl class="row-item">
+					<dt>
+							{{ lang('FLAGS') }}
+					</dt>
+					<dd></dd>
+				</dl>
+			</li>
+		</ul>
+		<ul class="forums flags">
+		{% for flag in loops.flag %}
+			<li class="flagslist">
+				<a href="{{ flag.U_FLAG }}">{{ flag.FLAG }}</a><br>{{ flag.FLAG_USER_COUNT }}
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+{% INCLUDE 'overall_footer.html' %}

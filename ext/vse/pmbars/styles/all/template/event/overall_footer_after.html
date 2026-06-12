@@ -1,0 +1,41 @@
+{% if FOLDER_PERCENT %}
+<script>
+(function() {
+	'use strict';
+
+	const settings = {
+		folder: 'pmbars:{{ CUR_FOLDER_ID|escape('js') }}',
+		percent: Number('{{ FOLDER_PERCENT|escape('js') }}')
+	};
+
+	const viewFolder = document.getElementById('viewfolder');
+	if (!viewFolder) return;
+
+	const firstParagraph = viewFolder.querySelector('p');
+	if (!firstParagraph) return;
+
+	const outerDiv = document.createElement('div');
+	const innerDiv = document.createElement('div');
+
+	innerDiv.style.width = settings.percent + '%';
+
+	outerDiv.className = 'pmbars-outer';
+	innerDiv.className = 'pmbars-inner{% if FOLDER_PERCENT > 80 %} pmbars-danger{% endif %}';
+
+	// Check if animation should be skipped
+	try {
+		const cachedPercent = parseFloat(sessionStorage.getItem(settings.folder));
+		if (cachedPercent === settings.percent) {
+			innerDiv.classList.add('pmbars-no-animate');
+		} else {
+			sessionStorage.setItem(settings.folder, String(settings.percent));
+		}
+	} catch (e) {
+		// SessionStorage failed, animation will play normally
+	}
+
+	outerDiv.appendChild(innerDiv);
+	firstParagraph.insertAdjacentElement('afterend', outerDiv);
+})();
+</script>
+{% endif %}

@@ -1,0 +1,38 @@
+{
+    "name": "pcgf/autodrafts",
+    "type": "phpbb-extension",
+    "description": "An extension that allows the user to save and load drafts. Also drafts will be created automatically, per default, every 20 seconds. The extension works offline all the way, so no communication with the server is needed. You can adjust a couple of settings in the ACP (default settings) and the UCP (user settings).",
+    "homepage": "https://github.com/MarkusWME/phpBB---Auto-Drafts",
+    "version": "1.1.3",
+    "time": "2017-04-27",
+    "keywords": [
+        "draft",
+        "drafts",
+        "quick draft",
+        "auto draft"
+    ],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "MarkusWME",
+            "homepage": "https://github.com/MarkusWME",
+            "email": "markuswme@pcgamingfreaks.at",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phpbb/phpbb": ">=3.1"
+    },
+    "extra": {
+        "display-name": "Auto Drafts",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.1"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/auto_drafts",
+            "filename": "version_check"
+        }
+    }
+}

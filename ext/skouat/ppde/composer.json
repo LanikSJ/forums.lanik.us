@@ -1,0 +1,67 @@
+{
+    "name": "skouat/ppde",
+    "type": "phpbb-extension",
+    "description": "An extension which adds a PayPal donation page to your phpBB board",
+    "homepage": "https://skouat.github.io/ext_paypal_donation",
+    "version": "3.0.4",
+    "keywords": [
+        "phpbb",
+        "extension",
+        "skouat",
+        "ppde",
+        "paypal",
+        "donation"
+    ],
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Skouat",
+            "homepage": "https://skouat.github.io/ext_paypal_donation",
+            "role": "Developer"
+        },
+        {
+            "name": "cabot",
+            "homepage": "https://cabotweb.fr",
+            "role": "SushiMaker"
+        },
+        {
+            "name": "Mazeltof",
+            "homepage": "https://www.mazeland.fr/",
+            "role": "Sorcerer's Apprentice"
+        },
+        {
+            "name": "kasimi",
+            "homepage": "https://kasimi.net",
+            "role": "Contributor"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3",
+        "ext-curl": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "composer/installers": "~1.0.0",
+        "phpbb/phpbb": ">=3.3.0@dev,<3.4.0@dev"
+    },
+    "extra": {
+        "display-name": "PayPal Donation Extension",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0@dev,<3.4.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/paypal_donation_extension",
+            "filename": "version_check",
+            "ssl": true
+        },
+        "security-check": {
+            "tls": {
+                "tls-host": "https://www.howsmyssl.com/a/check",
+                "tls-version": [
+                    "TLS 1.2",
+                    "TLS 1.3"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,137 @@
+/**
+* Breadcrumb Menu - Theme
+*/
+
+#breadcrumb-menu .dropdown {
+	position: absolute;
+	font-size: 1.1em;
+}
+
+#breadcrumb-menu .hidden {
+	display: none;
+}
+
+#breadcrumb-menu .dropdown-contents {
+	max-height: inherit;
+	max-width: 250px !important;
+	min-width: 130px;
+	overflow: visible;
+}
+
+#breadcrumb-menu .dropdown-up {
+	padding: 0 0 9px;
+}
+
+#breadcrumb-menu .dropdown-left .pointer {
+	left: auto;
+	right: 10px;
+}
+
+#breadcrumb-menu li {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+#breadcrumb-menu li:first-child {
+	border-top: none;
+	margin: 0;
+}
+
+#breadcrumb-menu a {
+	display: block;
+	font-weight: normal;
+	padding: 5px 12px 5px 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#breadcrumb-menu .dropdown-left a {
+	padding-left: 10px;
+	padding-right: 4px;
+}
+
+#breadcrumb-menu .children > a:before {
+	content: '\203A';
+	direction: ltr;
+	font-weight: bold;
+	position: absolute;
+	right: 2px;
+	text-decoration: none !important;
+}
+
+#breadcrumb-menu .dropdown-left .children > a:before {
+	content: '\2039';
+	left: 1px;
+	right: auto;
+}
+
+#breadcrumb-menu a:hover,
+#breadcrumb-menu .ui-state-active,
+#breadcrumb-menu .current > a {
+	background: rgba(100,100,100,0.05);
+}
+
+#breadcrumb-menu .children .dropdown-contents {
+	position: absolute;
+}
+
+#breadcrumb-menu .touch-trigger {
+	display: none;
+	position: absolute;
+	height: auto;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+
+#breadcrumb-menu .touch-trigger:before {
+	content: '\00BB';
+	direction: ltr;
+	display: inline-block;
+	font-size: 18px;
+	font-weight: normal;
+	line-height: 1;
+	vertical-align: baseline;
+}
+
+#breadcrumb-menu .dropdown-left .touch-trigger {
+	left: 0;
+	right: auto;
+}
+
+#breadcrumb-menu .dropdown-left .touch-trigger:before {
+	content: '\00AB';
+}
+
+#breadcrumb-menu.touch-enabled a {
+	padding-right: 30px;
+	padding-bottom: 7px;
+	padding-top: 7px;
+}
+
+#breadcrumb-menu.touch-enabled .children > a:before {
+	display: none;
+}
+
+#breadcrumb-menu.touch-enabled .dropdown-left a {
+	padding-left: 30px;
+	padding-right: 4px;
+}
+#breadcrumb-menu.touch-enabled .touch-trigger {
+	display: block;
+}
+
+/* responsive design */
+@media only screen and (max-width: 550px), only screen and (max-device-width: 550px) {
+	#breadcrumb-menu .dropdown-contents {
+		min-width: inherit;
+	}
+}
+
+@media only screen and (max-width: 360px), only screen and (max-device-width: 360px) {
+	#breadcrumb-menu .dropdown-contents {
+		max-width: 220px !important;
+	}
+}

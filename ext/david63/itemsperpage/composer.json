@@ -1,0 +1,29 @@
+{
+	"name": "david63/itemsperpage",
+	"type": "phpbb-extension",
+	"description": "Adds options for user to set the number of posts and/or topics per page.",
+	"version": "1.2.0",
+	"time": "2019-05-12",
+		"keywords": ["phpbb", "extension", "items", "page", "topics"],
+	"license": "GPL-2.0-only",
+	"authors": [{
+			"name": "David Wood",
+			"role": "Developer"
+		}],
+	"require": {
+        "php": ">=5.4,<7.1",
+		"phpbb/phpbb": ">=3.1.2",
+        "composer/installers": "~1.0"
+    },
+	"extra": {
+		"display-name": "User topics & posts per page",
+		"soft-require": {
+			"phpbb/phpbb": ">=3.1.2"
+      },
+		"version-check": {
+			"host": "www.phpbb.com",
+			"directory": "/customise/db/extension/items_per_page",
+			"filename": "version_check"
+		}
+	}
+}

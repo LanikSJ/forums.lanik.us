@@ -1,0 +1,22 @@
+services:
+    luoning.humanfriendlyurls.listener:
+        class: luoning\humanfriendlyurls\event\main_listener
+        arguments:
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@luoning.humanfriendlyurls.core.unicode_links'
+        tags:
+            - { name: event.listener }
+    luoning.humanfriendlyurls.controller.acp:
+        class: luoning\humanfriendlyurls\controller\acp_controller
+        arguments:
+            - '@config'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+    luoning.humanfriendlyurls.core.unicode_links:
+        class: luoning\humanfriendlyurls\core\unicode_links

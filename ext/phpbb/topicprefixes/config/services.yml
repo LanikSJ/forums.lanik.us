@@ -1,0 +1,43 @@
+imports:
+    - { resource: tables.yml }
+
+services:
+    phpbb.topicprefixes.listener:
+        class: phpbb\topicprefixes\event\listener
+        arguments:
+            - '@phpbb.topicprefixes.manager'
+            - '@request'
+            - '@language'
+        tags:
+            - { name: event.listener }
+
+    phpbb.topicprefixes.admin_controller:
+        class: phpbb\topicprefixes\controller\admin_controller
+        arguments:
+            - '@phpbb.topicprefixes.manager'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    phpbb.topicprefixes.manager:
+        class: phpbb\topicprefixes\prefixes\manager
+        arguments:
+            - '@phpbb.topicprefixes.nestedset_prefixes'
+
+    phpbb.topicprefixes.nestedset_prefixes:
+        class: phpbb\topicprefixes\prefixes\nestedset_prefixes
+        arguments:
+            - '@dbal.conn'
+            - '@phpbb.topicprefixes.table_lock'
+            - '%phpbb.topicprefixes.tables.topic_prefixes%'
+
+    phpbb.topicprefixes.table_lock:
+        class: phpbb\lock\db
+        arguments:
+            - topicprefixes.table_lock.topic_prefixes_table
+            - '@config'
+            - '@dbal.conn'

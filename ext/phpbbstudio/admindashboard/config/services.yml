@@ -1,0 +1,51 @@
+parameters:
+    phpbbstudio.admindashboard.params:
+        sizes:
+            - 'small'
+            - 'medium'
+            - 'large'
+        corners:
+            - 'full'
+            - 'squared'
+            - 'rounded'
+        colours:
+            - 'phpbb'
+            - 'blue-light'
+            - 'dark-blue'
+            - 'purple-indigo'
+            - 'purple-dark'
+            - 'purple-orange'
+            - 'pink-orange'
+            - 'orange-light'
+            - 'pink-light'
+            - 'green-cyan'
+            - 'red'
+            - 'purple'
+            - 'violet'
+            - 'indigo'
+            - 'cyan'
+            - 'teal'
+            - 'blue'
+            - 'orange'
+            - 'white'
+            - 'black'
+
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $table_prefix: '%core.table_prefix%'
+            $admin_path: '%core.adm_relative_path%'
+            $root_path: '%core.root_path%'
+            $php_ext: '%core.php_ext%'
+            $params: '%phpbbstudio.admindashboard.params%'
+
+    phpbbstudio.admindashboard.controller:
+        class: phpbbstudio\admindashboard\controller\admin
+
+    phpbbstudio.admindashboard.listener:
+        class: phpbbstudio\admindashboard\event\listener
+        tags: [{ name: event.listener }]
+
+    phpbbstudio.admindashboard.kasimi:
+        class: phpbbstudio\admindashboard\kasimi

@@ -1,0 +1,33 @@
+{
+    "name": "lukewcs/forcereactivation",
+    "type": "phpbb-extension",
+    "description": "Allows you to force an automatic user account reactivation if it has been too long since the user last logged in.",
+    "homepage": "https://github.com/LukeWCS",
+    "version": "1.1.5",
+    "time": "2026-04-20",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "LukeWCS",
+            "homepage": "https://github.com/LukeWCS",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0,<8.6.0@dev",
+        "composer/installers": "~1.0.0"
+    },
+    "extra": {
+        "display-name": "Force Account Reactivation",
+        "lang-min-ver": "1.1.5",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0,<3.4.0@dev"
+        },
+        "version-check": {
+            "host": "lukewcs.github.io",
+            "directory": "/force-account-reactivation",
+            "filename": "version_check.json",
+            "ssl": true
+        }
+    }
+}

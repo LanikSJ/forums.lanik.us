@@ -1,0 +1,35 @@
+{
+    "name": "anavaro/autoban",
+    "type": "phpbb-extension",
+    "description": "Adds abbilty to ban users on particular count of board warnings",
+    "homepage": "https://github.com/satanasov/autoban",
+    "version": "1.0.1-1",
+    "time": "2017-01-28",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Stanislav Atanasov",
+            "email": "lucifer@anavaro.com",
+            "homepage": "http://anavaro.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "phpbb/phpbb": ">=3.2.0-RC2"
+    },
+    "require-dev": {
+        "phpbb/epv": "dev-master"
+    },
+    "extra": {
+        "display-name": "phpBB 3.2 Auto Ban",
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/auto_ban",
+            "filename": "version_check"
+        },
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0-RC2"
+        }
+    }
+}

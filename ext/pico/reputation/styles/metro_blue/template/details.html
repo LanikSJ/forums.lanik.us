@@ -1,0 +1,197 @@
+<!-- INCLUDE overall_header.html -->
+
+{#
+<a class="right-box arrow-right" style="font-size: 11px" href="{{ RS_AUC ? RS_URL_USER_REP : RS_URL_USER_REP_AUC }}">
+	{{ lang(RS_AUC ? 'RS_USER_REPUTATION' : 'RS_USER_REPUTATION_AUC') }}
+	<i class="icon fa-angle-right fa-fw icon-black" aria-hidden="true"></i>
+</a>
+#}
+
+<h2>{RS_USER_REPUTATION_TITLE} {USERNAME_FULL}</h2>
+
+<div class="user-reputation-profile">
+
+	<div class="panel bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<h3>{USERNAME_FULL}</h3>
+
+		<dl class="left-box rs-avatar">
+			<dt><!-- IF AVATAR_IMG -->{AVATAR_IMG}<!-- ELSE --><img src="{T_THEME_PATH}/images/no_avatar.gif" alt="" /><!-- ENDIF --></dt>
+			<!-- IF RANK_TITLE --><dd style="text-align: center;">{RANK_TITLE}</dd><!-- ENDIF -->
+			<!-- IF RANK_IMG --><dd style="text-align: center;">{RANK_IMG}</dd><!-- ENDIF -->
+		</dl>
+
+		<dl class="left-box details">
+			<dt style="width: 50%; line-height: 1.5em">{L_REPUTATION}{L_COLON}</dt>
+				<dd style="width: 45%;"><span class="reputation {REPUTATION_CLASS}">{REPUTATION}</span></dd>
+
+			<!-- IF REPUTATION_AUC_SELLER !== null -->
+			<dt style="width: 50%;">{L_RS_REPUTATION_AUC_SELLER}{L_COLON}</dt>
+				<dd style="width: 45%;">{REPUTATION_AUC_SELLER}</dd>
+			<!-- ENDIF -->
+
+			<!-- IF REPUTATION_AUC_BUYER !== null -->
+			<dt style="width: 50%;">{L_RS_REPUTATION_AUC_BUYER}{L_COLON}</dt>
+				<dd style="width: 45%;">{REPUTATION_AUC_BUYER}</dd>
+			<!-- ENDIF -->
+
+			<!-- IF S_RS_POST_RATING && S_RS_USER_RATING -->
+			<dt style="width: 50%;">{L_RS_POST_COUNT}{L_COLON}</dt>
+				<dd style="width: 45%;">{POST_COUNT}</dd>
+
+			<dt style="width: 50%;">{L_RS_USER_COUNT}{L_COLON}</dt>
+				<dd style="width: 45%;">{USER_COUNT}</dd>
+			<!-- ENDIF -->
+
+			<dt style="width: 50%;">{{ lang(S_RS_NEGATIVE ? 'RS_POSITIVE_COUNT' : 'RS_COUNT') }}{L_COLON}</dt>
+				<dd style="width: 45%;">{POSITIVE_COUNT} {% if IS_MULTIPOINT_MODE %} ({L_RS_POINTS_SUM}: {POSITIVE_SUM}) {% endif %}</dd>
+
+			{% if S_RS_NEGATIVE %}
+			<dt style="width: 50%;">{L_RS_NEGATIVE_COUNT}{L_COLON}</dt>
+				<dd style="width: 45%;">{NEGATIVE_COUNT} {% if IS_MULTIPOINT_MODE %} ({L_RS_POINTS_SUM}: {NEGATIVE_SUM}) {% endif %}</dd>
+			{% endif %}
+
+			<!-- IF S_RS_POWER_ENABLE -->
+			<dt style="width: 50%;">{L_RS_POWER}{L_COLON}</dt>
+				<dd style="width: 45%;">
+					<!-- IF RS_POWER_LEFT -->{RS_POWER_LEFT}<!-- ELSE -->{RS_POWER}<!-- ENDIF -->
+					<!-- IF U_EXPLAIN_POWER --><a href="{U_EXPLAIN_POWER}" class="rs-explain-vote-points"><i class="icon fa-question-circle fa-fw" aria-hidden="true"></i></a><!-- ENDIF -->
+				</dd>
+			<!-- ENDIF -->
+
+			<!-- IF S_CLEAR -->
+			<dt style="width: 50%;"><a href="{U_CLEAR}" class="reputation-clear">{L_RS_CLEAR_USER}</a></dt>
+				<dd style="width: 45%;">&nbsp;</dd>
+			<!-- ENDIF -->
+		</dl>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<div class="panel bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+			<h3>{L_RS_STATS}</h3>
+
+			<table style="font-size: 1.1em; width: 100%; line-height: 1.6; margin-bottom: 5px">
+				<tr>
+					<td>{L_RS_WEEK}</td>
+					<td align="center">{POSITIVE_WEEK}</td>
+					<!-- IF S_RS_NEGATIVE --><td align="center">{NEGATIVE_WEEK}</td><!-- ENDIF -->
+				</tr>
+				<tr>
+					<td>{L_RS_MONTH}</td>
+					<td align="center">{POSITIVE_MONTH}</td>
+					<!-- IF S_RS_NEGATIVE --><td align="center">{NEGATIVE_MONTH}</td><!-- ENDIF -->
+				</tr>
+				<tr>
+					<td>{L_RS_6MONTHS}</td>
+					<td align="center">{POSITIVE_6MONTHS}</td>
+					<!-- IF S_RS_NEGATIVE --><td align="center">{NEGATIVE_6MONTHS}</td><!-- ENDIF -->
+				</tr>
+			</table>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+</div>
+
+<div class="user-reputation-list">
+
+	<!-- IF .reputation -->
+	<div class="action-bar bar-top">
+		<div class="rs-sorting rs-sorting-{SORT_DIR}">
+			<label>{L_RS_SORT_BY}{L_COLON}</label>
+			<a href="{U_SORT_USERNAME}" {{ SORT_KEY == 'username' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_FROM_USER}</a>&nbsp;
+			<a href="{U_SORT_TIME}" {{ SORT_KEY == 'time' ? 'class="rs-sorting-link-active"' : '' }}>{L_TIME}</a>&nbsp;
+			{% if U_SORT_POINT %}<a href="{U_SORT_POINT}" {{ SORT_KEY == 'point' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_POINTS}</a>&nbsp;{% endif %}
+			<a href="{U_SORT_ACTION}" {{ SORT_KEY == 'action' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_ACTION}</a>
+		</div>
+
+		<!-- IF 1 -->
+		<div class="pagination">
+			{TOTAL_REPS}
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				&bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+
+		<div class="clear"></div>
+	</div>
+	<!-- ENDIF -->
+
+	<div class="post-reputation-list" style="font-size: 1.1em">
+		<!-- IF .reputation -->
+		<!-- BEGIN reputation -->
+		<div class="reputation-list-item <!-- IF reputation.POINTS > 0 -->rs-bg-positive<!-- ELSE -->rs-bg-negative<!-- ENDIF -->" id="rs-list-item-{reputation.ID}">
+			<!-- IF S_RS_AVATAR -->
+			<div class="reputation-avatar">
+				<!-- IF reputation.AVATAR -->
+					{reputation.AVATAR}
+				<!-- ELSE -->
+					<img src="{T_THEME_PATH}/images/no_avatar.gif" alt="" />
+				<!-- ENDIF -->
+			</div>
+			<!-- ENDIF -->
+			<div class="reputation-detail">
+				<div class="reputation-rating {reputation.POINTS_CLASS}<!-- IF S_RS_POINTS_IMG --> image<!-- ENDIF -->" title="{reputation.POINTS_TITLE}">{reputation.POINTS}</div>
+				<!-- IF reputation.S_DELETE -->
+					<a href="{reputation.U_DELETE}" class="reputation-delete rightside" title="{L_DELETE}">
+						<i class="icon fa-trash-o fa-fw" aria-hidden="true"></i>
+					</a>
+				<!-- ENDIF -->
+				<div><strong>{reputation.USERNAME}</strong> <span class="reputation-time"> | {reputation.TIME}</span></div>
+				<div class="reputation-action">
+					<span class="type-title">{reputation.ACTION}{{ reputation.post|length ? ':' : '' }}</span>
+					<!-- BEGIN reputation.post -->
+						<!-- IF reputation.post.U_POST --><a href="{reputation.post.U_POST}" title="{L_POST}">{reputation.post.POST_SUBJECT}</a><!-- ELSE -->{reputation.post.POST_SUBJECT}<!-- ENDIF -->
+					<!-- END reputation.post -->
+				</div>
+				<!-- IF S_RS_COMMENT and reputation.S_COMMENT -->
+				<div class="comment_message">
+					{reputation.COMMENT}
+				</div>
+				<!-- ENDIF -->
+			</div>
+		</div>
+		<!-- END reputation -->
+		<!-- ELSE -->
+		<div class="reputation-list-item bg1" style="text-align: center">
+			<span>{L_RS_EMPTY_DATA}</span>
+		</div>
+		<!-- ENDIF -->
+	</div>
+
+	<!-- IF .reputation -->
+	<div class="action-bar bar-bottom">
+		<div class="rs-sorting rs-sorting-{SORT_DIR}">
+			<label>{L_RS_SORT_BY}{L_COLON}</label>
+			<a href="{U_SORT_USERNAME}" {{ SORT_KEY == 'username' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_FROM_USER}</a>&nbsp;
+			<a href="{U_SORT_TIME}" {{ SORT_KEY == 'time' ? 'class="rs-sorting-link-active"' : '' }}>{L_TIME}</a>&nbsp;
+			{% if U_SORT_POINT %}<a href="{U_SORT_POINT}" {{ SORT_KEY == 'point' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_POINTS}</a>&nbsp;{% endif %}
+			<a href="{U_SORT_ACTION}" {{ SORT_KEY == 'action' ? 'class="rs-sorting-link-active"' : '' }}>{L_RS_ACTION}</a>
+		</div>
+
+		<!-- IF .pagination or TOTAL_REPS -->
+		<div class="pagination">
+			{TOTAL_REPS}
+			<!-- IF .pagination -->
+				<!-- INCLUDE pagination.html -->
+			<!-- ELSE -->
+				&bull; {PAGE_NUMBER}
+			<!-- ENDIF -->
+		</div>
+		<!-- ENDIF -->
+
+		<div class="clear"></div>
+	</div>
+	<!-- ENDIF -->
+</div>
+
+<br class="clear">
+
+<!-- INCLUDE overall_footer.html -->

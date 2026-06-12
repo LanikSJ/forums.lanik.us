@@ -1,0 +1,23 @@
+imports:
+    - { resource: alias.yml }
+
+services:
+    _defaults:
+        autowire: true
+        bind:
+            $ext_images_path: '%core.root_path%ext/david63/logconnections/adm/style/images'
+        public: true
+
+    david63.logconnections.listener:
+        class: david63\logconnections\event\listener
+        tags:
+            - { name: event.listener }
+
+    david63.logconnections.main.controller:
+        class: david63\logconnections\controller\main_controller
+
+    david63.logconnections.admin.controller:
+        class: david63\logconnections\controller\admin_controller
+
+    david63.logconnections.core.functions:
+        class: david63\logconnections\core\functions
