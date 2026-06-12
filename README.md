@@ -5,6 +5,7 @@
 - [❓ What are the EasyList Forums?](#-what-are-the-easylist-forums)
 - [🛠️ Requirements](#️-requirements)
 - [🚀 Getting Started](#-getting-started)
+  - [🐳 Running with Docker](#-running-with-docker)
 - [📁 Directory Structure](#-directory-structure)
 - [💡 Tips](#-tips)
 - [📝 License](#-license)
@@ -54,6 +55,28 @@ To run this project, you will need:
    - `files/`
    - `store/`
    - `images/avatars/upload/`
+
+### 🐳 Running with Docker
+
+Alternatively, you can run the project using Docker and Docker Compose:
+
+1. **Configure the database host:**
+
+   In your `config.php` file, ensure the database host is configured to connect to the database container:
+
+   ```php
+   $dbhost = 'db';
+   ```
+
+2. **Build and start the services:**
+
+   ```bash
+   docker compose up -d --build
+   ```
+
+3. **Access the forum:**
+
+   Open your browser and go to `http://localhost:8080`.
 
 ## 📁 Directory Structure
 

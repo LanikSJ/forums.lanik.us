@@ -1,0 +1,36 @@
+# Version Control
+.git
+.github
+.gitignore
+
+# Docker configurations
+Dockerfile
+docker-compose.yml
+nginx.conf
+.dockerignore
+
+# Build and configuration files not needed in runtime
+.markdownlint.json
+AGENTS.md
+LICENSE
+README.md
+config.php
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Local phpBB writable/cache directories (handled via volumes)
+cache/*
+!cache/.htaccess
+!cache/index.htm
+files/*
+!files/index.htm
+store/*
+!store/.htaccess
+!store/index.htm
+images/avatars/upload/*
+!images/avatars/upload/index.htm
+
+# Local package manager directories (dependencies are installed in the multi-stage build)
+vendor/

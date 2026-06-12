@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    volumes:
+      - phpbb_cache:/var/www/html/cache
+      - phpbb_files:/var/www/html/files
+      - phpbb_store:/var/www/html/store
+      - phpbb_avatars:/var/www/html/images/avatars/upload
+      - ./config.php:/var/www/html/config.php
+
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  db:
+    image: mariadb:10.6
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: lanikus_phpbb
+      MYSQL_USER: lanikus_phpbb
+      MYSQL_PASSWORD: nothing_interesting
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  phpbb_cache:
+  phpbb_files:
+  phpbb_store:
+  phpbb_avatars:
+  db_data:
