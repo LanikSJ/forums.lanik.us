@@ -1,0 +1,60 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "ci(deps)"
+      prefix-development: "ci(deps-dev)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for Composer (PHP)
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build(deps)"
+      prefix-development: "build(deps-dev)"
+    labels:
+      - "dependencies"
+      - "php"
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+        update-types: ["minor", "patch"]
+      development-dependencies:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
+      major-production-dependencies:
+        dependency-type: "production"
+        update-types: ["major"]
+      major-development-dependencies:
+        dependency-type: "development"
+        update-types: ["major"]
+
+  # Maintain dependencies for Docker
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "docker(deps)"
+    labels:
+      - "dependencies"
+      - "docker"
+    groups:
+      docker:
+        patterns:
+          - "*"
