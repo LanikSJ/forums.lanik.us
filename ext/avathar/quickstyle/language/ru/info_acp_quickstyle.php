@@ -1,0 +1,50 @@
+<?php
+/**
+ *
+ * @package Quick Style
+ * Russian translation by rxu
+ *
+ * @copyright (c) 2015 PayBas
+ * @copyright (c) 2026 Avathar
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ * Based on the original Prime Quick Style by Ken F. Innes IV (primehalo)
+ *
+ */
+
+/**
+* DO NOT CHANGE
+*/
+if (!defined('IN_PHPBB'))
+{
+	exit;
+}
+
+if (empty($lang) || !is_array($lang))
+{
+	$lang = array();
+}
+
+// DEVELOPERS PLEASE NOTE
+//
+// All language files should use UTF-8 as their encoding and the files must not contain a BOM.
+//
+// Placeholders can now contain order information, e.g. instead of
+// 'Page %s of %s' you can (and should) write 'Page %1$s of %2$s', this allows
+// translators to re-order the output of data while ensuring it remains correct
+//
+// You do not need this where single placeholders are used, e.g. 'Message %d' is fine
+// equally where a string contains only two placeholders which are used to wrap text
+// in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
+
+$lang = array_merge($lang, array(
+	'AV_QUICK_STYLE'						=> 'Быстрый стиль',
+	'AV_QUICK_STYLE_EXPLAIN'				=> 'Добавляет выпадающий список стилей в заголовок каждой страницы для быстрого переключения между стилями.',
+	'AV_QUICK_STYLE_SETTINGS'				=> 'Настройки быстрого стиля',
+	'AV_QUICK_STYLE_DEFAULT_LOC'			=> 'Использование стилей по умолчанию.',
+	'AV_QUICK_STYLE_DEFAULT_LOC_EXPLAIN'	=> 'По умолчанию, расширение ставит переключатель стилей справа от навигации в заголовке. Установка этого значения в “нет“ позволит вам включить где-то в вашем стиле.',
+	'AV_QUICK_STYLE_PERMISSION_EXPLAIN'	=> 'Доступ к переключателю стилей контролируется правом <strong>Может использовать Quick Style</strong>. Настройте его в Администрирование &raquo; Права доступа &raquo; Права пользователей или групп.',
+	'AV_QUICK_STYLE_OVERRIDE_ENABLED'		=> 'Для настройки переопределения стиля пользователя включен на этом форуме. Переключатель стилей не будет работать, пока вы не отключите его.',
+
+	'ACL_U_QUICKSTYLE'					=> 'Может использовать Quick Style',
+));

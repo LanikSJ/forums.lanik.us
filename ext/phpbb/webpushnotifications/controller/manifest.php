@@ -63,6 +63,16 @@ class manifest
 			'scope'			=> $scope,
 		];
 
+		if (!empty($this->user->style['pwa_theme_color']))
+		{
+			$manifest['theme_color'] = $this->user->style['pwa_theme_color'];
+		}
+
+		if (!empty($this->user->style['pwa_bg_color']))
+		{
+			$manifest['background_color'] = $this->user->style['pwa_bg_color'];
+		}
+
 		if (!empty($this->config['pwa_icon_small']) && !empty($this->config['pwa_icon_large']))
 		{
 			$manifest['icons'] = [
@@ -80,6 +90,7 @@ class manifest
 		}
 
 		$response = new JsonResponse($manifest);
+		$response->headers->set('Content-Type', 'application/manifest+json');
 		$response->setPublic();
 		$response->setMaxAge(3600);
 		$response->headers->addCacheControlDirective('must-revalidate', true);

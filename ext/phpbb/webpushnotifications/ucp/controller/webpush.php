@@ -36,6 +36,21 @@ class webpush
 	/** @var string UCP form token name */
 	public const FORM_TOKEN_UCP = 'ucp_webpush';
 
+	/** @var array Allowed push service endpoint hosts https://github.com/pushpad/known-push-services */
+	public const PUSH_SERVICE_WHITELIST = [
+		'android.googleapis.com',
+		'fcm.googleapis.com',
+		'updates.push.services.mozilla.com',
+		'updates-autopush.stage.mozaws.net',
+		'updates-autopush.dev.mozaws.net',
+	];
+
+	/** @var array Allowed push service endpoint host wildcard suffixes (e.g. *.notify.windows.com) https://github.com/pushpad/known-push-services */
+	public const PUSH_SERVICE_WILDCARD_SUFFIXES = [
+		'.notify.windows.com',
+		'.push.apple.com',
+	];
+
 	/** @var config */
 	protected $config;
 
@@ -207,7 +222,7 @@ class webpush
 			$user_lang = $row['user_lang'];
 
 			$expected_push_token = hash('sha256', $user_form_token . $push_token);
-			if ($expected_push_token === $token)
+			if (hash_equals($expected_push_token, $token))
 			{
 				if ($user_lang !== $this->language->get_used_language())
 				{
@@ -268,7 +283,9 @@ class webpush
 		]);
 
 		$response = new Response($content);
-		$response->headers->set('Content-Type', 'text/javascript; charset=UTF-8');
+		$response->headers->set('Content-Type', 'application/javascript; charset=UTF-8');
+		$response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate');
+		$response->headers->set('X-Robots-Tag', 'noindex, nofollow');
 
 		if (!empty($this->user->data['is_bot']))
 		{
@@ -277,6 +294,39 @@ class webpush
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Check if a push subscription endpoint belongs to an allowed push service
+	 *
+	 * @param string $endpoint The push subscription endpoint URL
+	 * @return bool True if the endpoint host matches a known/allowed push service
+	 */
+	public function is_valid_endpoint(string $endpoint): bool
+	{
+		$host = parse_url($endpoint, PHP_URL_HOST);
+
+		if (!is_string($host) || empty($host))
+		{
+			return false;
+		}
+
+		$host = strtolower($host);
+
+		if (in_array($host, self::PUSH_SERVICE_WHITELIST, true))
+		{
+			return true;
+		}
+
+		foreach (self::PUSH_SERVICE_WILDCARD_SUFFIXES as $suffix)
+		{
+			if (substr($host, -strlen($suffix)) === $suffix)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -311,20 +361,96 @@ class webpush
 		$this->check_subscribe_requests();
 
 		$data = json_sanitizer::decode($symfony_request->get('data', ''));
+		$endpoint = is_string($data['endpoint'] ?? null) ? $data['endpoint'] : '';
+		$previous_endpoint = is_string($data['previous_endpoint'] ?? null) ? $data['previous_endpoint'] : '';
 
-		$sql = 'INSERT INTO ' . $this->push_subscriptions_table . ' ' . $this->db->sql_build_array('INSERT', [
-			'user_id'			=> $this->user->id(),
-			'endpoint'			=> $data['endpoint'],
-			'expiration_time'	=> $data['expiration_time'] ?? 0,
-			'p256dh'			=> $data['keys']['p256dh'],
-			'auth'				=> $data['keys']['auth'],
-		]);
+		if (!$this->is_valid_endpoint($endpoint))
+		{
+			throw new http_exception(Response::HTTP_BAD_REQUEST, 'WEBPUSH_INVALID_ENDPOINT');
+		}
+
+		$subscription_data = $this->get_subscription_write_data($data);
+		$subscription_data['user_id'] = $this->user->id();
+		$subscription_data['endpoint'] = $endpoint;
+
+		$sql = 'UPDATE ' . $this->push_subscriptions_table . '
+			SET ' . $this->db->sql_build_array('UPDATE', [
+				'expiration_time'	=> $subscription_data['expiration_time'],
+				'p256dh'			=> $subscription_data['p256dh'],
+				'auth'				=> $subscription_data['auth'],
+			]) . "
+			WHERE user_id = " . (int) $this->user->id() . "
+				AND endpoint = '" . $this->db->sql_escape($endpoint) . "'";
 		$this->db->sql_query($sql);
+
+		if (!$this->db->sql_affectedrows())
+		{
+			$sql = 'INSERT INTO ' . $this->push_subscriptions_table . ' ' . $this->db->sql_build_array('INSERT', $subscription_data);
+			$this->db->sql_query($sql);
+		}
+
+		if ($previous_endpoint && $previous_endpoint !== $endpoint)
+		{
+			$sql = 'DELETE FROM ' . $this->push_subscriptions_table . '
+				WHERE user_id = ' . (int) $this->user->id() . "
+					AND endpoint = '" . $this->db->sql_escape($previous_endpoint) . "'";
+			$this->db->sql_query($sql);
+		}
 
 		return new JsonResponse([
 			'success'		=> true,
 			'form_tokens'	=> $this->form_helper->get_form_tokens(self::FORM_TOKEN_UCP),
 		]);
+	}
+
+	/**
+	 * Validate and normalize subscription data for database writes
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	protected function get_subscription_write_data(array $data): array
+	{
+		$keys = $data['keys'] ?? [];
+		if (!is_array($keys))
+		{
+			$keys = [];
+		}
+		$p256dh = is_string($keys['p256dh'] ?? null) ? $keys['p256dh'] : '';
+		$auth = is_string($keys['auth'] ?? null) ? $keys['auth'] : '';
+
+		if ($p256dh === '' || $auth === '')
+		{
+			throw new http_exception(Response::HTTP_BAD_REQUEST, 'AJAX_ERROR_TEXT');
+		}
+
+		return [
+			'expiration_time'	=> $this->normalize_subscription_expiration_time($data),
+			'p256dh'			=> $p256dh,
+			'auth'				=> $auth,
+		];
+	}
+
+	/**
+	 * Normalize PushSubscription expiration timestamps to seconds for storage
+	 *
+	 * @param array $data
+	 * @return int
+	 */
+	protected function normalize_subscription_expiration_time(array $data): int
+	{
+		if (isset($data['expiration_time']))
+		{
+			return max(0, (int) $data['expiration_time']);
+		}
+
+		$expiration_time = $data['expirationTime'] ?? 0;
+		if (empty($expiration_time))
+		{
+			return 0;
+		}
+
+		return max(0, (int) floor(((int) $expiration_time) / 1000));
 	}
 
 	/**
@@ -339,7 +465,7 @@ class webpush
 
 		$data = json_sanitizer::decode($symfony_request->get('data', ''));
 
-		$endpoint = $data['endpoint'];
+		$endpoint = is_string($data['endpoint'] ?? null) ? $data['endpoint'] : '';
 
 		$sql = 'DELETE FROM ' . $this->push_subscriptions_table . '
 			WHERE user_id = ' . (int) $this->user->id() . "

@@ -15,6 +15,7 @@ namespace rmcgirr83\stopforumspam\core;
 **/
 use phpbb\auth\auth;
 use phpbb\cache\service as cache;
+use phpbb\config\config;
 
 class sfsgroups
 {
@@ -24,12 +25,17 @@ class sfsgroups
 	/** @var cache $cache */
 	protected $cache;
 
+	/** @var config */
+	protected $config;
+
 	public function __construct(
 			auth $auth,
-			cache $cache)
+			cache $cache,
+			config $config)
 	{
 		$this->auth = $auth;
 		$this->cache = $cache;
+		$this->config = $config;
 	}
 
 	/*
@@ -71,7 +77,7 @@ class sfsgroups
 	*/
 	public function build_adminsmods_cache()
 	{
-		if (($this->cache->get('_sfs_adminsmods')) === false)
+		if ($this->cache->get('_sfs_adminsmods') === false && !empty($this->config['sfs_api_key']))
 		{
 			// Grab an array of user_id's with admin permissions
 			$admin_ary = $this->auth->acl_get_list(false, 'a_', false);

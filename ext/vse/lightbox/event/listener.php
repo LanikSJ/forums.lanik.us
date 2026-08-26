@@ -69,7 +69,6 @@ class listener implements EventSubscriberInterface
 	 */
 	public function set_lightbox_tpl_data()
 	{
-		$this->language->add_lang('common', 'vse/lightbox');
 		$this->template->assign_vars([
 			'LIGHTBOX_RESIZE_WIDTH'	 => (int) $this->config['lightbox_max_width'],
 			'LIGHTBOX_RESIZE_HEIGHT' => (int) $this->config['lightbox_max_height'],
@@ -102,7 +101,7 @@ class listener implements EventSubscriberInterface
 				'lightbox_max_width'	=> ['lang' => 'LIGHTBOX_MAX_WIDTH', 'validate' => 'int:0:99999', 'type' => 'number:0:99999', 'explain' => true, 'append' => ' ' . $this->language->lang('PIXEL') . '<br>' . $l_append],
 				'lightbox_max_height'	=> ['lang' => 'LIGHTBOX_MAX_HEIGHT', 'validate' => 'int:0:99999', 'type' => 'number:0:99999', 'explain' => true, 'append' => ' ' . $this->language->lang('PIXEL') . '<br>' . $l_append],
 				'lightbox_all_images'	=> ['lang' => 'LIGHTBOX_ALL_IMAGES', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
-				'lightbox_gallery'		=> ['lang' => 'LIGHTBOX_GALLERY', 'validate' => 'int', 'type' => 'select', 'function' => [$this, 'lb_select'], 'params' => [[0 => 'DISABLED', 1 => 'LIGHTBOX_GALLERY_ALL', 2 => 'LIGHTBOX_GALLERY_POSTS'], '{CONFIG_VALUE}'], 'explain' => true],
+				'lightbox_gallery'		=> ['lang' => 'LIGHTBOX_GALLERY', 'validate' => 'int:0:2', 'type' => 'select', 'function' => [$this, 'lb_select'], 'params' => [[0 => 'DISABLED', 1 => 'LIGHTBOX_GALLERY_ALL', 2 => 'LIGHTBOX_GALLERY_POSTS'], '{CONFIG_VALUE}'], 'explain' => true],
 				'lightbox_signatures'	=> ['lang' => 'LIGHTBOX_SIGNATURES', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
 				'lightbox_img_titles'	=> ['lang' => 'LIGHTBOX_IMG_TITLES', 'validate' => 'bool', 'type' => 'radio:yes_no', 'explain' => true],
 			];

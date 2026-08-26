@@ -158,7 +158,7 @@ class webpush extends base implements extended_method_interface
 			];
 			$data = self::clean_data($data);
 			$insert_buffer->insert($data);
-			$this->push_token_map[$notification->notification_type_id][$notification->item_id] = $data['push_token'];
+			$this->push_token_map[$notification->notification_type_id][$notification->item_id][$notification->user_id] = $data['push_token'];
 		}
 
 		$insert_buffer->flush();
@@ -196,8 +196,11 @@ class webpush extends base implements extended_method_interface
 
 		// Load all the users we need
 		$notify_users = array_diff($user_ids, $banned_users);
+
+		// If we have no users (e.g. all recipients are banned) empty queue and exit
 		if (empty($notify_users))
 		{
+			$this->empty_queue();
 			return;
 		}
 
@@ -239,7 +242,7 @@ class webpush extends base implements extended_method_interface
 				'type_id'	=> $notification->notification_type_id,
 				'user_id'	=> $notification->user_id,
 				'version'	=> $this->config['assets_version'],
-				'token'		=> hash('sha256', $user['user_form_salt'] . $this->push_token_map[$notification->notification_type_id][$notification->item_id]),
+				'token'		=> hash('sha256', $user['user_form_salt'] . $this->push_token_map[$notification->notification_type_id][$notification->item_id][$notification->user_id]),
 			];
 			$json_data = json_encode($data);
 
@@ -281,9 +284,11 @@ class webpush extends base implements extended_method_interface
 			{
 				if (!$report->isSuccess())
 				{
-					// Fill array of endpoints to remove if subscription has expired
-					// Library checks for 404/410; we also check for 401 (Unauthorized)
-					if ($report->isSubscriptionExpired() || $this->is_subscription_unauthorized($report))
+					// Fill array of endpoints to remove if subscription has expired or is permanently gone.
+					// Library checks for 404/410; we also check for 401/403 auth failures and endpoints
+					// using the .invalid TLD (e.g. permanently-removed.invalid), which per RFC 6761 are
+					// guaranteed to never resolve and are used as a sentinel for dead subscriptions.
+					if ($report->isSubscriptionExpired() || $this->is_subscription_unauthorized($report) || $this->is_endpoint_permanently_removed($report->getEndpoint()))
 					{
 						$expired_endpoints[] = $report->getEndpoint();
 					}
@@ -382,7 +387,7 @@ class webpush extends base implements extended_method_interface
 			{
 				$subscriptions[] = [
 					'endpoint'			=> $subscription['endpoint'],
-					'expirationTime'	=> (int) $subscription['expiration_time'],
+					'expirationTime'	=> max(0, (int) $subscription['expiration_time']) * 1000,
 				];
 			}
 		}
@@ -498,18 +503,37 @@ class webpush extends base implements extended_method_interface
 	}
 
 	/**
-	 * Check if subscription push failed with 401 Unauthorized status
+	 * Check if subscription push failed with a permanent authorization error
 	 *
-	 * 401 indicates the push service no longer accepts this subscription,
-	 * typically due to revoked credentials or subscription no longer being valid.
+	 * 401/403 indicate the push service no longer accepts this subscription,
+	 * typically due to revoked credentials, rotated VAPID keys, or the
+	 * subscription no longer being valid for the current credentials.
 	 *
 	 * @param \Minishlink\WebPush\MessageSentReport $report
 	 *
-	 * @return bool True if subscription returned 401 Unauthorized
+	 * @return bool True if subscription returned 401 Unauthorized or 403 Forbidden
 	 */
 	protected function is_subscription_unauthorized(\Minishlink\WebPush\MessageSentReport $report): bool
 	{
 		$response = $report->getResponse();
-		return $response && $response->getStatusCode() === 401;
+		return $response && in_array($response->getStatusCode(), [401, 403], true);
+	}
+
+	/**
+	 * Check if a push endpoint uses the .invalid TLD, meaning it can never resolve.
+	 *
+	 * Per RFC 6761, the .invalid TLD is reserved and guaranteed to never resolve in DNS.
+	 * It is commonly used as a sentinel value for dead/permanently-removed push subscriptions
+	 * (e.g. permanently-removed.invalid) where the push service has indicated the endpoint
+	 * is gone but no HTTP response was returned (e.g. cURL error 6: could not resolve host).
+	 *
+	 * @param string $endpoint
+	 *
+	 * @return bool True if the endpoint host ends with .invalid
+	 */
+	protected function is_endpoint_permanently_removed(string $endpoint): bool
+	{
+		$host = parse_url($endpoint, PHP_URL_HOST);
+		return is_string($host) && substr($host, -strlen('.invalid')) === '.invalid';
 	}
 }

@@ -1,0 +1,10 @@
+services:
+    stoker.agreementdelay.listener:
+        class: stoker\agreementdelay\event\main_listener
+        arguments:
+            - '@config'
+            - '@request'
+            - '@language'
+            - '@user'
+        tags:
+            - { name: event.listener }

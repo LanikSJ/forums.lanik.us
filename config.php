@@ -2,7 +2,7 @@
 // phpBB 3.2.x auto-generated configuration file
 // Do not change anything in this file!
 $dbms = 'mysqli';
-$dbhost = 'db';
+$dbhost = 'localhost';
 $dbport = '';
 $dbname = 'lanikus_phpbb';
 $dbuser = 'lanikus_phpbb';

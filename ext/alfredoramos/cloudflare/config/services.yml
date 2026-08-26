@@ -1,0 +1,63 @@
+services:
+    alfredoramos.cloudflare.listener:
+        class: alfredoramos\cloudflare\event\listener
+        arguments:
+            - '@alfredoramos.cloudflare.helper'
+        tags:
+            - { name: event.listener }
+
+    alfredoramos.cloudflare.helper:
+        class: alfredoramos\cloudflare\includes\helper
+        arguments:
+            - '@config'
+            - '@request'
+            - '@language'
+            - '@template'
+            - '@routing.helper'
+            - '@captcha.factory'
+            - '@alfredoramos.cloudflare.client'
+
+    alfredoramos.cloudflare.client:
+        class: alfredoramos\cloudflare\includes\cloudflare
+
+    alfredoramos.cloudflare.controller.acp:
+        class: alfredoramos\cloudflare\controller\acp
+        arguments:
+            - '@config'
+            - '@template'
+            - '@request'
+            - '@controller.helper'
+            - '@language'
+            - '@user'
+            - '@log'
+            - '@alfredoramos.cloudflare.helper'
+            - '@alfredoramos.cloudflare.client'
+
+    alfredoramos.cloudflare.controller.cloudflare:
+        class: alfredoramos\cloudflare\controller\cloudflare
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@request'
+            - '@language'
+            - '@user'
+            - '@log'
+            - '@alfredoramos.cloudflare.client'
+            - '@alfredoramos.cloudflare.helper'
+
+    alfredoramos.cloudflare.captcha.turnstile:
+        class: alfredoramos\cloudflare\captcha\plugins\turnstile
+        arguments:
+            - '@config'
+            - '@user'
+            - '@request'
+            - '@template'
+            - '@language'
+            - '@log'
+            - '@alfredoramos.cloudflare.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        calls:
+            - ['set_name', ['alfredoramos.cloudflare.captcha.turnstile']]
+        tags:
+            - { name: captcha.plugins }

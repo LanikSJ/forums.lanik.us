@@ -1,0 +1,17 @@
+<li class="no-bulletin quick-style dropdown-container" data-skip-responsive="true">
+	<a href="#" class="dropdown-trigger">
+		<i class="icon fa-paint-brush fa-fw" aria-hidden="true"></i><span>{{ QUICK_STYLE_CURRENT_NAME }}</span>
+	</a>
+	<div class="dropdown">
+		<div class="pointer"><div class="pointer-inner"></div></div>
+		<ul class="dropdown-contents" role="menu">
+			{% for style in quickstyle %}
+				<li{% if style.S_CURRENT %} class="active"{% endif %}>
+					<a href="{{ style.U_ACTION }}" role="menuitem">
+						{% if style.S_CURRENT %}<i class="icon fa-check fa-fw" aria-hidden="true"></i>{% else %}<i class="icon fa-fw" aria-hidden="true"></i>{% endif %}<span>{{ style.STYLE_NAME }}</span>
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</li>

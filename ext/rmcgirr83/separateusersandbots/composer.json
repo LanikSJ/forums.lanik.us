@@ -25,12 +25,6 @@
         "display-name": "Separate Users and Bots",
         "soft-require": {
             "phpbb/phpbb": ">=3.2"
-        },
-        "version-check": {
-            "host": "www.phpbb.com",
-            "directory": "/customise/db/extension/separate_users_and_bots",
-            "filename": "version_check",
-            "ssl": true
         }
     }
 }

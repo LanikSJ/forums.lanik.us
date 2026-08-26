@@ -1,31 +1,30 @@
-/*global vseLightbox, mChat*/
+/*global vseLightbox, mChat, Lightbox3*/
 (() => {
 	'use strict';
 
-	const CONFIG = {
-		BORDER_COLOR: '#4ae',
-		MOBILE_REGEX: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
-	};
+	const standaloneGalleryIds = new WeakMap();
+	let nextStandaloneGalleryId = 0;
 
-	const addBorderHover = (img) => {
+	const decodeHtmlEntities = (value) => value.replace(/&(amp|lt|gt|quot);/g, (entity) => ({
+		'&amp;': '&',
+		'&lt;': '<',
+		'&gt;': '>',
+		'&quot;': '"'
+	}[entity]));
+
+	// Lightbox3 renders data-title using innerHTML, so title text must be escaped here.
+	const escapeHtml = (value) => decodeHtmlEntities(value).replace(/[&<>"']/g, (char) => ({
+		'&': '&amp;',
+		'<': '&lt;',
+		'>': '&gt;',
+		'"': '&quot;',
+		'\'': '&#39;'
+	}[char]));
+
+	const addLightboxAffordance = (img) => {
 		Object.assign(img.style, {
-			border: 'solid 3px transparent',
-			borderRadius: '6px',
-			transition: 'border-color 0.1s ease-out',
 			cursor: 'pointer'
 		});
-		img.addEventListener('mouseenter', () => img.style.borderColor = CONFIG.BORDER_COLOR);
-		img.addEventListener('mouseleave', () => img.style.borderColor = 'transparent');
-	};
-
-	const isMobile = () => {
-		const isMobileDevice = CONFIG.MOBILE_REGEX.test(navigator.userAgent) ||
-			('maxTouchPoints' in navigator && navigator.maxTouchPoints > 2 && window.screen.width <= 1024);
-		const isPWA = isMobileDevice &&
-			(window.matchMedia('(display-mode: standalone)').matches ||
-			window.navigator.standalone ||
-			document.referrer.includes('android-app://'));
-		return !isPWA && isMobileDevice;
 	};
 
 	const isOversized = (imgData) =>
@@ -40,9 +39,16 @@
 		};
 	};
 
-	const getGalleryId = (img, index) => {
+	const getStandaloneGalleryId = (img) => {
+		if (!standaloneGalleryIds.has(img)) {
+			standaloneGalleryIds.set(img, nextStandaloneGalleryId++);
+		}
+		return standaloneGalleryIds.get(img);
+	};
+
+	const getGalleryId = (img) => {
 		if (vseLightbox.lightboxGal === 0) {
-			return index;
+			return getStandaloneGalleryId(img);
 		}
 		if (vseLightbox.lightboxGal === 2) {
 			const post = img.closest('.post');
@@ -66,7 +72,7 @@
 
 		if (vseLightbox.imageTitles) {
 			const title = img.src.includes(vseLightbox.downloadFile) ? (img.alt || '') : (img.src.split('/').pop() || '');
-			link.setAttribute('data-title', title);
+			link.setAttribute('data-title', escapeHtml(title));
 		}
 
 		img.parentNode.insertBefore(link, img);
@@ -77,12 +83,12 @@
 		const parentLink = img.parentElement;
 		parentLink.setAttribute('data-lightbox', galleryId);
 		if (vseLightbox.imageTitles) {
-			parentLink.setAttribute('data-title', img.alt || '');
+			parentLink.setAttribute('data-title', escapeHtml(img.alt || ''));
 		}
 	};
 
-	const processImage = (img, index) => {
-		if (img.closest('.postlink')) {
+	const processImage = (img) => {
+		if (!img.parentElement || img.closest('.postlink')) {
 			return;
 		}
 
@@ -91,35 +97,42 @@
 			return;
 		}
 
-		const galleryIndex = getGalleryId(img, index);
+		const galleryIndex = getGalleryId(img);
 		const galleryId = 'post-gallery' + galleryIndex;
 		const parentLink = img.parentElement;
 
 		if (parentLink.tagName === 'A') {
 			setupAttachedImage(img, galleryId);
 		} else {
-			const finalGalleryId = (vseLightbox.lightboxSig && img.closest('.signature')) ? index : galleryId;
+			const finalGalleryId = (vseLightbox.lightboxSig && img.closest('.signature')) ?
+				'post-gallery' + getStandaloneGalleryId(img) :
+				galleryId;
 			createLightboxLink(img, finalGalleryId);
 		}
-		addBorderHover(img);
+		addLightboxAffordance(img);
 	};
 
 	const lightboxResizer = (container) => {
-		if (typeof vseLightbox === 'undefined' || isMobile() ||
-			(vseLightbox.resizeWidth <= 0 && vseLightbox.resizeHeight <= 0 && !vseLightbox.lightboxAll)) {
+		if (typeof vseLightbox === 'undefined' ||
+			(vseLightbox.resizeWidth <= 0 && vseLightbox.resizeHeight <= 0 && !vseLightbox.lightboxAll) ||
+			!container) {
 			return;
 		}
 
 		const selector = vseLightbox.lightboxSig ? '.postimage' : '.postimage:not(.signature .postimage)';
 		const images = Array.from(container.querySelectorAll(selector)).filter(isImageVisible);
 
-		images.forEach((img, index) => {
+		images.forEach((img) => {
 			if (img.complete) {
-				processImage(img, index);
+				processImage(img);
 			} else {
-				const handler = () => processImage(img, index);
-				img.addEventListener('load', handler, { once: true });
-				img.addEventListener('error', handler, { once: true });
+				const handler = () => {
+					img.removeEventListener('load', handler);
+					img.removeEventListener('error', handler);
+					processImage(img);
+				};
+				img.addEventListener('load', handler);
+				img.addEventListener('error', handler);
 			}
 		});
 	};
@@ -179,6 +192,13 @@
 	document.addEventListener('DOMContentLoaded', () => {
 		lightboxResizer(document);
 		initExtensionCompatibility();
+
+		// Ensure delegated handlers exist when all image processing was deferred.
+		setTimeout(() => {
+			if (typeof Lightbox3 !== 'undefined' && Lightbox3.Lightbox) {
+				Lightbox3.Lightbox.init();
+			}
+		}, 0);
 	});
 
 	document.addEventListener('click', handleSpoilerClick);

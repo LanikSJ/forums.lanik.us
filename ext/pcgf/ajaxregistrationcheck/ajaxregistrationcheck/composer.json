@@ -1,0 +1,50 @@
+{
+    "name": "pcgf/ajaxregistrationcheck",
+    "type": "phpbb-extension",
+    "description": "An extension that checks data on the registration form with AJAX so that no invalid or unwanted data could be typed in",
+    "homepage": "https://mundophpbb.com.br",
+    "version": "1.0.5",
+    "time": "2026-08-20",
+    "keywords": [
+        "ajax",
+        "registration",
+        "check",
+        "registration check",
+        "ajax check",
+        "ajax registration check"
+    ],
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Chico Gois",
+            "role": "Author"
+        },
+        {
+            "name": "LanikSJ",
+            "role": "Author"
+        },
+        {
+            "name": "MarkusWME",
+            "homepage": "https://github.com/MarkusWME",
+            "email": "markuswme@pcgamingfreaks.at",
+            "role": "Past Contributor"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3",
+        "phpbb/phpbb": ">=3.3 <3.4.0@dev",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "display-name": "AJAX Registration Check",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3 <3.4.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/ajax_registration_check",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}
