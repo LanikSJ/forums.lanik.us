@@ -1,0 +1,31 @@
+{% if S_AGREEMENTDELAY_NOTICE %}
+<script>
+(function () {
+    'use strict';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const button = document.getElementById('agreed');
+        if (!button) return;
+
+        const originalText = button.value;
+        let seconds = {{ AGREEMENTDELAY_SECONDS }};
+
+        button.disabled = true;
+        button.style.pointerEvents = 'none';
+        button.value = originalText + ' (' + seconds + ')';
+
+        const interval = setInterval(function () {
+            seconds--;
+            if (seconds <= 0) {
+                clearInterval(interval);
+                button.value = originalText;
+                button.disabled = false;
+                button.style.pointerEvents = '';
+            } else {
+                button.value = originalText + ' (' + seconds + ')';
+            }
+        }, 1000);
+    });
+})();
+</script>
+{% endif %}

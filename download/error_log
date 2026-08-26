@@ -34,3 +34,228 @@
 [10-Jun-2026 10:50:50 America/New_York] PHP Fatal error:  SQL ERROR [ mysqli ]<br /><br />Too many connections [1040]<br /><br />An sql error occurred while fetching this page. Please contact an administrator if this problem persists. in /home1/lanikus/public_html/forums/phpbb/db/driver/driver.php on line 1031
 [10-Jun-2026 11:44:00 America/New_York] PHP Fatal error:  SQL ERROR [ mysqli ]<br /><br />Too many connections [1040]<br /><br />An sql error occurred while fetching this page. Please contact an administrator if this problem persists. in /home1/lanikus/public_html/forums/phpbb/db/driver/driver.php on line 1031
 [11-Jun-2026 06:03:21 America/New_York] PHP Fatal error:  SQL ERROR [ mysqli ]<br /><br />Too many connections [1040]<br /><br />An sql error occurred while fetching this page. Please contact an administrator if this problem persists. in /home1/lanikus/public_html/forums/phpbb/db/driver/driver.php on line 1031
+[14-Jun-2026 06:19:30 America/New_York] PHP Fatal error:  SQL ERROR [ mysqli ]<br /><br />Too many connections [1040]<br /><br />An sql error occurred while fetching this page. Please contact an administrator if this problem persists. in /home1/lanikus/public_html/forums/phpbb/db/driver/driver.php on line 1031
+[14-Aug-2026 01:46:59 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 02:32:49 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 02:47:22 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 04:10:03 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 06:04:47 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 06:29:03 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 06:38:14 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 07:18:08 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 07:47:51 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 08:02:44 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 10:31:20 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 12:03:42 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 12:13:13 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65
+[14-Aug-2026 12:22:00 America/New_York] PHP Fatal error:  Uncaught TypeError: phpbb\webpushnotifications\event\listener::__construct(): Argument #3 ($form_helper) must be of type phpbb\webpushnotifications\form\form_helper, FastImageSize\FastImageSize given, called in /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php on line 6438 and defined in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php:65
+Stack trace:
+#0 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(6438): phpbb\webpushnotifications\event\listener->__construct(Object(phpbb\config\db), Object(phpbb\controller\helper), Object(FastImageSize\FastImageSize), Object(phpbb\webpushnotifications\form\form_helper), Object(phpbb\language\language), Object(phpbb\template\twig\twig), Object(phpbb\user), Object(phpbb\notification\manager), './../')
+#1 /home1/lanikus/public_html/forums/cache/production/container_dbdbe80dc7030ae9bd39ee30cca82130.php(3807): phpbb_cache_container->getPhpbb_Wpn_ListenerService()
+#2 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(231): phpbb_cache_container->{closure}()
+#3 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(61): Symfony\Component\EventDispatcher\EventDispatcher->sortListeners('core.page_heade...')
+#4 /home1/lanikus/public_html/forums/vendor/symfony/event-dispatcher/EventDispatcher.php(43): Symfony\Component\EventDispatcher\EventDispatcher->getListeners('core.page_heade...')
+#5 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(62): Symfony\Component\EventDispatcher\EventDispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#6 /home1/lanikus/public_html/forums/phpbb/event/dispatcher.php(46): phpbb\event\dispatcher->dispatch('core.page_heade...', Object(phpbb\event\data))
+#7 /home1/lanikus/public_html/forums/includes/functions.php(4214): phpbb\event\dispatcher->trigger_event('core.page_heade...', Array)
+#8 /home1/lanikus/public_html/forums/includes/functions.php(3261): page_header('Information')
+#9 [internal function]: msg_handler(1024, 'The selected at...', '/home1/lanikus/...', 134)
+#10 /home1/lanikus/public_html/forums/includes/functions_download.php(134): trigger_error('ERROR_NO_ATTACH...')
+#11 /home1/lanikus/public_html/forums/download/file.php(321): send_file_to_browser(Array, 'files', 1)
+#12 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/phpbb/webpushnotifications/event/listener.php on line 65

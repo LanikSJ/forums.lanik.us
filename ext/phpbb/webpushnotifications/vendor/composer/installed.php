@@ -1,8 +1,8 @@
 <?php return array(
     'root' => array(
         'name' => 'phpbb/webpushnotifications',
-        'pretty_version' => '1.0.4',
-        'version' => '1.0.4.0',
+        'pretty_version' => '1.1.0',
+        'version' => '1.1.0.0',
         'reference' => NULL,
         'type' => 'phpbb-extension',
         'install_path' => __DIR__ . '/../../',
@@ -74,8 +74,8 @@
             'dev_requirement' => false,
         ),
         'phpbb/webpushnotifications' => array(
-            'pretty_version' => '1.0.4',
-            'version' => '1.0.4.0',
+            'pretty_version' => '1.1.0',
+            'version' => '1.1.0.0',
             'reference' => NULL,
             'type' => 'phpbb-extension',
             'install_path' => __DIR__ . '/../../',

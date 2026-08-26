@@ -253,7 +253,6 @@ class nationalflags
 			$count = 0;
 			for ($i = 0; $i < $max_display; ++$i)
 			{
-				++$count;
 				if (!empty($cached_flags[$i]['user_count']))
 				{
 					$this->template->assign_block_vars('flag', [
@@ -261,6 +260,8 @@ class nationalflags
 						'FLAG_USERS'	=> $this->user->lang('FLAG_USERS', (int) $cached_flags[$i]['user_count']),
 						'U_FLAG'		=> $this->helper->route('rmcgirr83_nationalflags_getflags', ['flag_id' => $cached_flags[$i]['flag_id']]),
 					]);
+
+					++$count;
 				}
 			}
 
@@ -507,9 +508,9 @@ class nationalflags
 	 */
 	public function flag_name_lang_var($flag_name = '')
 	{
-		if (array_key_exists((strtoupper(str_replace(" ", "_", $flag_name))), $this->language->get_lang_array()))
+		if (array_key_exists((strtoupper(str_replace(" ", "_", trim($flag_name)))), $this->language->get_lang_array()))
 		{
-			$flag_name = html_entity_decode($this->language->lang(strtoupper(str_replace(" ", "_", $flag_name))));
+			$flag_name = html_entity_decode($this->language->lang(strtoupper(str_replace(" ", "_", trim($flag_name)))));
 		}
 
 		return $flag_name;

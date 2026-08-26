@@ -9,9 +9,10 @@ Modified by:		Stoker ( https://phpbb3bbcodes.com/ )
 html, body {
 	color: #536482;
 	background-color: #1d3649;
+	padding: 0;
 }
 body * {
-  border-radius: 0px !important;
+	border-radius: 0px !important;
 }
 #wrap {
 	box-shadow: 0 0 6px 2px #fff;
@@ -24,7 +25,7 @@ li.header dl.row-item * {
 	margin-top:0px;
 }
 .headerbar, .forumbg, .forabg {
-	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 92px, #0084C4 100%) repeat-x #0084C4;
+	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 90px, #0084C4 100%) repeat-x #0084C4;
 }
 .navbar {
 	background-color: #e5eef5;
@@ -74,19 +75,23 @@ ul.forums li.row dl.row-item {
 }
 .online {
 	background-image: none;
-	border-right: 4px solid #238d31;
-	border-left: 4px solid #238d31;
+	border-right: 4px solid #238d31 !important;
+	border-left: 4px solid #238d31 !important;
 }
 .offline {
 	background-image: none;
-	border-right: 4px solid #C70039;
-	border-left: 4px solid #C70039; 
+	border-right: 4px solid #C70039 !important;
+	border-left: 4px solid #C70039 !important; 
 }
 @media (min-width: 701px) {
 	#wrap {
 		display: flex;
 		flex-direction: column;
-		min-height: calc(100dvh - 50px);  
+		min-height: calc(100dvh - 20px);
+		border-top: 2px solid transparent;
+		border-bottom: 2px solid transparent;
+		padding-top: 13px;
+		padding-bottom: 13px;
 	}
 	#page-body {
 		flex: 1;
@@ -121,9 +126,9 @@ ul#nav-main .dropdown ul.dropdown-contents a {
 }
 .copyright {
 	height: auto;
-	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 92px, #0084C4 100%) repeat-x #0084C4;
+	background: linear-gradient(to bottom, #003F5E 0%, #005C8A 1px, #1d3649 120px, #0084C4 100%) repeat-x #0084C4;
 	margin-top:4px;
-	padding: 8px 0px;
+	padding: 8px !important;
 	color:#fff;
 }
 .copyright a {
@@ -131,6 +136,13 @@ ul#nav-main .dropdown ul.dropdown-contents a {
 }
 .copyright p.footer-row {
 	line-height:12px;
+}
+.online-list em a {
+	font-weight: bold;
+	font-style: normal;
+}
+.online-list em {
+	font-style: normal;
 }
 /* Colour unread titles */
 [class*="forum_unread"] a.forumtitle,
@@ -382,10 +394,20 @@ ul#nav-main .dropdown ul.dropdown-contents a {
 .forum_unread_subforum_locked:before {
     color: #CC0000;
 }
+dl.row-item dt[style*="background-image"] { 
+	position: relative;
+}
+dd.lastpost > span > :not(dfn) {
+  position: relative;
+}
+dd.mark input {
+position: relative;
+}
 /* Left profile switch */
 .postprofile {
 	border-width: 0 1px 0 0;
-	float: left;margin-right: 8px;
+	float: left;
+	margin-right: 8px;
 }
 .pm .postprofile {
 	border-right-width: 1px;
@@ -395,9 +417,15 @@ ul#nav-main .dropdown ul.dropdown-contents a {
 .postprofile dd, .postprofile dt {
 	margin-left: 0;
 }
-@media only screen and (max-width: 700px), only screen and (max-device-width: 700px) {
+@media (max-width: 700px) {
 	.postprofile {
 		float: none;
 		width: auto;
 	}
-} 
+}
+.navbar #search-box {
+	box-shadow:none;
+	float:right;
+	position: relative;
+	top: 1.5px;
+}

@@ -1,0 +1,34 @@
+{
+    "name": "leenoz/verano",
+    "type": "phpbb-extension",
+    "description": "Verano is a modern phpBB ACP template, fully responsive and designed for ease of use.",
+    "homepage": "https://leenoz.com/verano",
+    "version": "1.0.3",
+    "time": "2026-03-24",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Leenoz",
+            "email": "support@leenoz.com",
+            "homepage": "https://leenoz.com",
+            "role": ""
+        }
+    ],
+    "require": {
+        "php": ">=7.1.3",
+        "composer/installers": "~1.0",
+        "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+    },
+    "extra": {
+        "display-name": "Verano Theme",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/verano",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

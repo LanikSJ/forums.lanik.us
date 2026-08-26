@@ -1,0 +1,4 @@
+[28-Jun-2026 02:32:51 America/New_York] PHP Fatal error:  Uncaught Error: Class "phpbb\db\migration\migration" not found in /home1/lanikus/public_html/forums/ext/rmcgirr83/stopforumspam/migrations/version_100.php:17
+Stack trace:
+#0 {main}
+  thrown in /home1/lanikus/public_html/forums/ext/rmcgirr83/stopforumspam/migrations/version_100.php on line 17

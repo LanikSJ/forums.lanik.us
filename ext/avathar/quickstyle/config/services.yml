@@ -1,0 +1,15 @@
+services:
+    avathar.quickstyle.listener:
+        class: avathar\quickstyle\event\listener
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@language'
+            - '@dbal.conn'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
