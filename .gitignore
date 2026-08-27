@@ -21,3 +21,4 @@
 *.cache
 *.env
 *.lock
+error_log
