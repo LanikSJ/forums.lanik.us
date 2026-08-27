@@ -1,0 +1,184 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+#
+# Uncomment the statement below if URL rewriting doesn't
+# work properly. If you installed phpBB in a subdirectory
+# of your site, properly set the argument for the statement.
+# e.g.: if your domain is test.com and you installed phpBB
+# in http://www.test.com/phpBB/index.php you have to set
+# the statement RewriteBase /phpBB/
+#
+#RewriteBase /
+
+#
+# Uncomment the statement below if you want to make use of
+# HTTP authentication and it does not already work.
+# This could be required if you are for example using PHP via Apache CGI.
+#
+#RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+
+#
+# The following 3 lines will rewrite URLs passed through the front controller
+# to not require app.php in the actual URL. In other words, a controller is
+# by default accessed at /app.php/my/controller, but can also be accessed at
+# /my/controller
+#
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/(?:\ Ballot169)?
+RewriteRule ^(.*)$ app.php [QSA,L]
+
+#
+# If symbolic links are not already being followed,
+# uncomment the line below.
+# http://anothersysadmin.wordpress.com/2008/06/10/mod_rewrite-forbidden-403-with-apache-228/
+#
+#Options +FollowSymLinks
+</IfModule>
+
+# Apache content negotation tries to interpret non-existent paths as files if
+# MultiViews is enabled. This will however cause issues with paths containg
+# dots, e.g. for the cron tasks
+<IfModule mod_negotiation.c>
+	Options -MultiViews
+</IfModule>
+
+# With Apache 2.4 the "Order, Deny" syntax has been deprecated and moved from
+# module mod_authz_host to a new module called mod_access_compat (which may be
+# disabled) and a new "Require" syntax has been introduced to mod_authz_host.
+# We could just conditionally provide both versions, but unfortunately Apache
+# does not explicitly tell us its version if the module mod_version is not
+# available. In this case, we check for the availability of module
+# mod_authz_core (which should be on 2.4 or higher only) as a best guess.
+<IfModule mod_version.c>
+	<IfVersion < 2.4>
+		<Files "config.php">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "common.php">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "composer.json">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "composer.lock">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+	</IfVersion>
+	<IfVersion >= 2.4>
+		<Files "config.php">
+			Require all denied
+		</Files>
+		<Files "common.php">
+			Require all denied
+		</Files>
+		<Files "composer.json">
+			Require all denied
+		</Files>
+		<Files "composer.lock">
+			Require all denied
+		</Files>
+	</IfVersion>
+</IfModule>
+<IfModule !mod_version.c>
+	<IfModule !mod_authz_core.c>
+		<Files "config.php">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "common.php">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "composer.json">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+		<Files "composer.lock">
+			Order Allow,Deny
+			Deny from All
+		</Files>
+	</IfModule>
+	<IfModule mod_authz_core.c>
+		<Files "config.php">
+			Require all denied
+		</Files>
+		<Files "common.php">
+			Require all denied
+		</Files>
+		<Files "composer.json">
+			Require all denied
+		</Files>
+		<Files "composer.lock">
+			Require all denied
+		</Files>
+	</IfModule>
+</IfModule>
+
+<IfModule mod_suphp.c>
+	#suPHP_ConfigPath /home/lanik/forums/
+</IfModule>
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php8_module>
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 512M
+   php_value post_max_size 100M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value upload_max_filesize 64M
+   php_flag zlib.output_compression Off
+</IfModule>
+<IfModule lsapi_module>
+   php_flag display_errors Off
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 1000
+   php_value memory_limit 512M
+   php_value post_max_size 100M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value upload_max_filesize 64M
+   php_flag zlib.output_compression Off
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
+RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.lanik.us$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php83” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php83___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

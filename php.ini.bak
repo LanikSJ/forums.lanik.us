@@ -1,0 +1,190 @@
+; cPanel-generated php ini directives, do not edit
+; Manual editing of this file may result in unexpected behavior.
+; To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+; For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+
+allow_url_fopen = On
+allow_url_include = On
+display_errors = On
+enable_dl = On
+file_uploads = On
+max_execution_time = 30
+max_input_time = 60
+max_input_vars = 1000
+memory_limit = 256M
+post_max_size = 74M
+session.gc_maxlifetime = 1440
+session.save_path = "/tmp"
+upload_max_filesize = 100M
+zlib.output_compression = Off
+; cPanel-generated php ini directives, do not edit
+; Manual editing of this file may result in unexpected behavior.
+; To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+; For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+
+; Enable Experimental v10 IonCube Loader extension module
+[PHP]
+zend_extension = "/opt/cpanel/ea-php55/root/usr/lib64/php/modules/ioncube_loader_lin_5.5.so"
+extension = suhosin.so
+extension = bcmath.so
+extension = bz2.so
+extension = calendar.so
+extension = ctype.so
+extension = curl.so
+extension = dom.so
+extension = exif.so
+extension = fileinfo.so
+extension = ftp.so
+extension = gd.so
+extension = gettext.so
+extension = iconv.so
+extension = imap.so
+extension = intl.so
+extension = json.so
+extension = mbstring.so
+extension = mcrypt.so
+extension = mysqlnd.so
+extension = mysqlnd_mysql.so
+extension = mysqlnd_mysqli.so
+extension = pdo.so
+extension = pdo_mysqlnd.so
+extension = pdo_sqlite.so
+extension = phar.so
+extension = posix.so
+extension = pspell.so
+extension = simplexml.so
+extension = soap.so
+extension = sockets.so
+extension = sqlite3.so
+extension = tokenizer.so
+extension = xml.so
+extension = wddx.so
+extension = xmlreader.so
+extension = xmlrpc.so
+extension = xmlwriter.so
+extension = xsl.so
+zend_extension = "/opt/cpanel/ea-php55/root/usr/lib64/php/modules/ZendGuardLoader.so"
+zend_extension = "/opt/cpanel/ea-php55/root/usr/lib64/php/modules/opcache.so"
+extension = zip.so
+engine = On
+short_open_tag = On
+asp_tags = Off
+precision = 12
+output_buffering = Off
+implicit_flush = Off
+unserialize_callback_func = 
+serialize_precision = 100
+disable_functions = "dl, exec, shell_exec, system, passthru, popen, pclose, proc_open, proc_nice, proc_terminate, proc_get_status, proc_close, pfsockopen, leak, apache_child_terminate, posix_kill, posix_mkfifo, posix_setpgid, posix_setsid, posix_setuid"
+disable_classes = 
+expose_php = Off
+error_reporting = E_ALL & ~E_NOTICE & ~E_DEPRECATED
+display_startup_errors = Off
+log_errors = On
+log_errors_max_len = 1024
+ignore_repeated_errors = Off
+ignore_repeated_source = Off
+report_memleaks = On
+track_errors = Off
+error_log = error_log
+variables_order = "EGPCS"
+register_argc_argv = On
+gpc_order = "GPC"
+auto_prepend_file = 
+auto_append_file = 
+default_mimetype = "text/html"
+include_path = ".:/usr/lib/php:/usr/local/lib/php"
+doc_root = 
+user_dir = 
+default_socket_timeout = 60
+[Syslog]
+[mail function]
+smtp_port = 25
+sendmail_path = "/usr/sbin/sendmail -t -i"
+[Java]
+[SQL]
+sql.safe_mode = Off
+[ODBC]
+odbc.allow_persistent = On
+odbc.check_persistent = On
+odbc.max_persistent = -1
+odbc.max_links = -1
+odbc.defaultlrl = 4096
+odbc.defaultbinmode = 1
+[MySQL]
+mysql.allow_persistent = On
+mysql.max_persistent = -1
+mysql.max_links = -1
+mysql.default_port = 
+mysql.default_socket = 
+mysql.default_host = 
+mysql.default_user = 
+mysql.default_password = 
+mysql.connect_timeout = 60
+mysql.trace_mode = Off
+[mSQL]
+msql.allow_persistent = On
+msql.max_persistent = -1
+msql.max_links = -1
+[PostgresSQL]
+pgsql.allow_persistent = On
+pgsql.auto_reset_persistent = Off
+pgsql.max_persistent = -1
+pgsql.max_links = -1
+pgsql.ignore_notice = 0
+pgsql.log_notice = 0
+[Sybase]
+sybase.allow_persistent = On
+sybase.max_persistent = -1
+sybase.max_links = -1
+sybase.min_error_severity = 10
+sybase.min_message_severity = 10
+sybase.compatability_mode = Off
+[Sybase-CT]
+[dbx]
+dbx.colnames_case = "unchanged"
+[bcmath]
+bcmath.scale = 0
+[browscap]
+[Informix]
+[Session]
+session.save_handler = files
+session.use_cookies = 1
+session.name = PHPSESSID
+session.auto_start = 0
+session.cookie_lifetime = 0
+session.cookie_path = "/"
+session.cookie_domain = 
+session.serialize_handler = php
+session.gc_probability = 1
+session.gc_divisor = 100
+session.referer_check = 
+session.entropy_length = 0
+session.entropy_file = 
+session.cache_limiter = nocache
+session.cache_expire = 180
+session.use_trans_sid = 0
+url_rewriter.tags = "a=href,area=href,frame=src,input=src,form=,fieldset="
+[MSSQL]
+mssql.allow_persistent = On
+mssql.max_persistent = -1
+mssql.max_links = -1
+mssql.min_error_severity = 10
+mssql.min_message_severity = 10
+mssql.compatability_mode = Off
+mssql.secure_connection = Off
+[Assertion]
+[Ingres II]
+ingres.allow_persistent = On
+ingres.max_persistent = -1
+ingres.max_links = -1
+ingres.default_database = 
+ingres.default_user = 
+ingres.default_password = 
+[Verisign Payflow Pro]
+[com]
+[Printer]
+[mbstring]
+[FrontBase]
+[Crack]
+[exif]
+date.timezone = "America/New_York"
