@@ -11,9 +11,7 @@ class ShopwareInstaller extends BaseInstaller
         'backend-plugin'    => 'engine/Shopware/Plugins/Local/Backend/{$name}/',
         'core-plugin'       => 'engine/Shopware/Plugins/Local/Core/{$name}/',
         'frontend-plugin'   => 'engine/Shopware/Plugins/Local/Frontend/{$name}/',
-        'theme'             => 'templates/{$name}/',
-        'plugin'            => 'custom/plugins/{$name}/',
-        'frontend-theme'    => 'themes/Frontend/{$name}/',
+        'theme'             => 'templates/{$name}/'
     );
 
     /**
@@ -25,9 +23,9 @@ class ShopwareInstaller extends BaseInstaller
     {
         if ($vars['type'] === 'shopware-theme') {
             return $this->correctThemeName($vars);
+        } else {
+            return $this->correctPluginName($vars);
         }
-
-        return $this->correctPluginName($vars);        
     }
 
     /**

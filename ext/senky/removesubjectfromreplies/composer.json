@@ -12,9 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
+        "php": ">=7.2",
         "composer/installers": "~1.0.0",
-        "phpbb/phpbb": ">=3.1.7-RC1,<3.3@dev"
+        "phpbb/phpbb": ">=3.3.0,<3.4@dev"
     },
     "require-dev": {
         "phpbb/epv": "dev-master"
@@ -22,7 +22,7 @@
     "extra": {
         "display-name": "Remove Subject from Replies",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.7-RC1,<3.3@dev"
+            "phpbb/phpbb": ">=3.3.0,<3.4@dev"
         },
         "version-check": {
             "host": "www.phpbb.com",

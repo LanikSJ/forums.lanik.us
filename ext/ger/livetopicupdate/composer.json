@@ -2,16 +2,14 @@
     "name": "ger/livetopicupdate",
     "type": "phpbb-extension",
     "description": "Shows and loads new posts in viewtopic",
-    "homepage": "",
+    "homepage": "https://github.com/GerB",
     "version": "2.0.3",
     "time": "2018-04-26",
     "license": "GPL-2.0",
     "authors": [
         {
             "name": "Ger",
-            "email": "",
-            "homepage": "https://github.com/GerB",
-            "role": ""
+            "homepage": "https://github.com/GerB"
         }
     ],
     "require": {

@@ -2,6 +2,9 @@
 namespace Composer\Installers;
 
 use Composer\DependencyResolver\Pool;
+use Composer\Package\PackageInterface;
+use Composer\Package\LinkConstraint\MultiConstraint;
+use Composer\Package\LinkConstraint\VersionConstraint;
 
 class CakePHPInstaller extends BaseInstaller
 {
@@ -49,24 +52,27 @@ class CakePHPInstaller extends BaseInstaller
      */
     protected function matchesCakeVersion($matcher, $version)
     {
-        if (class_exists('Composer\Semver\Constraint\MultiConstraint')) {
-            $multiClass = 'Composer\Semver\Constraint\MultiConstraint';
-            $constraintClass = 'Composer\Semver\Constraint\Constraint';
-        } else {
-            $multiClass = 'Composer\Package\LinkConstraint\MultiConstraint';
-            $constraintClass = 'Composer\Package\LinkConstraint\VersionConstraint';
-        }
-
         $repositoryManager = $this->composer->getRepositoryManager();
-        if (! $repositoryManager) {
-            return false;
+        if ($repositoryManager) {
+            $repos = $repositoryManager->getLocalRepository();
+            if (!$repos) {
+                return false;
+            }
+            $cake3 = new MultiConstraint(array(
+                new VersionConstraint($matcher, $version),
+                new VersionConstraint('!=', '9999999-dev'),
+            ));
+            $pool = new Pool('dev');
+            $pool->addRepository($repos);
+            $packages = $pool->whatProvides('cakephp/cakephp');
+            foreach ($packages as $package) {
+                $installed = new VersionConstraint('=', $package->getVersion());
+                if ($cake3->matches($installed)) {
+                    return true;
+                    break;
+                }
+            }
         }
-
-        $repos = $repositoryManager->getLocalRepository();
-        if (!$repos) {
-            return false;
-        }
-
-        return $repos->findPackage('cakephp/cakephp', new $constraintClass($matcher, $version)) !== null;
+        return false;
     }
 }
