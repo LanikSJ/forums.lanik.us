@@ -22,11 +22,13 @@ class ComposerAutoloaderInitbc026c93f95601aa865acfd69042c74e
             return self::$loader;
         }
 
-        require __DIR__ . '/platform_check.php';
-
         spl_autoload_register(array('ComposerAutoloaderInitbc026c93f95601aa865acfd69042c74e', 'loadClassLoader'), true, true);
         self::$loader = $loader = new \Composer\Autoload\ClassLoader(\dirname(__DIR__));
         spl_autoload_unregister(array('ComposerAutoloaderInitbc026c93f95601aa865acfd69042c74e', 'loadClassLoader'));
+
+        $includePaths = require __DIR__ . '/include_paths.php';
+        $includePaths[] = get_include_path();
+        set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
         require __DIR__ . '/autoload_static.php';
         call_user_func(\Composer\Autoload\ComposerStaticInitbc026c93f95601aa865acfd69042c74e::getInitializer($loader));

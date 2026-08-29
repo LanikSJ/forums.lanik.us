@@ -19,8 +19,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "phpbb/phpbb": ">=3.1.0-RC2,<3.3",
+        "php": ">=7.2",
+        "phpbb/phpbb": ">=3.3.0,<3.4@dev",
         "composer/installers": "~1.0.0"
     },
     "require-dev": {
@@ -29,7 +29,7 @@
     "extra": {
         "display-name": "User Merge",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.0-RC2,<3.3"
+            "phpbb/phpbb": ">=3.3.0,<3.4@dev"
         },
         "version-check": {
             "host": "www.phpbb.com",

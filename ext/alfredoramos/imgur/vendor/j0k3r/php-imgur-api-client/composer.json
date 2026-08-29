@@ -40,11 +40,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.0",
-        "symfony/phpunit-bridge": "^4.0"
+        "symfony/phpunit-bridge": "^5.0"
     },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0.x-dev"
-        }
+    "config": {
+        "sort-packages": true
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "composer/installers",
-    "type": "composer-plugin",
+    "type": "composer-installer",
     "license": "MIT",
     "description": "A multi-framework Composer library installer",
     "keywords": [
@@ -8,11 +8,9 @@
         "Aimeos",
         "AGL",
         "AnnotateCms",
-        "Attogram",
         "Bitrix",
         "CakePHP",
         "Chef",
-        "Cockpit",
         "CodeIgniter",
         "concrete5",
         "Craft",
@@ -21,59 +19,37 @@
         "Dolibarr",
         "Drupal",
         "Elgg",
-        "Eliasis",
-        "ExpressionEngine",
-        "eZ Platform",
         "FuelPHP",
         "Grav",
         "Hurad",
-        "ImageCMS",
-        "iTop",
         "Joomla",
-        "Kanboard",
-	"Known",
         "Kohana",
-        "Lan Management System",
         "Laravel",
-        "Lavalite",
         "Lithium",
         "Magento",
-        "majima",
         "Mako",
-        "Mautic",
-        "Maya",
-        "MODX",
         "MODX Evo",
         "MediaWiki",
         "OXID",
-        "osclass",
         "MODULEWork",
         "Moodle",
         "Piwik",
-        "pxcms",
         "phpBB",
-        "Plentymarkets",
         "PPI",
         "Puppet",
-        "Porto",
-        "RadPHP",
-        "ReIndex",
         "Roundcube",
         "shopware",
         "SilverStripe",
         "SMF",
-        "SyDES",
         "symfony",
         "Thelia",
         "TYPO3",
-        "WHMCS",
         "WolfCMS",
         "WordPress",
-        "YAWIK",
         "Zend",
         "Zikula"
     ],
-    "homepage": "https://composer.github.io/installers/",
+    "homepage": "http://composer.github.com/installers/",
     "authors": [
         {
             "name": "Kyle Robinson Young",
@@ -82,10 +58,10 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Composer\\Installers\\": "src/Composer/Installers" }
+        "psr-0": { "Composer\\Installers\\": "src/" }
     },
     "extra": {
-        "class": "Composer\\Installers\\Plugin",
+        "class": "Composer\\Installers\\Installer",
         "branch-alias": {
             "dev-master": "1.0-dev"
         }
@@ -94,14 +70,8 @@
         "shama/baton": "*",
         "roundcube/plugin-installer": "*"
     },
-    "require": {
-        "composer-plugin-api": "^1.0"
-    },
     "require-dev": {
         "composer/composer": "1.0.*@dev",
-        "phpunit/phpunit": "^4.8.36"
-    },
-    "scripts": {
-        "test": "phpunit"
+        "phpunit/phpunit": "4.1.*"
     }
 }
