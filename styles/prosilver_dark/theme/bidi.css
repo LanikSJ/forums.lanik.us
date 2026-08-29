@@ -395,11 +395,6 @@ li.breadcrumbs span:first-child > a {
 	border-left: none;
 }
 
-.rtl ul.topiclist dfn {
-	left: auto;
-	right: -999px;
-}
-
 .rtl ul.topiclist li.row dt a.subforum {
 	padding-right: 12px;
 	background-position: right;
@@ -582,7 +577,6 @@ li.breadcrumbs span:first-child > a {
 .rtl .postprofile {
 	border-width: 0 1px 0 0;
 	float: left;
-/*	text-align: right; */
 }
 
 .rtl .pm .postprofile {
