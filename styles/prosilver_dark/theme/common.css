@@ -728,6 +728,10 @@ table.info tbody th {
 	max-width: 100%;
 }
 
+.avatar-rank-container {
+	max-width: 20%;
+}
+
 .left-box.profile-details {
 	width: 80%;
 }
@@ -740,7 +744,6 @@ table.info tbody th {
 }
 
 dl.details {
-	/*font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;*/
 	font-size: 1.1em;
 }
 
@@ -777,12 +780,6 @@ fieldset.fields1 ul.recipients {
 fieldset.fields1 dd.recipients {
 	clear: left;
 	margin-left: 1em;
-}
-
-fieldset.fields1 ul.recipients  input.button2{
-	font-size: 0.8em;
-	margin-right: 0;
-	padding: 0;
 }
 
 fieldset.fields1 dl.pmlist > dt {

@@ -474,41 +474,4 @@
 
 {% EVENT viewtopic_body_online_list_after %}
 
-<script>
-/**
- * Forum row click handler
- * Makes entire forum/topic rows clickable by redirecting to the title's link
- * while preserving middle-click functionality for opening in new tabs
- */
-(function() {
-  // Select all row elements
-  const rows = document.querySelectorAll('.row');
-  
-  // Function to handle click events on rows
-  function handleRowClick(event) {
-    // If middle mouse button (which=2), don't interfere with default behavior
-    if (event.which === 2) {
-      return;
-    }
-    
-    // Find the title element within this row
-    const titleElement = this.querySelector('.forumtitle, .topictitle');
-    
-    // If a title element exists, navigate to its href
-    if (titleElement && titleElement.href) {
-      window.location.href = titleElement.href;
-    }
-  }
-  
-  // Attach event listeners to all rows
-  rows.forEach(row => {
-    // Remove any existing click handlers to prevent conflicts
-    row.onclick = null;
-    
-    // Add the click event listener using the modern approach
-    row.addEventListener('click', handleRowClick);
-  });
-})();
-</script>
-
 <!-- INCLUDE overall_footer.html -->
