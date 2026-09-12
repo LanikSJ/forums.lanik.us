@@ -22,3 +22,7 @@
 *.env
 *.lock
 error_log
+
+# macOS Ignores
+.DS_Store
+
