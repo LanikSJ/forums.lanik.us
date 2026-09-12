@@ -1,17 +1,20 @@
 services:
-    rmcgirr83.activationjustification.listener:
-        class: rmcgirr83\activationjustification\event\listener
-        arguments:
-            - '@auth'
-            - '@config'
-            - '@dbal.conn'
-            - '@language'
-            - '@log'
-            - '@notification_manager'
-            - '@request'
-            - '@template'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-        tags:
-            - { name: event.listener }
+  rmcgirr83.activationjustification.listener:
+    class: rmcgirr83\activationjustification\event\listener
+    arguments:
+      - "@auth"
+      - "@config"
+      - "@dbal.conn"
+      - "@language"
+      - "@log"
+      - "@notification_manager"
+      - "@request"
+      - "@template"
+      - "@user"
+      - "%core.root_path%"
+      - "%core.php_ext%"
+    tags:
+      - { name: event.listener }
+
+  _defaults:
+    public: true

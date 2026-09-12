@@ -1,10 +1,13 @@
 services:
-    rmcgirr83.hidebots.listener:
-        class: rmcgirr83\hidebots\event\listener
-        arguments:
-            - '@auth'
-            - '@config'
-            - '@language'
-            - '@template'
-        tags:
-            - { name: event.listener }
+  rmcgirr83.hidebots.listener:
+    class: rmcgirr83\hidebots\event\listener
+    arguments:
+      - "@auth"
+      - "@config"
+      - "@language"
+      - "@template"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true

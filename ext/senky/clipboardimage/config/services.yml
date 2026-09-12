@@ -1,7 +1,10 @@
 services:
-    senky.clipboardimage.listener:
-        class: senky\clipboardimage\event\listener
-        arguments:
-            - '@language'
-        tags:
-            - { name: event.listener }
+  senky.clipboardimage.listener:
+    class: senky\clipboardimage\event\listener
+    arguments:
+      - "@language"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true

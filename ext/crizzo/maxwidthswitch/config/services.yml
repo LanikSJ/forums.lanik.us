@@ -1,9 +1,12 @@
 services:
-    crizzo.maxwidthswitch.listener:
-        class: crizzo\maxwidthswitch\event\listener
-        arguments:
-            - '@request'
-            - '@template'
-            - '@user'
-        tags:
-            - {name: event.listener}
+  crizzo.maxwidthswitch.listener:
+    class: crizzo\maxwidthswitch\event\listener
+    arguments:
+      - "@request"
+      - "@template"
+      - "@user"
+    tags:
+      - { name: event.listener }
+
+  _defaults:
+    public: true
