@@ -1,13 +1,16 @@
 services:
-    avathar.quicklogin.listener:
-        class: avathar\quicklogin\event\listener
-        arguments:
-            - '@auth.provider_collection'
-            - '@config'
-            - '@controller.helper'
-            - '@template'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-        tags:
-            - { name: event.listener }
+  avathar.quicklogin.listener:
+    class: avathar\quicklogin\event\listener
+    arguments:
+      - "@auth.provider_collection"
+      - "@config"
+      - "@controller.helper"
+      - "@template"
+      - "@user"
+      - "%core.root_path%"
+      - "%core.php_ext%"
+    tags:
+      - { name: event.listener }
+
+  _defaults:
+    public: true

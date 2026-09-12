@@ -1,9 +1,12 @@
 services:
-    spaceace.forumlegend.listener:
-        class: spaceace\forumlegend\event\main_listener
-        arguments:
-            - '@config'
-            - '@template'
-            - '@user'
-        tags:
-            - { name: event.listener }
+  spaceace.forumlegend.listener:
+    class: spaceace\forumlegend\event\main_listener
+    arguments:
+      - "@config"
+      - "@template"
+      - "@user"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true

@@ -1,10 +1,13 @@
 services:
-    rmcgirr83.elonw.listener:
-        class: rmcgirr83\elonw\event\listener
-        arguments:
-            - '@language'
-            - '@request'
-            - '@template'
-            - '@user'
-        tags:
-            - { name: event.listener }
+  rmcgirr83.elonw.listener:
+    class: rmcgirr83\elonw\event\listener
+    arguments:
+      - "@language"
+      - "@request"
+      - "@template"
+      - "@user"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true

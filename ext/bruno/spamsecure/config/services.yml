@@ -1,24 +1,27 @@
-services:        
-    bruno.spamsecure.controller.acp:
-        class: bruno\spamsecure\controller\acp_controller
-        arguments:
-            - '@ext.manager' 
-            - '@path_helper'
-            - '@config'
-            - '@language'
-            - '@request'
-            - '@template'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%' 
-    bruno.spamsecure.listener:
-        class: bruno\spamsecure\event\listener
-        arguments:
-            - '@user'
-            - '@language'
-            - '@config'
-            - '@auth'
-            - '@request'
-            - '@template'
-        tags:
-            - {name: event.listener}
+services:
+  bruno.spamsecure.controller.acp:
+    class: bruno\spamsecure\controller\acp_controller
+    arguments:
+      - "@ext.manager"
+      - "@path_helper"
+      - "@config"
+      - "@language"
+      - "@request"
+      - "@template"
+      - "@user"
+      - "%core.root_path%"
+      - "%core.php_ext%"
+  bruno.spamsecure.listener:
+    class: bruno\spamsecure\event\listener
+    arguments:
+      - "@user"
+      - "@language"
+      - "@config"
+      - "@auth"
+      - "@request"
+      - "@template"
+    tags:
+      - { name: event.listener }
+
+  _defaults:
+    public: true

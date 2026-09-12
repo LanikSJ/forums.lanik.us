@@ -1,9 +1,12 @@
 services:
-    vse.passwordstrength.listener:
-        class: vse\passwordstrength\event\listener
-        arguments:
-            - '@config'
-            - '@template'
-            - '@language'
-        tags:
-            - { name: event.listener }
+  vse.passwordstrength.listener:
+    class: vse\passwordstrength\event\listener
+    arguments:
+      - "@config"
+      - "@template"
+      - "@language"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true

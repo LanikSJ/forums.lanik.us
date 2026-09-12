@@ -1,15 +1,18 @@
 services:
-    paybas.breadcrumbmenu.listener:
-        class: paybas\breadcrumbmenu\event\listener
-        arguments:
-            - '@auth'
-            - '@config'
-            - '@dbal.conn'
-            - '@request'
-            - '@template'
-            - '@user'
-            - '%core.root_path%'
-            - '%core.php_ext%'
-            - '%tables%'			
-        tags:
-            - { name: event.listener }
+  paybas.breadcrumbmenu.listener:
+    class: paybas\breadcrumbmenu\event\listener
+    arguments:
+      - "@auth"
+      - "@config"
+      - "@dbal.conn"
+      - "@request"
+      - "@template"
+      - "@user"
+      - "%core.root_path%"
+      - "%core.php_ext%"
+      - "%tables%"
+    tags:
+      - { name: event.listener }
+
+_defaults:
+  public: true
