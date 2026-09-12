@@ -36,6 +36,7 @@ class HttpClient implements HttpClientInterface
     protected $stack;
 
     /**
+     * @param array           $options
      * @param ClientInterface $client
      */
     public function __construct(array $options = [], ClientInterface $client = null)
@@ -104,17 +105,10 @@ class HttpClient implements HttpClientInterface
 
         if (isset($parameters['query'])) {
             $options['query'] = $parameters['query'];
-            unset($parameters['query']);
         }
 
         if ('POST' === $httpMethod || 'PUT' === $httpMethod || 'DELETE' === $httpMethod) {
-            if ('POST' === $httpMethod && isset($parameters['type']) && 'file' === $parameters['type']) {
-                foreach ($parameters as $key => $value) {
-                    $options['multipart'][] = ['name' => $key, 'contents' => $value];
-                }
-            } else {
-                $options['form_params'] = $parameters;
-            }
+            $options['form_params'] = $parameters;
         }
 
         // will throw an Imgur\Exception\ExceptionInterface if sth goes wrong

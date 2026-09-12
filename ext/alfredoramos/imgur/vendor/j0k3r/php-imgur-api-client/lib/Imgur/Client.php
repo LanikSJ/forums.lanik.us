@@ -81,6 +81,9 @@ class Client
         return $this->httpClient;
     }
 
+    /**
+     * @param HttpClientInterface $httpClient
+     */
     public function setHttpClient(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;

@@ -1,3 +1,0 @@
-services:
-    some.service.name:
-        class: a\b\c

@@ -34,10 +34,5 @@
 			"filename": "auto-lock-topics.json",
 			"ssl": true
 		}
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
 	}
 }

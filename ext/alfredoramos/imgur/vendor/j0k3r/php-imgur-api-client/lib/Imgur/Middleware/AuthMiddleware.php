@@ -23,6 +23,8 @@ class AuthMiddleware
 
     /**
      * Add Authorization header to the request.
+     *
+     * @param RequestInterface $request
      */
     public function addAuthHeader(RequestInterface $request)
     {
