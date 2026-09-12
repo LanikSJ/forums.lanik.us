@@ -62,8 +62,9 @@ class OAuth2 implements AuthInterface
     /**
      * Instantiates the OAuth2 class, but does not trigger the authentication process.
      *
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param HttpClientInterface $httpClient
+     * @param string              $clientId
+     * @param string              $clientSecret
      */
     public function __construct(HttpClientInterface $httpClient, $clientId, $clientSecret)
     {
@@ -99,7 +100,7 @@ class OAuth2 implements AuthInterface
      * @param string $code
      * @param string $requestType
      *
-     * @return array
+     * @return string
      */
     public function requestAccessToken($code, $requestType)
     {
@@ -157,7 +158,7 @@ class OAuth2 implements AuthInterface
             $response = $this->httpClient->post(
                 self::ACCESS_TOKEN_ENDPOINT,
                 [
-                    'refresh_token' => \is_array($token) ? $token['refresh_token'] : null,
+                    'refresh_token' => $token['refresh_token'],
                     'client_id' => $this->clientId,
                     'client_secret' => $this->clientSecret,
                     'grant_type' => 'refresh_token',
@@ -207,7 +208,7 @@ class OAuth2 implements AuthInterface
     /**
      * Getter for the current access token.
      *
-     * @return array|null
+     * @return array
      */
     public function getAccessToken()
     {

@@ -64,6 +64,8 @@ class CustomGallery extends AbstractApi
     /**
      * Add tags to a user's custom gallery.
      *
+     * @param array $tags
+     *
      * @see https://api.imgur.com/endpoints/custom_gallery#custom-gallery-add
      *
      * @return bool
@@ -75,6 +77,8 @@ class CustomGallery extends AbstractApi
 
     /**
      * Remove tags from a custom gallery.
+     *
+     * @param array $tags
      *
      * @see https://api.imgur.com/endpoints/custom_gallery#custom-gallery-remove
      *

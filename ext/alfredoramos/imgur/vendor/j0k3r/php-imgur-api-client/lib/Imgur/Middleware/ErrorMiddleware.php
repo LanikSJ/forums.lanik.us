@@ -21,6 +21,9 @@ class ErrorMiddleware
     }
 
     /**
+     * @param RequestInterface $request
+     * @param array            $options
+     *
      * @return PromiseInterface
      */
     public function __invoke(RequestInterface $request, array $options)
@@ -47,6 +50,8 @@ class ErrorMiddleware
 
     /**
      * Check for an error.
+     *
+     * @param ResponseInterface $response
      */
     public function checkError(ResponseInterface $response)
     {
@@ -61,7 +66,7 @@ class ErrorMiddleware
 
         $body = (string) $response->getBody();
         $responseData = json_decode($body, true);
-        if (\JSON_ERROR_NONE !== json_last_error()) {
+        if (JSON_ERROR_NONE !== json_last_error()) {
             $responseData = $body;
         }
 
@@ -91,6 +96,8 @@ class ErrorMiddleware
 
     /**
      * Check if user hit limit.
+     *
+     * @param ResponseInterface $response
      */
     private function checkUserRateLimit(ResponseInterface $response)
     {
@@ -104,6 +111,8 @@ class ErrorMiddleware
 
     /**
      * Check if client hit limit.
+     *
+     * @param ResponseInterface $response
      */
     private function checkClientRateLimit(ResponseInterface $response)
     {
@@ -120,6 +129,8 @@ class ErrorMiddleware
 
     /**
      * Check if client hit post limit.
+     *
+     * @param ResponseInterface $response
      */
     private function checkPostRateLimit(ResponseInterface $response)
     {

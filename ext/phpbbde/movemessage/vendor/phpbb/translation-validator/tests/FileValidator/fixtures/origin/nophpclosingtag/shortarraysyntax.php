@@ -1,5 +1,0 @@
-<?php
-
-$synonyms = [
-	'Cacao'			=> 'Kakao',
-];

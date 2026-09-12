@@ -122,6 +122,7 @@ class Album extends AbstractApi
      * (Not available for anonymous albums.).
      *
      * @param string $albumId
+     * @param array  $imageIds
      *
      * @see https://api.imgur.com/endpoints/album#album-set-to
      *
@@ -137,6 +138,7 @@ class Album extends AbstractApi
      * (Not available for anonymous albums. Adding images to an anonymous album is only available during image uploading.).
      *
      * @param string $albumId
+     * @param array  $imageIds
      *
      * @see https://api.imgur.com/endpoints/album#album-add-to
      *
@@ -152,6 +154,7 @@ class Album extends AbstractApi
      * For anonymous albums, $deletehashOrAlbumId should be the deletehash that is returned at creation.
      *
      * @param string $deletehashOrAlbumId
+     * @param array  $imageIds
      *
      * @see https://api.imgur.com/endpoints/album#album-remove-from
      *

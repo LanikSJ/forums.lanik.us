@@ -1,3 +1,0 @@
-Testing with CRLF
-Should still find the email signature
-{EMAIL_SIG}
