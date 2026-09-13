@@ -44,6 +44,3 @@ services:
       - "@log"
       - "@alfredoramos.imgur.j0k3r.imgur.client"
       - "@alfredoramos.imgur.helper"
-
-  _defaults:
-    public: true
