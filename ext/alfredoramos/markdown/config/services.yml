@@ -29,6 +29,3 @@ services:
     arguments:
       - "%core.root_path%"
       - "%core.php_ext%"
-
-  _defaults:
-    public: true

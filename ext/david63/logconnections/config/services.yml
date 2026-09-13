@@ -21,6 +21,3 @@ services:
 
   david63.logconnections.core.functions:
     class: david63\logconnections\core\functions
-
-_defaults:
-  public: true

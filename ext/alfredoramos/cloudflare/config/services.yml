@@ -61,6 +61,3 @@ services:
       - ["set_name", ["alfredoramos.cloudflare.captcha.turnstile"]]
     tags:
       - { name: captcha.plugins }
-
-  _defaults:
-    public: true
