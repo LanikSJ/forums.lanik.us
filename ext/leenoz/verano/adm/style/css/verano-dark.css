@@ -1,0 +1,462 @@
+/* verano-dark.css
+   Dark companion for the Verano ACP extension (ext/leenoz/verano).
+   Load AFTER css/verano-light.css. Mirrors Verano's Tailwind palette:
+   surfaces #f3f4f6/#fff -> dark equivalents, accent #2563eb kept. */
+
+::-webkit-scrollbar-thumb { background-color: #4a515b; }
+::-webkit-scrollbar-thumb:hover { background-color: #5d656f; }
+
+html, body, #wrap {
+	color: #d5d9de;
+	background-color: #111316;
+}
+
+body.loading {
+	background-color: #111316;
+}
+
+h1, h2, h3 {
+	color: #e9ecf0;
+}
+
+p {
+	color: #9aa3ad;
+}
+
+hr {
+	border-top-color: #343a42 !important;
+}
+
+a, a:hover, a:visited, a:focus, a:active {
+	color: #5b9bf0;
+}
+
+#page-footer {
+	color: #9aa3ad;
+}
+
+#skip a:focus {
+	color: #d5d9de;
+	background-color: #1b1e23;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .5);
+}
+
+/* Dropdown menus */
+.vo-dropdown-menu ul {
+	background-color: #1b1e23;
+	border-color: #343a42;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .5);
+}
+
+.vo-dropdown-menu .dropdown-link {
+	color: #d5d9de;
+}
+
+.vo-dropdown-menu .dropdown-link:hover {
+	background-color: #262b32;
+}
+
+/* Top navigation bar */
+#navigation .navigation-content .btn {
+	color: #fff;
+}
+
+#navigation .breadcrumb {
+	color: #fff;
+}
+
+#navigation .breadcrumb a {
+	color: #fff;
+}
+
+#navigation .user-avatar-head {
+	border-bottom-color: rgba(255, 255, 255, .25);
+}
+
+/* Tab bar (module chooser) */
+#tab-bar {
+	background-color: #1b1e23;
+	border-bottom-color: #343a42;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .4);
+}
+
+#tab-bar li.tab > a {
+	color: #d5d9de;
+	background-color: #22262c;
+	border-color: #343a42;
+}
+
+/* Tables */
+table {
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+tbody a, tbody a:link, tbody a:visited {
+	color: #d5d9de;
+}
+
+tbody a:hover, tbody a:focus, tbody a:active {
+	color: #5b9bf0;
+}
+
+th {
+	color: #fff;
+}
+
+.row1, table.zebra-table tbody tr:nth-child(odd)  { background-color: #20242a; }
+.row2, table.zebra-table tbody tr:nth-child(even) { background-color: #262b32; }
+.row3  { background-color: #2e343c; }
+.row4  { background-color: #242930; }
+.col1  { background-color: #262b32; }
+.col2  { background-color: #20242a; }
+.row1a { background-color: #20242a; }
+.row1b { background-color: #262b32; }
+.row2a { background-color: #2e343c; }
+.row2b { background-color: #242930; }
+
+tr.row-highlight:hover td {
+	background-color: #323943;
+}
+
+.spacer {
+	background-color: #323943;
+}
+
+table.responsive tr {
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+table.responsive caption {
+	color: #fff;
+}
+
+/* Fieldsets, legends, forms */
+fieldset {
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+legend {
+	color: #5b9bf0;
+}
+
+input, textarea, select {
+	color: #d5d9de;
+	background-color: #16181c;
+	border-color: #343a42;
+}
+
+fieldset:is(.quick, .display-options) input:not(.button1),
+fieldset:is(.quick, .display-options) select,
+fieldset:is(.quick, .display-options) textarea {
+	color: #d5d9de;
+	background-color: #16181c;
+}
+
+table select,
+table .radio,
+table .checkbox,
+table .check,
+table input[type="checkbox"]:not([class]),
+legend .radio,
+legend .checkbox,
+legend .check,
+legend input[type="checkbox"]:not([class]) {
+	border-color: #343a42;
+	background-color: #16181c;
+}
+
+.radio, .checkbox, .check,
+input[type="radio"]:not([class]),
+input[type="checkbox"]:not([class]) {
+	background-color: #16181c;
+}
+
+select option.disabled {
+	background-color: #2a2f36;
+}
+
+input[type="file"] {
+	background-color: #16181c;
+	border-color: #343a42;
+}
+
+input[type="file"]::file-selector-button {
+	color: #d5d9de;
+	background-color: #22262c;
+	border-inline-end-color: #343a42;
+}
+
+dl {
+	border-top-color: #22262c;
+}
+
+dt span {
+	color: #9aa3ad;
+}
+
+fieldset.tabulated input {
+	background-color: #16181c;
+}
+
+fieldset.display-options {
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+/* Buttons */
+.button1:hover,
+.button1:focus {
+	background-color: #3b82f6;
+}
+
+.button2 {
+	color: #d5d9de;
+	background-color: #22262c;
+	border-color: #343a42;
+}
+
+fieldset.quick .button2,
+fieldset.quick .button2:hover,
+fieldset.quick .button2:focus {
+	background-color: #1b1e23;
+}
+
+fieldset:not(.tabulated) fieldset.quick .button2 {
+	background-color: #22262c;
+}
+
+fieldset.submit-buttons .button2 {
+	background-color: #22262c;
+}
+
+.box2 .inputbox {
+	background-color: #16181c;
+}
+
+/* jQuery alerts */
+.phpbb_alert {
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+.phpbb_alert .alert_close {
+	border-color: #343a42;
+}
+
+.phpbb_alert .alert_close:hover {
+	border-color: #f87171;
+	background-color: #451a20;
+}
+
+.phpbb_alert .alert_close:hover::after {
+	background-color: #f87171;
+}
+
+.phpbb_alert p {
+	color: #9aa3ad;
+}
+
+/* Pagination */
+.pagination > a[onclick],
+.pagination li a,
+.pagination li a:link,
+.pagination li a:visited,
+.pagination li.active span {
+	color: #d5d9de;
+	background-color: #1b1e23;
+	border-color: #343a42;
+}
+
+.pagination > a[onclick]:hover,
+.pagination li a:hover,
+.pagination li a:link:hover,
+.pagination li a:visited:hover,
+.pagination li.active span:hover {
+	color: #5b9bf0;
+	background-color: #22262c;
+}
+
+.pagination li a:focus,
+.pagination li a:link:focus,
+.pagination li a:visited:focus,
+.pagination li.active span:focus {
+	background-color: #22262c;
+}
+
+.pagination li.ellipsis span {
+	color: #d5d9de;
+}
+
+/* Status boxes */
+.errorbox {
+	color: #fda4af;
+	border-color: #7f2d36;
+	background-color: #3b1d22;
+}
+
+.error, .errorbox a, .errorbox * {
+	color: #fda4af;
+}
+
+.successbox {
+	border-color: #2f6b41;
+	background-color: #16311f;
+}
+
+.success, .successbox a, .successbox * {
+	color: #86efac;
+}
+
+.warningbox {
+	border-color: #8a6d12;
+	background-color: #332711;
+}
+
+.warningbox, .warningbox a, .warningbox * {
+	color: #fde68a;
+}
+
+.notice, #auth_oauth_settings p {
+	color: #93c5fd;
+	border-color: #2d4a71;
+	background-color: #16283f;
+}
+
+/* Error page */
+#errorpage #content h2 {
+	color: #d5d9de;
+	border-bottom-color: #343a42;
+}
+
+/* Tooltip */
+.tooltip {
+	border-color: #343a42;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .5);
+}
+
+.tooltip span.top {
+	background-color: #22262c;
+	border-bottom-color: #343a42;
+}
+
+.tooltip span.bottom {
+	background-color: #1b1e23;
+}
+
+/* Syntax highlighting */
+.sourcenum    { color: #6a7077; }
+.syntaxbg     { color: #e9ecf0; }
+.syntaxcomment  { color: #ff9d4d; }
+.syntaxdefault  { color: #8fb8ff; }
+.syntaxhtml     { color: #d4d7db; }
+.syntaxkeyword  { color: #7ed49a; }
+.syntaxstring   { color: #ff8a8a; }
+
+/* Permission interface */
+.permissions-switch a {
+	color: #9aa3ad;
+}
+
+.permissions-category a {
+	border-color: #343a42;
+	background-color: #1e2126;
+}
+
+.permissions-category a span.tabbg {
+	color: #d5d9de;
+}
+
+.permissions-category .activetab a {
+	background-color: #22262c;
+}
+
+.permissions-category a span.colour {
+	border-color: #4a515b;
+}
+
+.permissions-category .activetab span.colour,
+.permissions-category .activetab a:hover span.colour {
+	border-color: #d5d9de;
+}
+
+.permissions-panel {
+	background-color: #22262c;
+	border-color: #343a42;
+}
+
+.permissions-panel th.permissions-name {
+	color: #9aa3ad;
+}
+
+.permissions-panel th.row3 {
+	color: #9aa3ad;
+	background-color: #2e343c;
+}
+
+.permissions-panel th.row4 {
+	background-color: #242930;
+}
+
+.dropdown .pointer {
+	border-color: #343a42 transparent;
+}
+
+.dropdown .pointer-inner {
+	border-color: #1b1e23 transparent;
+}
+
+.dropdown .dropdown-contents {
+	background-color: #1b1e23;
+	border-color: #343a42;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .5);
+}
+
+.roles-options > span {
+	background-color: #16181c;
+	border-color: #343a42;
+}
+
+/* Extensions list */
+.current-ext {
+	color: #4ade80;
+}
+
+.outdated-ext {
+	color: #f87171;
+}
+
+/* Progress bar & send stats */
+#progress-bar {
+	border-color: #343a42;
+}
+
+.send-stats-tile {
+	background-color: #1b1e23;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .5);
+}
+
+.send-stats-data-row {
+	border-color: #343a42;
+	background-color: #22262c;
+}
+
+.send-stats-row > .send-stats-data-row:first-child {
+	background-color: #22262c;
+}
+
+/* Gallery & misc */
+#gallery li label::after {
+	background-color: #22262c;
+	border-color: #343a42;
+}
+
+#vo-error {
+	background: #1b1e23;
+}
+
+.acp-icon-disabled {
+	color: #6a7077;
+}
