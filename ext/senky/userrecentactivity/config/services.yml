@@ -1,17 +1,17 @@
 services:
-  senky.userrecentactivity.listener:
-    class: senky\userrecentactivity\event\listener
-    arguments:
-      - "@dbal.conn"
-      - "@config"
-      - "@auth"
-      - "@template"
-      - "@user"
-      - "@content.visibility"
-      - "%core.root_path%"
-      - "%core.php_ext%"
-    tags:
-      - { name: event.listener }
+    senky.userrecentactivity.listener:
+        class: senky\userrecentactivity\event\listener
+        arguments:
+            - '@dbal.conn'
+            - '@config'
+            - '@auth'
+            - '@template'
+            - '@user'
+            - '@content.visibility'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
 
-_defaults:
-  public: true
+    _defaults:
+        public: true

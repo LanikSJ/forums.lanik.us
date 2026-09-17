@@ -20,7 +20,7 @@
         "composer/installers": "~1.0.0"
     },
     "extra": {
-        "display-name": "Simple mentions",
+        "display-name": "Simple Mentions",
         "soft-require": {
             "phpbb/phpbb": ">=3.3.0RC1,<3.4.0@dev"
         },

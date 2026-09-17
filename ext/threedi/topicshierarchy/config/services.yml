@@ -1,10 +1,10 @@
 services:
-  threedi.topicshierarchy.listener:
-    class: threedi\topicshierarchy\event\main_listener
-    arguments:
-      - "@language"
-    tags:
-      - { name: event.listener }
+    threedi.topicshierarchy.listener:
+        class: threedi\topicshierarchy\event\main_listener
+        arguments:
+            - '@language'
+        tags:
+            - { name: event.listener }
 
-_defaults:
-  public: true
+    _defaults:
+        public: true

@@ -26,7 +26,7 @@
         "composer/installers": "~1.0.0"
     },
     "extra": {
-        "display-name": "Spamsecure by 69bruno",
+        "display-name": "Spamsecure",
         "lang-min-ver": "1.0.6",
         "soft-require": {
             "phpbb/phpbb": ">=3.2.10,<3.4.0@dev"
