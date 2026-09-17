@@ -31,5 +31,3 @@ services:
       - [set_user_loader, ["@user_loader"]]
     tags:
       - { name: notification.type }
-_defaults:
-  public: true

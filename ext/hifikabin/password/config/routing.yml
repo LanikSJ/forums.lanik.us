@@ -1,0 +1,3 @@
+hifikabin_password_controller:
+    path: /password
+    defaults: { _controller: hifikabin.password.controller:base }

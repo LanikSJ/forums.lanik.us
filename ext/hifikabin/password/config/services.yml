@@ -1,0 +1,20 @@
+services:
+    hifikabin.password.controller:
+        class: hifikabin\password\controller\main
+        arguments:
+            - '@template'
+            - '@user'
+            - '@controller.helper'
+            - '@request'
+    hifikabin.password.listener:
+        class: hifikabin\password\event\listener
+        arguments:
+            - '@controller.helper'
+            - '@template'
+            - '@config'
+            - '@language'
+        tags:
+            - { name: event.listener }
+
+    _defaults:
+        public: true

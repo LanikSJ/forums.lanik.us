@@ -1,11 +1,11 @@
 services:
-  senky.removesubjectfromreplies.listener:
-    class: senky\removesubjectfromreplies\event\listener
-    arguments:
-      - "@user"
-      - "%tables.topics%"
-    tags:
-      - { name: event.listener }
+    senky.removesubjectfromreplies.listener:
+        class: senky\removesubjectfromreplies\event\listener
+        arguments:
+            - '@user'
+            - '%tables.topics%'
+        tags:
+            - { name: event.listener }
 
-_defaults:
-  public: true
+    _defaults:
+        public: true

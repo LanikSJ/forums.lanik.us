@@ -1,7 +1,8 @@
 services:
-  dmzx.prettytopic.listener:
-    class: dmzx\prettytopic\event\listener
-    tags:
-      - { name: event.listener }
-_defaults:
-  public: true
+    dmzx.prettytopic.listener:
+        class: dmzx\prettytopic\event\listener
+        tags:
+            - { name: event.listener }
+
+    _defaults:
+        public: true
