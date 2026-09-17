@@ -1,3 +1,0 @@
-[submodule "ext/pcgf/ajaxregistrationcheck"]
-	path = ext/pcgf/ajaxregistrationcheck
-	url = git@github.com:LanikSJ/phpBB-AJAX-Registration-Check.git
