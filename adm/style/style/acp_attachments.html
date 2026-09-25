@@ -122,11 +122,16 @@
 				if (newimage == 'no_image')
 				{
 					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
+					return;
 				}
-				else
+
+				if (!/^[a-zA-Z0-9._-]+$/.test(newimage))
 				{
-					document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
+					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
+					return;
 				}
+
+				document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
 			}
 
 			function show_extensions(elem)
