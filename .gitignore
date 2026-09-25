@@ -22,6 +22,7 @@
 *.env
 *.lock
 error_log
+cache/production/
 
 # macOS Ignores
 .DS_Store

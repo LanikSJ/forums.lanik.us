@@ -1,0 +1,405 @@
+/* dark-admin.css
+   Dark theme for the phpBB ACP.
+   Loaded AFTER adm/style/admin.css (see overall_header.html) and overrides it
+   using the same selectors. Palette roughly matches styles/prosilver_dark. */
+
+/* Base surface & text */
+html, body {
+	color: #d4d7db;
+	background-color: #1a1c20;
+}
+
+h1 {
+	color: #e9ecf0;
+}
+
+h2, caption {
+	color: #cfe0f2;
+}
+
+h3, h4 {
+	color: #d4d7db;
+}
+
+p, div, td, th, li {
+	color: #d4d7db;
+}
+
+dd {
+	color: #99a1aa;
+}
+
+hr {
+	border-top-color: #3d434c;
+}
+
+/* Links */
+a:link, a:visited {
+	color: #6fb2e8;
+}
+
+a:hover {
+	color: #a4cdf3;
+}
+
+a:active {
+	color: #368AD2;
+}
+
+/* Header / footer */
+#page-header h1 {
+	color: #99a1aa;
+}
+
+#page-header p {
+	color: #99a1aa;
+}
+
+#content h1 {
+	color: #e9ecf0;
+}
+
+.copyright {
+	color: #99a1aa;
+}
+
+/* Panels */
+#acp, .panel {
+	background: #23262b;
+	border-color: #3d434c;
+	box-shadow: rgba(255, 255, 255, .06) 0 0 0 1px inset;
+}
+
+/* Top tabs */
+#tabs, #tabs .tab {
+	background-color: transparent;
+	background-image: none;
+}
+
+#tabs .tab > a {
+	color: #b6bcc4;
+	background: #2b2e35;
+	border: 1px solid #3d434c;
+}
+
+#tabs .tab > a:hover {
+	color: #e88aa8;
+	background-color: #33373f;
+	border-color: #4a515b;
+}
+
+#tabs .activetab > a,
+#tabs .activetab > a:hover {
+	color: #e9ecf0;
+	background: #3a4754;
+	border-color: #4a5a6b;
+}
+
+#tabs .dropdown-contents,
+#minitabs .dropdown-contents {
+	background-color: #26282e;
+	border-color: #3d434c;
+}
+
+#tabs .dropdown li,
+#minitabs .dropdown li {
+	border-color: #3d434c;
+}
+
+#tabs .dropdown a,
+#minitabs .dropdown a {
+	color: #6fb2e8;
+}
+
+/* Left navigation menu */
+#menu {
+	border-color: #3d434c;
+}
+
+#menu li span {
+	color: #7fb8e6;
+	background-color: transparent;
+}
+
+#menu li a:hover,
+#menu li a:hover span {
+	background-color: #33373f;
+	color: #e9ecf0;
+}
+
+#menu li#activemenu a:hover span,
+#menu li#activemenu span {
+	color: #e9ecf0;
+	background: #33373f url("../images/arrow_right.gif") 1% 50% no-repeat;
+}
+
+.rtl #menu li#activemenu a:hover span,
+.rtl #menu li#activemenu span {
+	background: #33373f url("../images/arrow_left.gif") 99% 50% no-repeat;
+}
+
+#menu li a:active,
+#menu li a:active span,
+#menu li#activemenu a:active span {
+	color: #f06fb0;
+}
+
+#menu .header {
+	color: #cfe2f5;
+	background-color: transparent;
+	border-bottom-color: #3d434c;
+}
+
+#menu .menu-block.active {
+	background: rgba(255, 255, 255, .06);
+}
+
+/* Tables */
+table {
+	color: #d4d7db;
+	background-color: #23262b;
+	border-color: #3d434c;
+}
+
+th {
+	color: #e9ecf0;
+	background: #3a4550;
+	border-top-color: #4a5560;
+	border-bottom-color: #2e3740;
+}
+
+table.responsive th,
+table.responsive thead th {
+	color: #e9ecf0;
+	background: #3a4550;
+	border-top-color: #4a5560;
+	border-bottom-color: #2e3740;
+}
+
+td {
+	border-color: #3d434c;
+}
+
+table.type2 td,
+table.type2 td.name,
+table.type3 thead th,
+table.type3 tbody th {
+	color: #9ccaf0;
+}
+
+/* Zebra rows */
+.row1, tr.row1a, tr.col2 { background-color: #25272c; }
+.row2, .col1, tr.row2a  { background-color: #2b3138; }
+.row3                    { background-color: #2e3238; }
+.row4                    { background-color: #272a30; }
+.row1b                   { background-color: #222429; }
+.row2b                   { background-color: #282f36; }
+
+table.zebra-table tbody tr:nth-child(odd)  { background-color: #25272c; }
+table.zebra-table tbody tr:nth-child(even) { background-color: #2b3138; }
+
+table.responsive tr.row1 td  { background-color: #25272c; }
+table.responsive tr.row2 td  { background-color: #2b3138; }
+table.responsive tr.row3 td  { background-color: #2e3238; }
+table.responsive tr.row4 td  { background-color: #272a30; }
+table.responsive tr.col1 td  { background-color: #2b3138; }
+table.responsive tr.col2 td  { background-color: #25272c; }
+table.responsive tr.row1a td { background-color: #25272c; }
+table.responsive tr.row1b td { background-color: #222429; }
+table.responsive tr.row2a td { background-color: #2b3138; }
+table.responsive tr.row2b td { background-color: #282f36; }
+
+tr.row-highlight:hover td,
+.spacer {
+	background-color: #3a404a;
+}
+
+.row-inactive {
+	color: #7c838b;
+}
+
+.row-inactive a, .row-inactive strong {
+	color: #8b929a;
+}
+
+.row-inactive a:hover {
+	color: #a4cdf3;
+}
+
+/* Fieldsets & legends */
+fieldset, .rtl fieldset {
+	background-color: #23262b;
+	border-color: #3d434c;
+}
+
+legend, fieldset dl dt {
+	color: #9ccaf0;
+}
+
+/* Form controls */
+input, textarea, .rtl input, .rtl textarea {
+	color: #d4d7db;
+	background-color: #1a1c20;
+	border: 1px solid #3d434c;
+}
+
+input:hover, textarea:hover, .rtl input:hover, .rtl textarea:hover {
+	background-color: #202329;
+	border-color: #4a515b;
+}
+
+input:focus, textarea:focus {
+	border: 1px solid #368AD2;
+	background-color: #1a1c20;
+	color: #d4d7db;
+}
+
+optgroup, select {
+	color: #d4d7db;
+	background-color: #1a1c20;
+	border-color: #3d434c;
+}
+
+option {
+	color: #d4d7db;
+	background-color: #1a1c20;
+}
+
+optgroup.disabled-options {
+	background-color: #33373f;
+}
+
+option.disabled-option {
+	color: #6a7077;
+}
+
+input.disabled {
+	color: #6a7077;
+}
+
+.box2 .inputbox {
+	background-color: #1a1c20;
+}
+
+/* Buttons */
+a.button1, input.button1,
+a.button2, input.button2 {
+	color: #d4d7db;
+	background: #33373f;
+	border: 1px solid #4a515b;
+}
+
+a.button1:link, a.button1:visited, a.button1:active,
+a.button2:link, a.button2:visited, a.button2:active {
+	color: #d4d7db;
+}
+
+a.button1:hover, input.button1:hover,
+a.button2:hover, input.button2:hover {
+	border: 1px solid #368AD2;
+	background: #3a4754;
+	color: #e9ecf0;
+}
+
+/* Action highlighting */
+.success { color: #7ed49a; }
+.error   { color: #ef8aa4; }
+
+.successbox { background-color: #2f8f4e; }
+.errorbox   { background-color: #b34059; }
+.warningbox { background-color: #c98a1b; }
+
+/* Log viewer & notices */
+#log-container {
+	background-color: #1a1c20;
+}
+
+#log-container.show_log_container {
+	border-color: #3d434c;
+}
+
+.notice {
+	background-color: #3f6c85;
+	color: #e9ecf0;
+}
+
+/* Error page */
+#errorpage #content h1 {
+	color: #ef8aa4;
+}
+
+#errorpage #content h2 {
+	color: #d4d7db;
+	border-bottom-color: #3d434c;
+}
+
+/* Tooltip (permission roles) */
+.tooltip {
+	color: #d4d7db;
+	border-color: #4a515b;
+}
+
+.tooltip span.top {
+	background: #33373f;
+}
+
+.tooltip span.bottom {
+	color: #d4d7db;
+	background: #1a1c20;
+}
+
+/* Pagination */
+.pagination li a,
+.pagination li a:link,
+.pagination li a:visited {
+	color: #9ccaf0;
+	background-color: #2b2e35;
+	border-color: #3d434c;
+}
+
+.pagination li.ellipsis span {
+	color: #99a1aa;
+}
+
+/* Progress bar (database updater etc.) */
+#progress-bar {
+	border-color: #3d434c;
+	background-color: #23262b;
+}
+
+#progress-bar #progress-bar-text {
+	color: #d4d7db;
+}
+
+/* Send statistics tiles */
+.send-stats-tile {
+	background-color: #26282e;
+	box-shadow: rgba(0, 0, 0, .4) 1px 1px 5px;
+}
+
+.send-stats-data-row {
+	background: #222429;
+	border-color: #3d434c;
+}
+
+.send-stats-row > .send-stats-data-row:first-child {
+	background-color: #2c3e4a;
+}
+
+.send-stats-settings input[type=checkbox]:checked + label:before {
+	color: #7ed49a;
+}
+
+/* Syntax highlighting (view source / phpinfo) */
+.sourcenum    { color: #6a7077; }
+.syntaxbg     { color: #e9ecf0; }
+.syntaxcomment  { color: #ff9d4d; }
+.syntaxdefault  { color: #8fb8ff; }
+.syntaxhtml     { color: #d4d7db; }
+.syntaxkeyword  { color: #7ed49a; }
+.syntaxstring   { color: #ff8a8a; }
+
+/* Misc */
+.acp-icon-disabled {
+	color: #6a7077;
+}

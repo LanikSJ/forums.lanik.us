@@ -2,8 +2,8 @@
     "name": "vse/smartsubjects",
     "type": "phpbb-extension",
     "description": "When editing the subject of the first post in a topic, all subsequent posts with matching (Re:) subjects will also be updated to the new subject.",
-    "homepage": "https://github.com/VSEphpbb/smartsubjects",
-    "version": "1.0.0",
+    "homepage": "https://github.com/iMattPro/smartsubjects",
+    "version": "1.1.0",
     "keywords": [
         "phpbb",
         "extension",
@@ -14,25 +14,31 @@
     "license": "GPL-2.0-only",
     "authors": [
         {
-            "name": "Matt Friedman (VSE)",
-            "homepage": "http://mattfriedman.me",
+            "name": "Matt Friedman",
+            "homepage": "https://imattpro.github.io",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.3.3",
-        "phpbb/phpbb": ">=3.1.0",
-        "composer/installers": "~1.0.0"
+        "php": ">=5.4",
+        "composer/installers": "^1.0 || ^2.0",
+        "phpbb/phpbb": ">=3.2.1"
     },
     "extra": {
         "display-name": "Smart Subjects",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.0"
+            "phpbb/phpbb": ">=3.2.1"
         },
         "version-check": {
             "host": "www.phpbb.com",
             "directory": "/customise/db/extension/smart_subjects",
-            "filename": "version_check"
+            "filename": "version_check",
+            "ssl": true
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
         }
     }
 }

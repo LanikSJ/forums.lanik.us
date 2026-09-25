@@ -27,11 +27,11 @@ class main_controller implements main_interface
 	/** @var \phpbb\boardrules\operators\rule */
 	protected $rule_operator;
 
+	/** @var \phpbb\boardrules\operators\ruleset */
+	protected $ruleset_operator;
+
 	/** @var \phpbb\template\template */
 	protected $template;
-
-	/** @var \phpbb\user */
-	protected $user;
 
 	/** @var string phpBB root path */
 	protected $root_path;
@@ -46,20 +46,20 @@ class main_controller implements main_interface
 	* @param \phpbb\controller\helper         $helper        Controller helper object
 	* @param \phpbb\language\language         $lang          Language object
 	* @param \phpbb\boardrules\operators\rule $rule_operator Rule operator object
+	* @param \phpbb\boardrules\operators\ruleset $ruleset_operator Ruleset operator object
 	* @param \phpbb\template\template         $template      Template object
-	* @param \phpbb\user                      $user          User object
 	* @param string                           $root_path     phpBB root path
 	* @param string                           $php_ext       phpEx
 	* @access public
 	*/
-	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\boardrules\operators\rule $rule_operator, \phpbb\template\template $template, \phpbb\user $user, $root_path, $php_ext)
+	public function __construct(\phpbb\config\config $config, \phpbb\controller\helper $helper, \phpbb\language\language $lang, \phpbb\boardrules\operators\rule $rule_operator, \phpbb\boardrules\operators\ruleset $ruleset_operator, \phpbb\template\template $template, $root_path, $php_ext)
 	{
 		$this->config = $config;
 		$this->helper = $helper;
 		$this->lang = $lang;
 		$this->rule_operator = $rule_operator;
+		$this->ruleset_operator = $ruleset_operator;
 		$this->template = $template;
-		$this->user = $user;
 		$this->root_path = $root_path;
 		$this->php_ext = $php_ext;
 	}
@@ -69,6 +69,7 @@ class main_controller implements main_interface
 	*
 	* @return \Symfony\Component\HttpFoundation\Response A Symfony Response object
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If stored rule data is invalid
 	*/
 	public function display()
 	{
@@ -81,32 +82,51 @@ class main_controller implements main_interface
 		// Add boardrules controller language file
 		$this->lang->add_lang('boardrules_controller', 'phpbb/boardrules');
 
-		$last_right_id = null; // Used to help determine when to close nesting structures
-		$depth = 0; // Used to track the depth of nesting level
+		$open_categories = array(); // Right boundaries for categories currently containing the next item
 		$cat_counter = 1; // Numeric counter used for categories
 		$rule_counter = 'a'; // Alpha counter used for rules
+		$list_style = $this->config['boardrules_list_style'];
+		$compound_counters = array();
 
-		// Grab all the rules in the current user's language
-		$entities = $this->rule_operator->get_rules($this->lang->get_used_language());
+		// Grab all published rules in the current user's language
+		$used_language = $this->lang->get_used_language();
+		$display_language = $used_language;
+		$entities = $this->ruleset_operator->is_published($used_language) ? $this->rule_operator->get_rules($used_language) : array();
 
 		// If no rules were found, it may be because no rules exist in the current user's
 		// language, so let's look for rules in the board's default language as a fallback.
-		if (empty($entities) && $this->lang->get_used_language() !== $this->config['default_lang'])
+		if (empty($entities) && $used_language !== $this->config['default_lang'] && $this->ruleset_operator->is_published($this->config['default_lang']))
 		{
+			$display_language = $this->config['default_lang'];
 			$entities = $this->rule_operator->get_rules($this->config['default_lang']);
 		}
 
 		/* @var $entity \phpbb\boardrules\entity\rule */
 		foreach ($entities as $entity)
 		{
+			// Nested-set coordinates are shared by every language. Filtering one language
+			// leaves gaps, so close lists by ancestor boundaries rather than ID distance.
+			while (!empty($open_categories) && $entity->get_left_id() > end($open_categories))
+			{
+				array_pop($open_categories);
+				$this->template->assign_block_vars('rules', array(
+					'S_CLOSE_LIST'	=> true,
+				));
+			}
+
+			$item_depth = count($open_categories);
+
+			// Build a stable compound number from sibling positions at every nesting level
+			$compound_counters = array_slice($compound_counters, 0, $item_depth + 1);
+			$compound_counters[$item_depth] = isset($compound_counters[$item_depth]) ? $compound_counters[$item_depth] + 1 : 1;
+			$compound_number = implode('.', $compound_counters);
+
 			if ($entity->get_right_id() - $entity->get_left_id() > 1)
 			{
 				// Rule categories
 				$is_category = true;
 				$anchor = $entity->get_anchor() ?: $this->lang->lang('BOARDRULES_CATEGORY_ANCHOR', $cat_counter);
 
-				// Increment nesting level depth counter
-				$depth++;
 				// Increment category counter
 				$cat_counter++;
 				// Reset rule counter
@@ -116,27 +136,15 @@ class main_controller implements main_interface
 			{
 				// Rules
 				$is_category = false;
-				$anchor = $entity->get_anchor() ?: $this->lang->lang('BOARDRULES_RULE_ANCHOR', ($cat_counter - 1) . $rule_counter);
+				$anchor = $entity->get_anchor() ?: $this->lang->lang('BOARDRULES_RULE_ANCHOR', $item_depth ? ($cat_counter - 1) . $rule_counter : $compound_number);
 
 				// Increment rule counter
 				$rule_counter++;
 			}
 
-			// Determine how deeply nested we are and use closing tags as necessary
-			$diff = ($last_right_id !== null) ? $entity->get_left_id() - $last_right_id : 1;
-			if ($diff > 1)
-			{
-				for ($i = 1; $i < $diff; $i++)
-				{
-					$depth--; // decrement the nesting level depth counter
-					$this->template->assign_block_vars('rules', array(
-						'S_CLOSE_LIST'	=> true,
-					));
-				}
-			}
-
-			// Set last_right_id value with the current item's value
-			$last_right_id = $entity->get_right_id();
+			// Categories open the list containing their children. Keep their existing
+			// one-based display depth; rules use the containing category count.
+			$depth = $is_category ? $item_depth + 1 : $item_depth;
 
 			// Assign values to template vars for this rule entity
 			$this->template->assign_block_vars('rules', array(
@@ -144,26 +152,35 @@ class main_controller implements main_interface
 				'MESSAGE'		=> $entity->get_message_for_display(),
 				'U_ANCHOR'		=> $anchor,
 				'S_IS_CATEGORY'	=> $is_category,
+				'DEPTH'			=> $depth,
+				'COMPOUND_NUMBER' => $compound_number,
 			));
-		}
 
-		// By this point, if any nested structures are still open, attempt to close them
-		if ($depth > 0)
-		{
-			for ($i = 0; $i < $depth; $i++)
+			if ($is_category)
 			{
-				$this->template->assign_block_vars('rules', array(
-					'S_CLOSE_LIST'	=> true,
-				));
+				$open_categories[] = $entity->get_right_id();
 			}
 		}
 
+		// Close every category still containing the end of the result set.
+		while (!empty($open_categories))
+		{
+			array_pop($open_categories);
+			$this->template->assign_block_vars('rules', array(
+				'S_CLOSE_LIST'	=> true,
+			));
+		}
+
 		// Assign values to template vars for the rules page
+		$intro_text = $this->ruleset_operator->get_intro_text($display_language);
+
 		$this->template->assign_vars(array(
 			'S_BOARD_RULES'			=> true,
 			'S_CATEGORIES'			=> $cat_counter > 1,
-			'BOARDRULES_LIST_STYLE'	=> $this->config['boardrules_list_style'],
-			'BOARDRULES_EXPLAIN'	=> $this->lang->lang('BOARDRULES_EXPLAIN', $this->config['sitename']),
+			'S_LIST_UNORDERED'		=> $list_style === 'unordered',
+			'S_LIST_COMPOUND'		=> $list_style === 'compound',
+			'S_LIST_UNSTYLED'		=> $list_style === 'none',
+			'BOARDRULES_EXPLAIN'	=> $intro_text !== '' ? nl2br(utf8_htmlspecialchars($intro_text)) : $this->lang->lang('BOARDRULES_EXPLAIN', $this->config['sitename']),
 		));
 
 		// Assign breadcrumb template vars for the rules page

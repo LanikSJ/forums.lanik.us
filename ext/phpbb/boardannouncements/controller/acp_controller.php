@@ -14,6 +14,8 @@ use phpbb\boardannouncements\ext;
 use phpbb\boardannouncements\manager\manager;
 use phpbb\config\config;
 use phpbb\controller\helper;
+use phpbb\db\driver\driver_interface;
+use phpbb\json_response;
 use phpbb\language\language;
 use phpbb\log\log;
 use phpbb\request\request;
@@ -24,6 +26,9 @@ class acp_controller
 {
 	/** @var manager */
 	protected $manager;
+
+	/** @var driver_interface */
+	protected $db;
 
 	/** @var config */
 	protected $config;
@@ -59,6 +64,7 @@ class acp_controller
 	 * Constructor
 	 *
 	 * @param manager $manager
+	 * @param driver_interface $db
 	 * @param config $config
 	 * @param helper $controller_helper
 	 * @param language $language
@@ -69,9 +75,10 @@ class acp_controller
 	 * @param $phpbb_root_path
 	 * @param $php_ext
 	 */
-	public function __construct(manager $manager, config $config, helper $controller_helper, language $language, log $log, request $request, template $template, user $user, $phpbb_root_path, $php_ext)
+	public function __construct(manager $manager, driver_interface $db, config $config, helper $controller_helper, language $language, log $log, request $request, template $template, user $user, $phpbb_root_path, $php_ext)
 	{
 		$this->manager = $manager;
+		$this->db = $db;
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
 		$this->language = $language;
@@ -83,7 +90,7 @@ class acp_controller
 		$this->php_ext = $php_ext;
 
 		$this->language->add_lang('posting');
-		$this->language->add_lang( 'boardannouncements_acp', 'phpbb/boardannouncements');
+		$this->language->add_lang('boardannouncements_acp', 'phpbb/boardannouncements');
 	}
 
 	/**
@@ -138,8 +145,8 @@ class acp_controller
 			$this->template->assign_block_vars('announcements' , [
 				'DESCRIPTION'  => $row['announcement_description'],
 				'USERS'        => $row['announcement_users'],
-				'CREATED_DATE' => $row['announcement_timestamp'],
-				'EXPIRY_DATE'  => $row['announcement_expiry'],
+				'CREATED_DATE' => $row['announcement_timestamp'] ? $this->user->format_date($row['announcement_timestamp'], ext::DATE_FORMAT) : '',
+				'EXPIRY_DATE'  => $row['announcement_expiry'] ? $this->user->format_date($row['announcement_expiry'], ext::DATE_FORMAT) : '',
 				'S_EXPIRED'    => $expired,
 				'S_ENABLED'    => $enabled,
 				'LOCATIONS'    => $this->manager->decode_json($row['announcement_locations']),
@@ -186,6 +193,11 @@ class acp_controller
 		if ($id)
 		{
 			$data = $this->manager->get_announcement($id);
+
+			if (!$data)
+			{
+				$this->error('BOARD_ANNOUNCEMENTS_INVALID_ITEM');
+			}
 		}
 
 		// If form is submitted or previewed
@@ -200,7 +212,11 @@ class acp_controller
 			}
 
 			// Get new announcement values from the form
-			$data['announcement_timestamp']	= time();
+			// Preserve the original creation date when editing an announcement.
+			if (!$id)
+			{
+				$data['announcement_timestamp'] = time();
+			}
 			$data['announcement_text'] = $this->request->variable('board_announcements_text', '', true);
 			$data['announcement_description'] = $this->request->variable('board_announcements_description', '', true);
 			$data['announcement_bgcolor'] = $this->request->variable('board_announcements_bgcolor', '', true);
@@ -210,6 +226,20 @@ class acp_controller
 			$data['announcement_dismissable'] = $this->request->variable('board_announcements_dismiss', true);
 			$data['announcement_expiry'] = $this->request->variable('board_announcements_expiry', '');
 
+			// MSSQL requires all Unicode to be encoded; other DBMS only require four-byte Unicode.
+			$data['announcement_description'] = strpos($this->db->get_sql_layer(), 'mssql') === 0
+				? utf8_encode_ncr($data['announcement_description'])
+				: utf8_encode_ucr($data['announcement_description']);
+			if (utf8_strlen($data['announcement_description']) > 255)
+			{
+				$errors[] = $this->language->lang('BOARD_ANNOUNCEMENTS_DESC_TOO_LONG');
+			}
+
+			if ($data['announcement_bgcolor'] !== '' && !preg_match('/\A[0-9a-f]{6}\z/i', $data['announcement_bgcolor']))
+			{
+				$errors[] = $this->language->lang('BOARD_ANNOUNCEMENTS_BGCOLOR_INVALID');
+			}
+
 			if ($data['announcement_text'] === '')
 			{
 				$errors[] = $this->language->lang('BOARD_ANNOUNCEMENTS_TEXT_INVALID');
@@ -218,7 +248,7 @@ class acp_controller
 			// Special handling for the expiration date, convert from date string to timestamp
 			if ($data['announcement_expiry'] !== '')
 			{
-				$data['announcement_expiry'] = $this->user->get_timestamp_from_format(ext::DATE_FORMAT, $data['announcement_expiry']);
+				$data['announcement_expiry'] = (int) $this->user->get_timestamp_from_format(ext::DATE_FORMAT, $data['announcement_expiry']);
 				if ($data['announcement_expiry'] < time())
 				{
 					$errors[] = $this->language->lang('BOARD_ANNOUNCEMENTS_EXPIRY_INVALID');
@@ -230,7 +260,7 @@ class acp_controller
 			}
 
 			// Locations array should be json encoded for storage in the DB
-			$data['announcement_locations'] = json_encode($data['announcement_locations']);
+			$data['announcement_locations'] = json_encode(array_values(array_filter($data['announcement_locations'])));
 
 			// Prepare announcement text for storage
 			generate_text_for_storage(
@@ -248,7 +278,11 @@ class acp_controller
 			{
 				if ($id)
 				{
-					$this->manager->update_announcement($id, $data);
+					if (!$this->manager->update_announcement($id, $data))
+					{
+						$this->error('BOARD_ANNOUNCEMENTS_INVALID_ITEM');
+					}
+
 					$this->log_change('BOARD_ANNOUNCEMENTS_UPDATED_LOG', $data['announcement_description']);
 				}
 				else
@@ -326,9 +360,16 @@ class acp_controller
 			$description = $this->manager->get_announcement_data($id, 'announcement_description');
 
 			// Delete announcement
-			$success = $this->manager->delete_announcement($id);
+			try
+			{
+				$success = $this->manager->delete_announcement($id);
+			}
+			catch (\OutOfBoundsException $e)
+			{
+				$success = false;
+			}
 
-			// Only notify user on error or if not ajax
+			// Report the deletion result to the caller
 			if (!$success)
 			{
 				$this->error('BOARD_ANNOUNCEMENTS_DELETE_ERROR');
@@ -337,7 +378,12 @@ class acp_controller
 			{
 				$this->log_change('BOARD_ANNOUNCEMENTS_DELETED_LOG', $description);
 
-				if (!$this->request->is_ajax())
+				if ($this->request->is_ajax())
+				{
+					$json_response = new json_response;
+					$json_response->send(['success' => true]);
+				}
+				else
 				{
 					$this->success('BOARD_ANNOUNCEMENTS_DELETE_SUCCESS');
 				}
@@ -352,7 +398,7 @@ class acp_controller
 				'action' => 'delete',
 			]));
 
-			// When you don't confirm deleting action
+			// Return to list when confirmation is canceled or invalid
 			$this->list_announcements();
 		}
 	}
@@ -383,9 +429,11 @@ class acp_controller
 
 		if ($this->request->is_ajax())
 		{
-			$json_response = new \phpbb\json_response;
+			$json_response = new json_response;
 			$json_response->send(['success' => true]);
 		}
+
+		$this->list_announcements();
 	}
 
 	/**
