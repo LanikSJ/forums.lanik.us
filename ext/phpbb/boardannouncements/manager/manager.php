@@ -52,13 +52,14 @@ class manager
 	 * Get all board announcements that can be seen by the user
 	 *
 	 * @param int $user_id A user identifier
+	 * @param bool $is_registered Whether the user is registered
 	 * @return array Array of announcements data, or empty array
 	 */
-	public function get_visible_announcements($user_id)
+	public function get_visible_announcements($user_id, $is_registered)
 	{
 		$data = $this->nestedset->where_visible($user_id)->get_all_tree_data();
 
-		if ((int) $user_id === ANONYMOUS)
+		if (!$is_registered)
 		{
 			return array_filter($data, [$this, 'filter_members']);
 		}
@@ -154,16 +155,13 @@ class manager
 	}
 
 	/**
-	 * Get expired announcements
+	 * Set all expired announcements to disabled state
 	 *
-	 * @param string $column Get only a single column of announcement data
-	 * @return array An array of expired announcements or announcement column data, or empty if none
+	 * @return int|false Number of rows affected, or false
 	 */
-	public function get_expired_announcements($column)
+	public function disable_expired_announcements()
 	{
-		$data = array_filter($this->get_announcements(), [$this, 'filter_expired']);
-
-		return $column ? array_column($data, $column) : $data;
+		return $this->nestedset->disable_expired_items();
 	}
 
 	/**
@@ -224,17 +222,6 @@ class manager
 	}
 
 	/**
-	 * Filter enabled expired announcements
-	 *
-	 * @param array $row
-	 * @return bool
-	 */
-	protected function filter_expired(array $row)
-	{
-		return $row['announcement_enabled'] && $row['announcement_expiry'] && (int) $row['announcement_expiry'] < time();
-	}
-
-	/**
 	 * Make sure only necessary data make their way to SQL query
 	 *
 	 * @param	array	$data	List of data to query the database
@@ -264,7 +251,7 @@ class manager
 			'announcement_expiry'		=> 0,
 			'announcement_uid'			=> '',
 			'announcement_bitfield'		=> '',
-			'announcement_flags'			=> OPTION_FLAG_BBCODE + OPTION_FLAG_SMILIES + OPTION_FLAG_LINKS,
+			'announcement_flags'		=> OPTION_FLAG_BBCODE + OPTION_FLAG_SMILIES + OPTION_FLAG_LINKS,
 		];
 	}
 }

@@ -26,15 +26,31 @@ interface admin_interface
 	public function display_options();
 
 	/**
-	* Display the language selection
-	*
-	* Display the available languages to add/manage board rules from.
-	* If there is only one board language, this will just call display_rules().
+	* Display the language dashboard
 	*
 	* @return void
 	* @access public
 	*/
-	public function display_language_selection();
+	public function display_language_dashboard();
+
+	/**
+	 * Display and process the complete ruleset copy form.
+	 *
+	 * @param string $target_language
+	 * @param string $return_to Return destination context
+	 * @return void
+	 */
+	public function copy_ruleset($target_language, $return_to = '');
+
+	/**
+	 * Publish or return a language ruleset to draft.
+	 *
+	 * @param string $language
+	 * @param bool $published
+	 * @param string $return_to Return destination context
+	 * @return void
+	 */
+	public function set_ruleset_published($language, $published, $return_to = '');
 
 	/**
 	* Display the rules
@@ -43,8 +59,17 @@ interface admin_interface
 	* @param int $parent_id Category to display rules from; default: 0
 	* @return void
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If stored rule data is invalid
 	*/
 	public function display_rules($language, $parent_id = 0);
+
+	/**
+	 * Save a language ruleset's custom introduction.
+	 *
+	 * @param string $language
+	 * @return void
+	 */
+	public function save_ruleset_intro($language);
 
 	/**
 	* Add a rule
@@ -53,6 +78,7 @@ interface admin_interface
 	* @param int $parent_id Category to display rules from; default: 0
 	* @return void
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If stored rule data is invalid
 	*/
 	public function add_rule($language, $parent_id = 0);
 
@@ -62,6 +88,7 @@ interface admin_interface
 	* @param int $rule_id The rule identifier to edit
 	* @return void
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If the rule does not exist or stored rule data is invalid
 	*/
 	public function edit_rule($rule_id);
 
@@ -71,6 +98,7 @@ interface admin_interface
 	* @param int $rule_id The rule identifier to delete
 	* @return void
 	* @access public
+	* @throws \phpbb\boardrules\exception\out_of_bounds If the rule does not exist
 	*/
 	public function delete_rule($rule_id);
 
@@ -82,6 +110,7 @@ interface admin_interface
 	* @param int $amount The number of places to move the rule
 	* @return void
 	* @access public
+	* @throws \phpbb\boardrules\exception\out_of_bounds If the rule does not exist after moving
 	*/
 	public function move_rule($rule_id, $direction, $amount = 1);
 

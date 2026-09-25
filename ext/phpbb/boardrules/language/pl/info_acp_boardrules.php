@@ -41,10 +41,14 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge($lang, array(
 	// ACP modules
 	'ACP_BOARDRULES'				=> 'Regulamin witryny',
-	'ACP_BOARDRULES_MANAGE'			=> 'Zarządzanie przepisami',
+	'ACP_BOARDRULES_MANAGE'			=> 'Zarządzanie regułami',
 	'ACP_BOARDRULES_SETTINGS'		=> 'Ustawienia regulaminu',
 
 	// ACP Logs
 	'ACP_BOARDRULES_SETTINGS_LOG'	=> '<strong>Zmieniono ustawienia Regulaminu witryny</strong>',
 	'ACP_BOARDRULES_NOTIFY_LOG'		=> '<strong>Wysłano powiadomienie o zmianie regulaminie witryny do wszystkich użytkowników</strong>',
+	'ACP_BOARDRULES_COPY_LOG'		=> '<strong>Skopiowano zestaw językowy regulaminu witryny</strong><br />» %1$s → %2$s (%3$d przepisów)',
+	'ACP_BOARDRULES_PUBLISH_LOG'	=> '<strong>Opublikowano zestaw językowy regulaminu witryny</strong><br />» %s',
+	'ACP_BOARDRULES_DRAFT_LOG'		=> '<strong>Zmieniono zestaw językowy regulaminu witryny na szkic</strong><br />» %s',
+	'ACP_BOARDRULES_INTRO_LOG'		=> '<strong>Zmieniono wprowadzenie na stronie regulaminu</strong><br />» %s',
 ));

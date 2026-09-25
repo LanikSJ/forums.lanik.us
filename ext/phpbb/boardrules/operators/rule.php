@@ -27,17 +27,27 @@ class rule implements rule_interface
 	*/
 	protected $nestedset_rules;
 
+	/** @var \phpbb\boardrules\operators\ruleset_interface */
+	protected $ruleset_operator;
+
+	/** @var \phpbb\lock\db */
+	protected $lock;
+
 	/**
 	* Constructor
 	*
 	* @param ContainerInterface $container Service container interface
 	* @param \phpbb\boardrules\operators\nestedset_rules $nestedset_rules Nestedset object for tree functionality
+	* @param \phpbb\boardrules\operators\ruleset_interface $ruleset_operator Ruleset operator object
+	* @param \phpbb\lock\db $lock Shared Board Rules tree lock
 	* @access public
 	*/
-	public function __construct(ContainerInterface $container, \phpbb\boardrules\operators\nestedset_rules $nestedset_rules)
+	public function __construct(ContainerInterface $container, \phpbb\boardrules\operators\nestedset_rules $nestedset_rules, \phpbb\boardrules\operators\ruleset_interface $ruleset_operator, \phpbb\lock\db $lock)
 	{
 		$this->container = $container;
 		$this->nestedset_rules = $nestedset_rules;
+		$this->ruleset_operator = $ruleset_operator;
+		$this->lock = $lock;
 	}
 
 	/**
@@ -45,8 +55,9 @@ class rule implements rule_interface
 	*
 	* @param string $language Language selection iso
 	* @param int $parent_id Category to display rules from; default: 0
-	* @return array Array of rule data entities
+	* @return \phpbb\boardrules\entity\rule_interface[] Rule entities
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If stored rule data is invalid
 	*/
 	public function get_rules($language, $parent_id = 0)
 	{
@@ -76,27 +87,51 @@ class rule implements rule_interface
 	* @param int $parent_id Category to display rules from; default: 0
 	* @return \phpbb\boardrules\entity\rule_interface Added rule entity
 	* @access public
+	* @throws \InvalidArgumentException If the language is not installed
+	* @throws \RuntimeException If the nested-set lock cannot be acquired
 	* @throws \phpbb\boardrules\exception\out_of_bounds
 	*/
 	public function add_rule($entity, $language, $parent_id = 0)
 	{
-		// Insert the rule data to the database for the given language selection
-		$entity->insert($language);
-
-		// Get the newly inserted rule's identifier
-		$rule_id = $entity->get_id();
-
-		// Update the tree for the rule in the database
-		$this->nestedset_rules->add_to_nestedset($rule_id);
-
-		// If a parent id was supplied, update the rule's parent id and tree ids
-		if ($parent_id)
+		if (!$this->lock->acquire())
 		{
-			$this->nestedset_rules->change_parent($rule_id, $parent_id);
+			throw new \RuntimeException('RULES_NESTEDSET_LOCK_FAILED_ACQUIRE');
 		}
 
-		// Reload the data to return a fresh rule entity
-		return $entity->load($rule_id);
+		try
+		{
+			if ($parent_id && $this->get_rule_language($parent_id) !== (string) $language)
+			{
+				throw new \phpbb\boardrules\exception\out_of_bounds('new_parent_id');
+			}
+
+			// An empty ruleset must enter draft before its first rule is visible.
+			$this->ruleset_operator->draft_if_empty($language);
+
+			// Insert the rule data to the database for the given language selection
+			$entity->insert($language);
+
+			// Get the newly inserted rule's identifier
+			$rule_id = $entity->get_id();
+
+			// Update the tree for the rule in the database
+			$this->nestedset_rules
+				->use_language($language)
+				->add_to_nestedset($rule_id);
+
+			// If a parent id was supplied, update the rule's parent id and tree ids
+			if ($parent_id)
+			{
+				$this->nestedset_rules->change_parent($rule_id, $parent_id);
+			}
+
+			// Reload the data to return a fresh rule entity
+			return $entity->load($rule_id);
+		}
+		finally
+		{
+			$this->lock->release();
+		}
 	}
 
 	/**
@@ -105,6 +140,7 @@ class rule implements rule_interface
 	* @param int $rule_id The rule identifier to delete
 	* @return void
 	* @access public
+	* @throws \RuntimeException If the nested-set lock cannot be acquired
 	* @throws \phpbb\boardrules\exception\out_of_bounds
 	*/
 	public function delete_rule($rule_id)
@@ -114,7 +150,10 @@ class rule implements rule_interface
 		// Try to delete the rule or category from the database
 		try
 		{
-			$this->nestedset_rules->delete($rule_id);
+			$language = $this->get_rule_language($rule_id);
+			$this->nestedset_rules
+				->use_language($language)
+				->delete($rule_id);
 		}
 		catch (\OutOfBoundsException $e)
 		{
@@ -128,8 +167,9 @@ class rule implements rule_interface
 	* @param int $rule_id The rule identifier to move
 	* @param string $direction The direction (up|down)
 	* @param int $amount The number of places to move the rule
-	* @return void
+	* @return bool True if the rule moved, false if it was already at the boundary
 	* @access public
+	* @throws \RuntimeException If the nested-set lock cannot be acquired
 	* @throws \phpbb\boardrules\exception\out_of_bounds
 	*/
 	public function move($rule_id, $direction = 'up', $amount = 1)
@@ -140,7 +180,11 @@ class rule implements rule_interface
 		// Try to move the rule or category up/down
 		try
 		{
-			$this->nestedset_rules->move($rule_id, (($direction !== 'up') ? -$amount : $amount));
+			$language = $this->get_rule_language($rule_id);
+
+			return $this->nestedset_rules
+				->use_language($language)
+				->move($rule_id, (($direction !== 'up') ? -$amount : $amount));
 		}
 		catch (\OutOfBoundsException $e)
 		{
@@ -155,6 +199,7 @@ class rule implements rule_interface
 	* @param int $new_parent_id The new rule parent identifier
 	* @return void
 	* @access public
+	* @throws \RuntimeException If the nested-set lock cannot be acquired
 	* @throws \phpbb\boardrules\exception\out_of_bounds
 	*/
 	public function change_parent($rule_id, $new_parent_id)
@@ -165,7 +210,15 @@ class rule implements rule_interface
 		// Try to change rule parent
 		try
 		{
-			$this->nestedset_rules->change_parent($rule_id, $new_parent_id);
+			$language = $this->get_rule_language($rule_id);
+			if ($new_parent_id && $this->get_rule_language($new_parent_id) !== $language)
+			{
+				throw new \OutOfBoundsException('RULES_NESTEDSET_INVALID_PARENT');
+			}
+
+			$this->nestedset_rules
+				->use_language($language)
+				->change_parent($rule_id, $new_parent_id);
 		}
 		catch (\OutOfBoundsException $e)
 		{
@@ -176,12 +229,27 @@ class rule implements rule_interface
 	}
 
 	/**
+	* Get the language for a rule.
+	*
+	* @param int $rule_id Rule identifier
+	* @return string Language ISO code
+	* @throws \phpbb\boardrules\exception\out_of_bounds
+	*/
+	protected function get_rule_language($rule_id)
+	{
+		return $this->container->get('phpbb.boardrules.entity')
+			->load($rule_id)
+			->get_language();
+	}
+
+	/**
 	* Get a rule's parent rules (for use in breadcrumbs)
 	*
 	* @param string $language Language selection iso
 	* @param int $parent_id Category to display rules from
-	* @return array Array of rule data for a rule's parent rules
+	* @return \phpbb\boardrules\entity\rule_interface[] Parent rule entities
 	* @access public
+	* @throws \phpbb\boardrules\exception\base If stored rule data is invalid
 	*/
 	public function get_rule_parents($language, $parent_id)
 	{

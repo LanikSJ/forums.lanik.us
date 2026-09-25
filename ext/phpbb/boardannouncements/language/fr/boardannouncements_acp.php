@@ -47,17 +47,19 @@ $lang = array_merge($lang, array(
 	'BOARD_ANNOUNCEMENTS_OPTIONS'			=> 'Options d‘annonce',
 
 	'BOARD_ANNOUNCEMENTS_DESC'				=> 'Description',
+	'BOARD_ANNOUNCEMENTS_DESC_TOO_LONG'		=> 'La description est trop longue. Certains caractères spéciaux nécessitent un espace de stockage supplémentaire.',
 	'BOARD_ANNOUNCEMENTS_DESC_EXPLAIN'		=> 'Une brève description de cette annonce. Cela ne sera visible qu‘ici dans le PCA pour aider à identifier cette annonce.',
 
 	'BOARD_ANNOUNCEMENTS_ENABLE'			=> 'Afficher l’annonce du forum',
 	'BOARD_ANNOUNCEMENTS_USERS'				=> 'Qui peut voir l’annonce du forum',
 	'BOARD_ANNOUNCEMENTS_DISMISS'			=> 'Permettre aux utilisateurs de masquer l’annonce du forum',
-	'BOARD_ANNOUNCEMENTS_LOCATIONS'			=> 'Limit where this announcement should be displayed',
-	'BOARD_ANNOUNCEMENTS_LOCATIONS_EXPLAIN'	=> 'Select one or more locations to display the announcement. To display it everywhere, leave the selection empty. Use Command (Mac) or Control (Windows) click to select multiple locations.',
+	'BOARD_ANNOUNCEMENTS_LOCATIONS'			=> 'Limiter l‘endroit où cette annonce doit être affichée',
+	'BOARD_ANNOUNCEMENTS_LOCATIONS_EXPLAIN'	=> 'Sélectionnez un ou plusieurs emplacements pour afficher l‘annonce. Pour l‘afficher partout, laissez la sélection vide. Utilisez Commande (Mac) ou Contrôle (Windows), cliquez pour sélectionner plusieurs emplacements.',
 
 	'BOARD_ANNOUNCEMENTS_EVERYONE'			=> 'Tous les utilisateurs',
 
 	'BOARD_ANNOUNCEMENTS_BGCOLOR'			=> 'Couleur d’arrière-plan de l’annonce du forum',
+	'BOARD_ANNOUNCEMENTS_BGCOLOR_INVALID'	=> 'La couleur d’arrière-plan doit être un code couleur hexadécimal à six caractères.',
 	'BOARD_ANNOUNCEMENTS_BGCOLOR_EXPLAIN'	=> 'Vous pouvez modifier la couleur d’arrière-plan de l’annonce en utilisant un code hexadécimal (ex.: FFFF80). Laissez ce champ vide pour utiliser la couleur par défaut.',
 
 	'BOARD_ANNOUNCEMENTS_EXPIRY'			=> 'Date d’expiration de l’annonce du forum',
@@ -79,8 +81,8 @@ $lang = array_merge($lang, array(
 	'BOARD_ANNOUNCEMENTS_TH_EXPIRED'		=> 'Expirée',
 
 	'BOARD_ANNOUNCEMENTS_EVERYWHERE'		=> 'Partout',
-	'BOARD_ANNOUNCEMENTS_INDEX_PAGE'		=> 'Board Index',
-	'BOARD_ANNOUNCEMENTS_FORUMS'			=> 'Selected Forums',
+	'BOARD_ANNOUNCEMENTS_INDEX_PAGE'		=> 'Index du forum',
+	'BOARD_ANNOUNCEMENTS_FORUMS'			=> 'Forums sélectionnés',
 
 	'BOARD_ANNOUNCEMENTS_EMPTY'				=> 'Il n‘y a aucune annonce à afficher',
 	'BOARD_ANNOUNCEMENTS_ADD'				=> 'Créer une annonce',
