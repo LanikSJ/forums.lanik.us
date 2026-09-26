@@ -119,13 +119,20 @@
 		// <![CDATA[
 			function update_image(newimage)
 			{
+				var imageElem = document.getElementById('image_upload_icon');
+				var safeFilenamePattern = /^[A-Za-z0-9._-]+\.(?:gif|png|jpe?g|webp|svg)$/i;
+
 				if (newimage == 'no_image')
 				{
-					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
+					imageElem.src = "{ROOT_PATH}images/spacer.gif";
+				}
+				else if (safeFilenamePattern.test(newimage))
+				{
+					imageElem.src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
 				}
 				else
 				{
-					document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
+					imageElem.src = "{ROOT_PATH}images/spacer.gif";
 				}
 			}
 
