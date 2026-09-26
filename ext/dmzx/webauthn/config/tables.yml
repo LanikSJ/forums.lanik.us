@@ -1,0 +1,3 @@
+parameters:
+    dmzx.webauthn.table.credentials: '%core.table_prefix%webauthn_credentials'
+    dmzx.webauthn.table.challenges: '%core.table_prefix%webauthn_challenges'

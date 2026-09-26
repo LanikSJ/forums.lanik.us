@@ -1,0 +1,75 @@
+{% include 'overall_header.html' %}
+{% INCLUDECSS '@dmzx_webauthn/webauthn_acp.css' %}
+
+<h1>{{ lang('ACP_WEBAUTHN_SETTINGS') }}</h1>
+<p>{{ lang('ACP_WEBAUTHN_SETTINGS_EXPLAIN') }}</p>
+
+<form id="acp_webauthn" method="post" action="{{ U_ACTION }}">
+
+	<fieldset>
+		<legend>{{ lang('ACP_WEBAUTHN_GENERAL') }}</legend>
+
+		<dl>
+			<dt>
+				<label for="enabled">{{ lang('ACP_WEBAUTHN_ENABLED') }}</label>
+				<br><span>{{ lang('ACP_WEBAUTHN_ENABLED_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<label><input type="radio" class="radio" name="enabled" id="enabled" value="1"{% if S_WEBAUTHN_ENABLED %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="enabled" value="0"{% if not S_WEBAUTHN_ENABLED %} checked="checked"{% endif %}> {{ lang('NO') }}</label>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="remember_me_mode">{{ lang('ACP_WEBAUTHN_REMEMBER_ME_MODE') }}</label>
+				<br><span>{{ lang('ACP_WEBAUTHN_REMEMBER_ME_MODE_EXPLAIN') }}</span>
+				{% if not S_WEBAUTHN_ALLOW_AUTOLOGIN %}
+				<p class="webauthn-acp-warning">
+					<span aria-hidden="true">&#9888;</span>
+					{{ lang('ACP_WEBAUTHN_REMEMBER_ME_BLOCKED') }}
+				</p>
+				{% endif %}
+			</dt>
+			<dd>
+				<select name="remember_me_mode" id="remember_me_mode">
+					<option value="off"{% if WEBAUTHN_REMEMBER_ME_MODE == 'off' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_REMEMBER_ME_OFF') }}</option>
+					<option value="choice"{% if WEBAUTHN_REMEMBER_ME_MODE == 'choice' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_REMEMBER_ME_CHOICE') }}</option>
+					<option value="always"{% if WEBAUTHN_REMEMBER_ME_MODE == 'always' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_REMEMBER_ME_ALWAYS') }}</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="user_verification">{{ lang('ACP_WEBAUTHN_USER_VERIFICATION') }}</label>
+				<br><span>{{ lang('ACP_WEBAUTHN_USER_VERIFICATION_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select name="user_verification" id="user_verification">
+					<option value="preferred"{% if WEBAUTHN_USER_VERIFICATION == 'preferred' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_UV_PREFERRED') }}</option>
+					<option value="required"{% if WEBAUTHN_USER_VERIFICATION == 'required' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_UV_REQUIRED') }}</option>
+					<option value="discouraged"{% if WEBAUTHN_USER_VERIFICATION == 'discouraged' %} selected="selected"{% endif %}>{{ lang('ACP_WEBAUTHN_UV_DISCOURAGED') }}</option>
+				</select>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="max_keys">{{ lang('ACP_WEBAUTHN_MAX_KEYS') }}</label>
+				<br><span>{{ lang('ACP_WEBAUTHN_MAX_KEYS_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<input type="number" name="max_keys" id="max_keys" min="1" max="10" value="{{ WEBAUTHN_MAX_KEYS }}" class="webauthn-acp-number">
+			</dd>
+		</dl>
+	</fieldset>
+
+	<p class="submit-buttons">
+		<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
+		{{ S_FORM_TOKEN }}
+	</p>
+
+</form>
+
+{% include 'overall_footer.html' %}

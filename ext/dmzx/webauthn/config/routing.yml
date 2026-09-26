@@ -1,0 +1,19 @@
+dmzx_webauthn_register_challenge:
+    path: '/ext/dmzx/webauthn/register/challenge'
+    methods: ['POST']
+    defaults: { _controller: 'dmzx.webauthn.controller:register_challenge' }
+
+dmzx_webauthn_register_verify:
+    path: '/ext/dmzx/webauthn/register/verify'
+    methods: ['POST']
+    defaults: { _controller: 'dmzx.webauthn.controller:register_verify' }
+
+dmzx_webauthn_auth_challenge:
+    path: '/ext/dmzx/webauthn/authenticate/challenge'
+    methods: ['POST']
+    defaults: { _controller: 'dmzx.webauthn.controller:auth_challenge' }
+
+dmzx_webauthn_auth_verify:
+    path: '/ext/dmzx/webauthn/authenticate/verify'
+    methods: ['POST']
+    defaults: { _controller: 'dmzx.webauthn.controller:auth_verify' }

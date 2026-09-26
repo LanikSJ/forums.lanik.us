@@ -1,0 +1,14 @@
+/**
+ * WebAuthn passkey login extension for phpBB — ACP styles
+ * @copyright (c) 2026 dmzx, https://www.dmzx-web.net
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
+
+.webauthn-acp-warning {
+	color: #c77405;
+	margin: 6px 0 0;
+}
+
+.webauthn-acp-number {
+	width: 60px;
+}
