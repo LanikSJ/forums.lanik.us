@@ -1,0 +1,64 @@
+imports:
+    - { resource: 'tables.yml' }
+
+services:
+
+    dmzx.webauthn.helper:
+        class: 'dmzx\webauthn\includes\webauthn_helper'
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@request'
+            - '%dmzx.webauthn.table.credentials%'
+            - '%dmzx.webauthn.table.challenges%'
+
+    dmzx.webauthn.controller:
+        class: 'dmzx\webauthn\controller\webauthn_controller'
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@request'
+            - '@user'
+            - '@language'
+            - '@dmzx.webauthn.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    dmzx.webauthn.ucp.controller:
+        class: 'dmzx\webauthn\controller\ucp_controller'
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@request'
+            - '@user'
+            - '@language'
+            - '@template'
+            - '@controller.helper'
+            - '@dmzx.webauthn.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    dmzx.webauthn.acp.controller:
+        class: 'dmzx\webauthn\controller\acp_controller'
+        arguments:
+            - '@config'
+            - '@request'
+            - '@language'
+            - '@template'
+
+    dmzx.webauthn.listener:
+        class: 'dmzx\webauthn\event\listener'
+        arguments:
+            - '@config'
+            - '@user'
+            - '@template'
+            - '@request'
+            - '@controller.helper'
+            - '@language'
+            - '@dmzx.webauthn.helper'
+            - '%core.php_ext%'
+        tags:
+            - { name: 'event.listener' }
+
+    _defaults:
+        public: true

@@ -1,0 +1,85 @@
+{% include 'ucp_header.html' %}
+{% INCLUDECSS '@dmzx_webauthn/webauthn.css' %}
+{% INCLUDEJS '@dmzx_webauthn/javascript/webauthn_register.js' %}
+
+<div id="webauthn-msg" class="webauthn-msg" role="alert" aria-live="polite" hidden></div>
+<div id="webauthn-no-support" class="webauthn-msg webauthn-msg-error" hidden>
+	{{ lang('WEBAUTHN_ERROR_NOT_SUPPORTED') }}
+</div>
+
+<div id="webauthn-csrf-token" aria-hidden="true" hidden>{{ S_FORM_TOKEN }}</div>
+<div id="webauthn-register-config" hidden
+	data-register-challenge-url="{{ WEBAUTHN_REG_CHALLENGE_URL }}"
+	data-register-verify-url="{{ WEBAUTHN_REG_VERIFY_URL }}"
+	data-str-success-registered="{{ lang('WEBAUTHN_SUCCESS_REGISTERED')|e('html_attr') }}"
+	data-str-error-cancelled="{{ lang('WEBAUTHN_ERROR_CANCELLED')|e('html_attr') }}"
+	data-str-error-failed="{{ lang('WEBAUTHN_ERROR_FAILED')|e('html_attr') }}"
+	data-str-error-register-failed="{{ lang('WEBAUTHN_ERROR_REGISTER_FAILED')|e('html_attr') }}"
+	data-str-error-already-registered="{{ lang('WEBAUTHN_ERROR_ALREADY_REGISTERED')|e('html_attr') }}"></div>
+
+{% if credentials %}
+<table class="table1">
+	<thead>
+		<tr>
+			<th>{{ lang('WEBAUTHN_KEY_NAME') }}</th>
+			<th>{{ lang('WEBAUTHN_KEY_CREATED') }}</th>
+			<th>{{ lang('WEBAUTHN_KEY_LAST_USED') }}</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for credential in credentials %}
+		<tr>
+			<td>
+				<span class="webauthn-key-name">{{ credential.NAME|e('html') }}</span>
+				<form method="post" action="{{ U_ACTION }}" class="webauthn-rename-form" hidden>
+					<input type="hidden" name="rename_credential" value="1">
+					<input type="hidden" name="credential_id" value="{{ credential.ID|e('html_attr') }}">
+					{{ S_FORM_TOKEN }}
+					<input type="text" name="new_name" class="inputbox webauthn-rename-input" value="{{ credential.NAME|e('html_attr') }}" maxlength="255">
+					<input type="submit" class="button2" value="{{ lang('WEBAUTHN_RENAME_SAVE') }}">
+					<input type="button" class="button2 webauthn-rename-cancel" value="{{ lang('CANCEL') }}">
+				</form>
+			</td>
+			<td>{{ credential.CREATED }}</td>
+			<td>{{ credential.LAST_USED }}</td>
+			<td class="webauthn-actions">
+				<input type="button"
+				       class="button2 webauthn-rename-btn"
+				       value="{{ lang('WEBAUTHN_RENAME_KEY') }}">
+				<form method="post" action="{{ U_ACTION }}" class="webauthn-delete-form">
+					<input type="hidden" name="action" value="delete">
+					<input type="hidden" name="credential_id" value="{{ credential.ID|e('html_attr') }}">
+					<input type="submit" class="button2" value="{{ lang('WEBAUTHN_DELETE_KEY') }}">
+				</form>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% else %}
+<p>{{ lang('WEBAUTHN_NO_KEYS') }}</p>
+{% endif %}
+
+<br>
+{% if not S_WEBAUTHN_ENABLED %}
+<p>{{ lang('WEBAUTHN_ERROR_DISABLED') }}</p>
+{% elseif S_WEBAUTHN_MAX_KEYS_REACHED %}
+<p>{{ lang('WEBAUTHN_ERROR_MAX_KEYS_REACHED', WEBAUTHN_MAX_KEYS) }}</p>
+{% else %}
+<h3>{{ lang('WEBAUTHN_ADD_KEY') }}</h3>
+<div>
+	<input type="text"
+	       id="webauthn-key-name"
+	       class="inputbox webauthn-key-name-input"
+	       placeholder="{{ lang('WEBAUTHN_KEY_NAME') }}"
+	       maxlength="255">
+	<input type="button"
+	       id="webauthn-register-btn"
+	       class="button1"
+	       value="{{ lang('WEBAUTHN_REGISTER_BUTTON') }}">
+</div>
+<p class="webauthn-key-count">{{ lang('WEBAUTHN_KEY_COUNT', WEBAUTHN_KEY_COUNT, WEBAUTHN_MAX_KEYS) }}</p>
+{% endif %}
+
+{% include 'ucp_footer.html' %}

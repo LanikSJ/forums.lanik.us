@@ -1,0 +1,17 @@
+{% if WEBAUTHN_ON_LOGIN %}
+{% INCLUDECSS '@dmzx_webauthn/webauthn.css' %}
+{% INCLUDEJS '@dmzx_webauthn/javascript/webauthn_auth.js' %}
+<div id="webauthn-login-config" hidden
+	data-challenge-url="{{ WEBAUTHN_CHALLENGE_URL }}"
+	data-verify-url="{{ WEBAUTHN_VERIFY_URL }}"
+	data-remember-me-mode="{{ WEBAUTHN_REMEMBER_ME_MODE|e('html_attr') }}"
+	data-str-login-button="{{ lang('WEBAUTHN_LOGIN_BUTTON')|e('html_attr') }}"
+	data-str-login-subtext="{{ lang('WEBAUTHN_LOGIN_SUBTEXT')|e('html_attr') }}"
+	data-str-remember-me="{{ lang('WEBAUTHN_REMEMBER_ME')|e('html_attr') }}"
+	data-str-button-preparing="{{ lang('WEBAUTHN_BTN_PREPARING')|e('html_attr') }}"
+	data-str-button-working="{{ lang('WEBAUTHN_BTN_WORKING')|e('html_attr') }}"
+	data-str-error-cancelled-or-none="{{ lang('WEBAUTHN_ERROR_CANCELLED_OR_NONE')|e('html_attr') }}"
+	data-str-error-failed="{{ lang('WEBAUTHN_ERROR_FAILED')|e('html_attr') }}"
+	data-str-or="{{ lang('WEBAUTHN_OR')|e('html_attr') }}"
+	data-str-aria-region="{{ lang('WEBAUTHN_ARIA_REGION')|e('html_attr') }}"></div>
+{% endif %}

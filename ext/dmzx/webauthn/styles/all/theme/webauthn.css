@@ -1,0 +1,254 @@
+/**
+ * WebAuthn passkey login extension for phpBB
+ * @copyright (c) 2026 dmzx, https://www.dmzx-web.net
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ */
+
+/* ---- Hidden state (JS toggles the hidden attribute) ---- */
+
+#webauthn-login-wrapper [hidden],
+#webauthn-login-config[hidden],
+#webauthn-register-config[hidden],
+#webauthn-csrf-token[hidden],
+#webauthn-register-btn[hidden],
+.webauthn-msg[hidden],
+.webauthn-key-name[hidden],
+.webauthn-rename-form[hidden] {
+	display: none !important;
+}
+
+/* ---- Login page wrapper ---- */
+
+#webauthn-login-wrapper {
+	padding: 10px 0 4px;
+	margin-bottom: 4px;
+}
+
+/* ---- Highlighted login card (passkey primary CTA) ---- */
+
+.webauthn-login-card {
+	background: #eaf2fb;
+	border: 1px solid #b9d6f2;
+	border-radius: 8px;
+	padding: 14px;
+}
+
+.webauthn-login-card .webauthn-btn {
+	width: 100%;
+	background: #1c6fd1;
+	color: #fff;
+	border: none;
+	font-weight: 600;
+	font-size: 1.02em;
+	padding: 10px 18px;
+	justify-content: center;
+}
+
+.webauthn-login-card .webauthn-btn:hover:not(:disabled) {
+	background: #175dab;
+}
+
+.webauthn-login-card .webauthn-btn:disabled {
+	background: #7fa9d6;
+}
+
+.webauthn-subtext {
+	text-align: center;
+	font-size: 0.8em;
+	color: #3d6fa0;
+	margin-top: 6px;
+}
+
+/* ---- "Remember me" checkbox row (shown when ACP mode = "choice") ---- */
+
+.webauthn-remember-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 8px;
+	font-size: 0.85em;
+	color: #3d6fa0;
+	cursor: pointer;
+}
+
+.webauthn-remember-row input {
+	margin: 0;
+}
+
+/* ---- Passkey button ---- */
+
+.webauthn-btn {
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 18px;
+	font-size: 1em;
+	border-radius: 4px;
+	white-space: nowrap;
+}
+
+.webauthn-btn:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+/* Spinner states show a wait cursor instead of not-allowed */
+.webauthn-btn--loading {
+	cursor: wait !important;
+}
+
+/* ---- Spinner ---- */
+
+.webauthn-spinner {
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	border: 2px solid rgba(0, 0, 0, 0.2);
+	border-top-color: currentColor;
+	border-radius: 50%;
+	animation: webauthn-spin 0.65s linear infinite;
+	vertical-align: middle;
+	flex-shrink: 0;
+}
+
+@keyframes webauthn-spin {
+	to { transform: rotate(360deg); }
+}
+
+/* ---- "or" separator between passkey and password form ---- */
+
+.webauthn-separator {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	margin: 10px 0 6px;
+	color: #888;
+	font-size: 0.85em;
+}
+
+.webauthn-separator::before,
+.webauthn-separator::after {
+	content: '';
+	flex: 1;
+	border-bottom: 1px solid #ddd;
+}
+
+.webauthn-separator span {
+	padding: 0 8px;
+}
+
+/* ---- Error message on login page ---- */
+
+.webauthn-error {
+	margin: 6px 0 0;
+	padding: 5px 8px;
+	background: #fff0f0;
+	border: 1px solid #f5c6c6;
+	border-radius: 3px;
+	color: #a00;
+	font-size: 0.88em;
+}
+
+/* ---- Manage page ---- */
+
+.webauthn-page-title {
+	margin-bottom: 16px;
+}
+
+.webauthn-msg {
+	padding: 8px 12px;
+	border-radius: 4px;
+	margin-bottom: 14px;
+	font-size: 0.95em;
+}
+
+.webauthn-msg-success {
+	background: #d4edda;
+	border: 1px solid #b8dfc7;
+	color: #155724;
+}
+
+.webauthn-msg-error {
+	background: #fde8e8;
+	border: 1px solid #f5c6c6;
+	color: #721c24;
+}
+
+.webauthn-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-bottom: 20px;
+}
+
+.webauthn-table th,
+.webauthn-table td {
+	padding: 7px 10px;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.webauthn-no-keys {
+	font-style: italic;
+	color: #666;
+	margin-bottom: 16px;
+}
+
+.webauthn-key-count {
+	font-size: 0.85em;
+	color: #888;
+	margin-top: 8px;
+}
+
+/* ---- Action buttons column (Rename / Delete) ---- */
+
+.webauthn-actions {
+	display: flex;
+	gap: 6px;
+	align-items: center;
+}
+
+.webauthn-delete-form {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.webauthn-rename-form {
+	margin-top: 4px;
+}
+
+.webauthn-rename-input {
+	width: 160px;
+}
+
+.webauthn-key-name-input {
+	width: 200px;
+}
+
+/* ---- Register section ---- */
+
+.webauthn-register-section {
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px solid #ddd;
+}
+
+.webauthn-register-section h3 {
+	margin-bottom: 10px;
+}
+
+.webauthn-register-row {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+/* ---- Back link ---- */
+
+.webauthn-back-link {
+	margin-top: 20px;
+	font-size: 0.9em;
+}
