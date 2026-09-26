@@ -219,6 +219,11 @@ forums.lanik.us/
   - Proper table formatting when applicable
 - Use `markdownlint --config .markdownlint.json --fix <filename>` for
   auto-fixable issues when available
+- CI lints with the `markdownlint-cli` version pinned as
+  `MARKDOWNLINT_CLI_VERSION` in
+  `.github/workflows/update-phpbb-version.yml` (currently `0.49.1`) on Node 26.
+  That CLI requires Node 22 or newer, so bump the pin and the Node version
+  together instead of tracking the latest release.
 - Validate markdown files in CI/CD pipelines where applicable
 
 ## Development Guidelines
