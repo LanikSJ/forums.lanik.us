@@ -78,7 +78,7 @@ phpbb.prepareTooltips = function ($element, headText) {
 
 	$desc = $('<span />', {
 		class: 'bottom',
-		text: text,
+		html: text,
 		css: {
 			display: 'block'
 		}
