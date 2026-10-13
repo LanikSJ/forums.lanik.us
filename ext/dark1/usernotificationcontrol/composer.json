@@ -1,0 +1,51 @@
+{
+    "name": "dark1/usernotificationcontrol",
+    "type": "phpbb-extension",
+    "description": "User Notification Control [UNC]",
+    "homepage": "https://phpbb.com/customise/db/extension/user_notification_control",
+    "version": "1.1.2",
+    "time": "2022-07-21",
+    "keywords": [
+        "phpbb",
+        "extension",
+        "user",
+        "notification",
+        "control"
+    ],
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "Dark❶",
+            "email": "phpbb@dark1.tech",
+            "homepage": "https://dark1.tech",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.7",
+        "composer/installers": "~1.0.0",
+        "phpbb/phpbb": "~3.2.10 || >=3.3.1"
+    },
+    "extra": {
+        "display-name": "User Notification Control",
+        "soft-require": {
+            "phpbb/phpbb": "~3.2.10 || >=3.3.1"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/user_notification_control",
+            "filename": "version_check",
+            "ssl": true
+        }
+    },
+    "readme": "./README.md",
+    "support": {
+        "email": "phpbb@dark1.tech",
+        "issues": "https://github.com/Dark1z/usernotificationcontrol/issues",
+        "forum": "https://phpbb.com/customise/db/extension/user_notification_control/support",
+        "wiki": "https://github.com/Dark1z/usernotificationcontrol/wiki",
+        "source": "https://github.com/Dark1z/usernotificationcontrol",
+        "docs": "https://github.dark1.tech/usernotificationcontrol",
+        "chat": "https://github.com/Dark1z/usernotificationcontrol/discussions"
+    }
+}

@@ -1,0 +1,50 @@
+/**
+ *
+ * User Notification Control [UNC]. An extension for the phpBB Forum Software package.
+ *
+ * @copyright (c) 2020-forever, Dark❶, https://dark1.tech
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
+
+/* ACP Hr */
+.acp-unc-hr {
+	border-top: 2px solid #888;
+	margin: 5px 0px 0px 0px;
+	padding: 5px 0px 0px 0px;
+}
+
+/* Notification Group */
+td.row3 > b.unc-gname {
+	font-size: 100% !important;
+}
+
+/* Notification Group Type */
+td.col1 > b.unc-gtcap {
+	text-transform: capitalize !important;
+}
+
+/* Notification Stat Count */
+tr > .unc-numrt {
+	text-align: right !important;
+}
+
+/* DeBug Display Hide */
+span[data-uncdebug].hide {
+	display: none;
+}
+
+/* DeBug Display Show */
+span[data-uncdebug].show {
+	display: contents !important;
+}
+
+/* DeBug Code */
+span[data-uncdebug] > code {
+	background-color: #FFDDDD;
+	border: 1px solid #FF6666;
+	color: #990000;
+	border-radius: 5px;
+	white-space: pre;
+	padding: 0 3px;
+}

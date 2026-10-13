@@ -29,12 +29,6 @@
 		"display-name": "Site Logo",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.2.0"
-		},
-		"version-check": {
-        	"host": "version.phpbbdev.space",
-        	"directory": "/versions",
-        	"filename": "site_logo_version_file.json",
-			"ssl": false
-    	}
+		}
 	}
 }
