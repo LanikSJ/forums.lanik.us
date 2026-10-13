@@ -24,12 +24,6 @@
 		"display-name": "Log User Connections",
 		"soft-require": {
 			"phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
-      },
-		"version-check": {
-        	"host": "version.phpbbdev.space",
-        	"directory": "/versions",
-        	"filename": "log_connections_version_file.json",
-			"ssl": false
-    	}
+	      }
 	}
 }

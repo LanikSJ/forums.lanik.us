@@ -34,9 +34,10 @@
       "phpbb/phpbb": ">=3.3.0"
     },
     "version-check": {
-      "host": "www.avathar.be",
-      "directory": "/versioncheck",
-      "filename": "quicklogin.json"
+      "host": "www.phpbb.com",
+      "directory": "/customise/db/extension/quick_login",
+      "filename": "version_check",
+      "ssl": true
     }
   }
 }  

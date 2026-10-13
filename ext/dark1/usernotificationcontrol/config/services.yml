@@ -1,0 +1,69 @@
+services:
+
+    dark1.usernotificationcontrol.unc_table:
+        class: dark1\usernotificationcontrol\core\unc_table
+        arguments:
+            - '@dbal.conn'
+            - '@cache.driver'
+            - '%core.table_prefix%'
+
+    dark1.usernotificationcontrol.unc_helper:
+        class: dark1\usernotificationcontrol\core\unc_helper
+        arguments:
+            - '@user'
+            - '@language'
+            - '@ext.manager'
+            - '@dispatcher'
+            - '@notification.type_collection'
+            - '@notification.method_collection'
+            - '%core.php_ext%'
+
+    dark1.usernotificationcontrol.controller.acp.main:
+        class: dark1\usernotificationcontrol\controller\acp_main
+        arguments:
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@config'
+            - '@dark1.usernotificationcontrol.unc_table'
+            - '@dark1.usernotificationcontrol.unc_helper'
+
+    dark1.usernotificationcontrol.controller.acp.prune:
+        class: dark1\usernotificationcontrol\controller\acp_prune
+        arguments:
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@config'
+            - '@cron.manager'
+            - '@dbal.conn'
+            - '%core.root_path%'
+            - '%core.adm_relative_path%'
+            - '%core.php_ext%'
+
+    dark1.usernotificationcontrol.listener:
+        class: dark1\usernotificationcontrol\event\main_listener
+        arguments:
+            - '@dark1.usernotificationcontrol.unc_table'
+            - '@config'
+            - '@language'
+        tags:
+            - { name: event.listener }
+
+    dark1.usernotificationcontrol.cron.auto_prune_notify:
+        class: dark1\usernotificationcontrol\cron\auto_prune_notify
+        arguments:
+            - '@config'
+            - '@notification_manager'
+            - '@log'
+        calls:
+            - [set_name, [dark1.usernotificationcontrol.cron.auto_prune_notify]]
+        tags:
+            - { name: cron.task }
+
+    _defaults:
+        public: true
