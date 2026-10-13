@@ -1,4 +1,4 @@
-# Agent Rules & Project Standards for forums.lanik.us
+# Agent Rules & Project Standards for [forums.lanik.us](https://forums.lanik.us)
 
 ## Agent Identity
 
