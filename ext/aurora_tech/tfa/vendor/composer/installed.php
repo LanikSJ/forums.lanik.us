@@ -1,0 +1,71 @@
+<?php return array(
+    'root' => array(
+        'name' => 'aurora_tech/tfa',
+        'pretty_version' => '1.0.5',
+        'version' => '1.0.5.0',
+        'reference' => null,
+        'type' => 'phpbb-extension',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => false,
+    ),
+    'versions' => array(
+        'aurora_tech/tfa' => array(
+            'pretty_version' => '1.0.5',
+            'version' => '1.0.5.0',
+            'reference' => null,
+            'type' => 'phpbb-extension',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'bacon/bacon-qr-code' => array(
+            'pretty_version' => 'v3.1.1',
+            'version' => '3.1.1.0',
+            'reference' => '4da2233e72eeecd9be3b62e0dc2cc9ed8e2e31c2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../bacon/bacon-qr-code',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/installers' => array(
+            'pretty_version' => 'v1.12.0',
+            'version' => '1.12.0.0',
+            'reference' => 'd20a64ed3c94748397ff5973488761b22f6d3f19',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/./installers',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'dasprid/enum' => array(
+            'pretty_version' => '1.0.7',
+            'version' => '1.0.7.0',
+            'reference' => 'b5874fa9ed0043116c72162ec7f4fb50e02e7cce',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../dasprid/enum',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'robthree/twofactorauth' => array(
+            'pretty_version' => 'v3.0.3',
+            'version' => '3.0.3.0',
+            'reference' => '85408c4e775dba7c0802f2d928efd921d530bc5b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../robthree/twofactorauth',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'roundcube/plugin-installer' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+        'shama/baton' => array(
+            'dev_requirement' => false,
+            'replaced' => array(
+                0 => '*',
+            ),
+        ),
+    ),
+);

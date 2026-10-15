@@ -1,0 +1,66 @@
+<!-- INCLUDE overall_header.html -->
+<!-- INCLUDECSS @aurora_tech_tfa/aurora_tfa.css -->
+
+<div class="aurora-tfa-login panel">
+	<div class="inner">
+
+		<h2 class="aurora-tfa-title">{L_AURORA_TFA_VERIFY_TITLE}</h2>
+
+		<p class="aurora-tfa-intro">{L_AURORA_TFA_VERIFY_INTRO}</p>
+
+		<form method="post" action="{U_AURORA_TFA_SUBMIT}" id="aurora-tfa-form">
+
+			<!-- IF AURORA_TFA_ERROR -->
+				<p class="error">{AURORA_TFA_ERROR}</p>
+			<!-- ENDIF -->
+
+			<fieldset class="aurora-tfa-fieldset" id="aurora-tfa-totp-block">
+				<p>{L_AURORA_TFA_VERIFY_EXPLAIN}</p>
+				<dl>
+					<dt><label for="tfa_code">{L_AURORA_TFA_CODE}{L_COLON}</label></dt>
+					<dd>
+						<input type="text" name="tfa_code" id="tfa_code" class="inputbox aurora-tfa-code-input" size="12" maxlength="12" autocomplete="one-time-code" inputmode="numeric" autofocus="autofocus" />
+					</dd>
+				</dl>
+			</fieldset>
+
+			<p id="aurora-tfa-toggle-wrap">
+				<a href="#" id="aurora-tfa-toggle" data-totp-label="{L_AURORA_TFA_LOST_PHONE}" data-backup-label="{L_AURORA_TFA_USE_AUTHENTICATOR}" data-totp-explain="{L_AURORA_TFA_VERIFY_EXPLAIN}" data-backup-explain="{L_AURORA_TFA_BACKUP_EXPLAIN}">{L_AURORA_TFA_LOST_PHONE}</a>
+			</p>
+
+			<input type="hidden" name="tfa_mode" id="tfa_mode" value="totp" />
+			<input type="hidden" name="challenge_token" value="{AURORA_TFA_CHALLENGE_TOKEN}" />
+
+			<p><input type="submit" name="submit" value="{L_AURORA_TFA_SUBMIT}" class="button1" /></p>
+
+			{S_FORM_TOKEN}
+		</form>
+
+		<script>
+		(function () {
+			'use strict';
+			var toggle = document.getElementById('aurora-tfa-toggle');
+			var mode = document.getElementById('tfa_mode');
+			var explain = document.querySelector('#aurora-tfa-totp-block p');
+			var input = document.getElementById('tfa_code');
+			if (!toggle || !mode) {
+				return;
+			}
+			toggle.addEventListener('click', function (e) {
+				e.preventDefault();
+				var backup = mode.value !== 'backup';
+				mode.value = backup ? 'backup' : 'totp';
+				toggle.textContent = backup ? toggle.getAttribute('data-backup-label') : toggle.getAttribute('data-totp-label');
+				if (explain) {
+					explain.textContent = backup ? toggle.getAttribute('data-backup-explain') : toggle.getAttribute('data-totp-explain');
+				}
+				input.value = '';
+				input.focus();
+			});
+		})();
+		</script>
+
+	</div>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

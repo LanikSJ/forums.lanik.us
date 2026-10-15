@@ -1,0 +1,119 @@
+<!-- INCLUDE overall_header.html -->
+
+<style>
+	/* Scoped cosmetics: keep the fieldset legend clear of the border line. */
+	.aurora-tfa-acp fieldset {
+		margin-top: 18px;
+		padding-top: 18px;
+	}
+
+	.aurora-tfa-acp legend {
+		font-weight: bold;
+		color: #115098;
+		background-color: #FFFFFF;
+		padding: 2px 10px;
+		border: 1px solid #CCCCCC;
+		border-radius: 3px;
+	}
+</style>
+
+<a id="maincontent"></a>
+
+<div class="aurora-tfa-acp">
+
+<!-- IF S_AURORA_TFA_MODE eq 'settings' -->
+
+	<h1>{L_ACP_AURORA_TFA_TITLE} &bull; {L_ACP_AURORA_TFA_SETTINGS}</h1>
+	<p>{L_ACP_AURORA_TFA_SETTINGS_EXPLAIN}</p>
+
+	<form id="aurora_tfa_settings" method="post" action="{U_ACTION}">
+		<fieldset>
+			<legend>{L_ACP_AURORA_TFA_POLICY}</legend>
+
+			<dl>
+				<dt><label>{L_ACP_AURORA_TFA_MODE}{L_COLON}</label><br /><span>{L_ACP_AURORA_TFA_MODE_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="aurora_tfa_mode" value="{MODE_DISABLED_VALUE}"<!-- IF S_MODE_DISABLED --> checked="checked"<!-- ENDIF --> /> {L_ACP_AURORA_TFA_MODE_DISABLED}</label><br />
+					<label><input type="radio" name="aurora_tfa_mode" value="{MODE_OPTIONAL_VALUE}"<!-- IF S_MODE_OPTIONAL --> checked="checked"<!-- ENDIF --> /> {L_ACP_AURORA_TFA_MODE_OPTIONAL}</label><br />
+					<label><input type="radio" name="aurora_tfa_mode" value="{MODE_REQUIRED_VALUE}"<!-- IF S_MODE_REQUIRED --> checked="checked"<!-- ENDIF --> /> {L_ACP_AURORA_TFA_MODE_REQUIRED}</label>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="aurora_tfa_groups">{L_ACP_AURORA_TFA_GROUPS}{L_COLON}</label><br /><span>{L_ACP_AURORA_TFA_GROUPS_EXPLAIN}</span></dt>
+				<dd>
+					<select name="aurora_tfa_groups[]" id="aurora_tfa_groups" multiple="multiple" size="8">
+						<!-- BEGIN groups -->
+						<option value="{groups.ID}"<!-- IF groups.S_SELECTED --> selected="selected"<!-- ENDIF -->>{groups.NAME}</option>
+						<!-- END groups -->
+					</select>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+			{S_FORM_TOKEN}
+		</fieldset>
+	</form>
+
+<!-- ELSEIF S_AURORA_TFA_MODE eq 'stats' -->
+
+	<h1>{L_ACP_AURORA_TFA_TITLE} &bull; {L_ACP_AURORA_TFA_STATS}</h1>
+
+	<p>{L_ACP_AURORA_TFA_STATS_GLOBAL}{L_COLON} <strong>{AURORA_TFA_ENROLLED}</strong> / {AURORA_TFA_TOTAL}</p>
+
+	<table class="table1 zebra-table">
+		<thead>
+			<tr>
+				<th>{L_GROUP}</th>
+				<th>{L_ACP_AURORA_TFA_STATS_MEMBERS}</th>
+				<th>{L_ACP_AURORA_TFA_STATS_ENROLLED}</th>
+				<th>%</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN group_stats -->
+			<tr>
+				<td>{group_stats.NAME}</td>
+				<td>{group_stats.MEMBERS}</td>
+				<td>{group_stats.ENROLLED}</td>
+				<td>{group_stats.PERCENT}%</td>
+			</tr>
+			<!-- END group_stats -->
+		</tbody>
+	</table>
+
+<!-- ELSEIF S_AURORA_TFA_MODE eq 'audit' -->
+
+	<h1>{L_ACP_AURORA_TFA_TITLE} &bull; {L_ACP_AURORA_TFA_AUDIT}</h1>
+	<p>{L_ACP_AURORA_TFA_AUDIT_EXPLAIN}</p>
+
+	<table class="table1 zebra-table">
+		<thead>
+			<tr>
+				<th>{L_ACP_AURORA_TFA_AUDIT_EVENT}</th>
+				<th>{L_USERNAME}</th>
+				<th>{L_IP}</th>
+				<th>{L_TIME}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- BEGIN audit -->
+			<tr>
+				<td>{audit.OPERATION}</td>
+				<td>{audit.USERNAME}</td>
+				<td>{audit.IP}</td>
+				<td>{audit.TIME}</td>
+			</tr>
+			<!-- BEGINELSE -->
+			<tr><td colspan="4">{L_ACP_AURORA_TFA_AUDIT_EMPTY}</td></tr>
+			<!-- END audit -->
+		</tbody>
+	</table>
+
+<!-- ENDIF -->
+
+</div>
+
+<!-- INCLUDE overall_footer.html -->
