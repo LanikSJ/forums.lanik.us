@@ -1,0 +1,208 @@
+/**
+ * Aurora Tech TFA — TOTP Two Factor Authentication extension for phpBB.
+ *
+ * Style-neutral sheet: inherits the board style's colours wherever
+ * possible and only adds layout. Tested against prosilver; a custom
+ * board style can override the custom properties below.
+ *
+ * @copyright (c) 2026 Aurora Tech Inc.
+ * @license GPL-2.0-only
+ */
+
+.aurora-tfa-panel,
+.aurora-tfa-login {
+	--aurora-tfa-ok: #228822;
+	--aurora-tfa-ok-bg: rgba(34, 136, 34, 0.08);
+	--aurora-tfa-warn: #bc2a4d;
+	--aurora-tfa-warn-bg: rgba(188, 42, 77, 0.06);
+	--aurora-tfa-border: rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+	.aurora-tfa-panel,
+	.aurora-tfa-login {
+		--aurora-tfa-ok: #6cc26c;
+		--aurora-tfa-ok-bg: rgba(108, 194, 108, 0.10);
+		--aurora-tfa-warn: #e06c8a;
+		--aurora-tfa-warn-bg: rgba(224, 108, 138, 0.08);
+		--aurora-tfa-border: rgba(255, 255, 255, 0.18);
+	}
+}
+
+/* ---- Status banners ---- */
+
+.aurora-tfa-status {
+	padding: 0.6em 0.9em;
+	border-radius: 4px;
+	border: 1px solid var(--aurora-tfa-border);
+}
+
+.aurora-tfa-status--on {
+	border-color: var(--aurora-tfa-ok);
+	background: var(--aurora-tfa-ok-bg);
+}
+
+.aurora-tfa-status--off {
+	border-color: var(--aurora-tfa-warn);
+	background: var(--aurora-tfa-warn-bg);
+}
+
+/* ---- Overview details ---- */
+
+.aurora-tfa-details {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0.25em 1em;
+	margin: 1em 0;
+}
+
+.aurora-tfa-details dt {
+	font-weight: bold;
+}
+
+.aurora-tfa-details dd {
+	margin: 0;
+}
+
+/* ---- Fieldsets ---- */
+
+.aurora-tfa-fieldset {
+	margin-top: 1.5em;
+	padding: 0.8em 1em 1em;
+	border: 1px solid var(--aurora-tfa-border);
+	border-radius: 4px;
+}
+
+.aurora-tfa-fieldset legend {
+	font-weight: bold;
+	padding: 0 0.4em;
+}
+
+.aurora-tfa-fieldset--danger {
+	border-color: var(--aurora-tfa-warn);
+}
+
+.aurora-tfa-fieldset--danger legend {
+	color: var(--aurora-tfa-warn);
+}
+
+/* ---- Activation screen ---- */
+
+.aurora-tfa-qr {
+	text-align: center;
+	margin: 1.2em 0;
+}
+
+.aurora-tfa-qr img {
+	max-width: 200px;
+	width: 60vw;
+	height: auto;
+	image-rendering: pixelated;
+	background: #ffffff;
+	padding: 8px;
+	border-radius: 4px;
+	border: 1px solid var(--aurora-tfa-border);
+}
+
+.aurora-tfa-manual {
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+.aurora-tfa-secret {
+	display: inline-block;
+	margin-top: 0.3em;
+	padding: 0.3em 0.6em;
+	font-family: "DejaVu Sans Mono", Consolas, Menlo, monospace;
+	font-size: 1.05em;
+	letter-spacing: 0.12em;
+	border: 1px dashed var(--aurora-tfa-border);
+	border-radius: 4px;
+	user-select: all;
+}
+
+/* ---- Code input ---- */
+
+.aurora-tfa-code-input {
+	font-family: "DejaVu Sans Mono", Consolas, Menlo, monospace;
+	font-size: 1.2em;
+	letter-spacing: 0.25em;
+	text-align: center;
+	max-width: 11em;
+}
+
+/* ---- Backup codes ---- */
+
+.aurora-tfa-codes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5em, max-content));
+	gap: 0.5em 1.5em;
+	justify-content: center;
+	list-style: none;
+	margin: 1.2em 0;
+	padding: 1em;
+	border: 1px dashed var(--aurora-tfa-border);
+	border-radius: 4px;
+}
+
+.aurora-tfa-codes li {
+	margin: 0;
+}
+
+.aurora-tfa-codes code {
+	font-family: "DejaVu Sans Mono", Consolas, Menlo, monospace;
+	font-size: 1.05em;
+	letter-spacing: 0.08em;
+	user-select: all;
+}
+
+/* ---- Login verification page ---- */
+
+.aurora-tfa-login {
+	max-width: 30em;
+	margin: 2em auto;
+}
+
+.aurora-tfa-intro {
+	margin: 0 0 1em;
+	opacity: 0.85;
+	font-size: 0.95em;
+}
+
+.aurora-tfa-login .aurora-tfa-title {
+	margin-bottom: 0.6em;
+}
+
+.aurora-tfa-login .aurora-tfa-fieldset {
+	margin-top: 0.5em;
+}
+
+#aurora-tfa-toggle-wrap {
+	margin: 0.8em 0;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 700px) {
+	.aurora-tfa-details {
+		grid-template-columns: 1fr;
+		gap: 0 0;
+	}
+
+	.aurora-tfa-details dt {
+		margin-top: 0.5em;
+	}
+
+	.aurora-tfa-login {
+		margin: 1em 0.5em;
+	}
+
+	.aurora-tfa-codes {
+		grid-template-columns: repeat(auto-fit, minmax(8.5em, 1fr));
+	}
+
+	.aurora-tfa-code-input {
+		width: 100%;
+		max-width: none;
+	}
+}

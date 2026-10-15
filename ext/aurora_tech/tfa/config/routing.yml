@@ -1,0 +1,4 @@
+aurora_tech_tfa_login_submit:
+    path: /tfa/login
+    methods: [GET, POST]
+    defaults: { _controller: aurora_tech.tfa.controller.login:submit }

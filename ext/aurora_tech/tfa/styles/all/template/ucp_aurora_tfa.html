@@ -1,0 +1,145 @@
+<!-- INCLUDE ucp_header.html -->
+<!-- INCLUDECSS @aurora_tech_tfa/aurora_tfa.css -->
+
+<h2 class="aurora-tfa-title">{L_UCP_AURORA_TFA_TITLE}</h2>
+
+<form id="ucp" method="post" action="{U_AURORA_TFA_ACTION}">
+
+<div class="panel aurora-tfa-panel">
+	<div class="inner">
+
+	<!-- IF AURORA_TFA_ERROR -->
+		<p class="error">{AURORA_TFA_ERROR}</p>
+	<!-- ENDIF -->
+
+	<!-- IF S_AURORA_TFA_SCREEN eq 'overview' -->
+
+		<p>{L_UCP_AURORA_TFA_EXPLAIN}</p>
+
+		<!-- IF S_AURORA_TFA_ENABLED -->
+			<p class="aurora-tfa-status aurora-tfa-status--on">{L_UCP_AURORA_TFA_STATUS_ENABLED}</p>
+
+			<dl class="aurora-tfa-details">
+				<dt>{L_UCP_AURORA_TFA_ACTIVATED_AT}{L_COLON}</dt>
+				<dd>{AURORA_TFA_ACTIVATED_AT}</dd>
+				<dt>{L_UCP_AURORA_TFA_LAST_USED_AT}{L_COLON}</dt>
+				<dd><!-- IF AURORA_TFA_LAST_USED_AT -->{AURORA_TFA_LAST_USED_AT}<!-- ELSE -->{L_UCP_AURORA_TFA_NEVER_USED}<!-- ENDIF --></dd>
+				<dt>{L_UCP_AURORA_TFA_CODES_REMAINING}{L_COLON}</dt>
+				<dd>{AURORA_TFA_CODES_REMAINING}</dd>
+			</dl>
+
+			<fieldset class="aurora-tfa-fieldset">
+				<legend>{L_UCP_AURORA_TFA_REGENERATE_TITLE}</legend>
+				<p>{L_UCP_AURORA_TFA_REGENERATE_EXPLAIN}</p>
+				<dl>
+					<dt><label for="tfa_code">{L_UCP_AURORA_TFA_CURRENT_CODE}{L_COLON}</label></dt>
+					<dd>
+						<input type="text" name="tfa_code" id="tfa_code" class="inputbox aurora-tfa-code-input" size="10" maxlength="10" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9 ]*" />
+						<input type="hidden" name="action" value="regenerate" />
+						<input type="submit" name="submit" value="{L_UCP_AURORA_TFA_REGENERATE_BUTTON}" class="button2" formaction="{U_AURORA_TFA_ACTION}&amp;action=regenerate" />
+					</dd>
+				</dl>
+			</fieldset>
+
+			<fieldset class="aurora-tfa-fieldset aurora-tfa-fieldset--danger">
+				<legend>{L_UCP_AURORA_TFA_DISABLE_TITLE}</legend>
+				<p>{L_UCP_AURORA_TFA_DISABLE_EXPLAIN}</p>
+				<dl>
+					<dt><label for="password">{L_UCP_AURORA_TFA_PASSWORD}{L_COLON}</label></dt>
+					<dd>
+						<input type="password" name="password" id="password" class="inputbox" autocomplete="current-password" />
+						<input type="submit" name="submit" value="{L_UCP_AURORA_TFA_DISABLE_BUTTON}" class="button2" formaction="{U_AURORA_TFA_ACTION}&amp;action=disable" />
+					</dd>
+				</dl>
+			</fieldset>
+		<!-- ELSE -->
+			<p class="aurora-tfa-status aurora-tfa-status--off">{L_UCP_AURORA_TFA_STATUS_DISABLED}</p>
+			<p><a href="{U_AURORA_TFA_ENABLE}" class="button1">{L_UCP_AURORA_TFA_ENABLE_BUTTON}</a></p>
+		<!-- ENDIF -->
+
+	<!-- ELSEIF S_AURORA_TFA_SCREEN eq 'enable' -->
+
+		<h3>{L_UCP_AURORA_TFA_ENABLE_TITLE}</h3>
+		<p class="aurora-tfa-apps-hint">{L_UCP_AURORA_TFA_APPS_HINT}</p>
+		<p>{L_UCP_AURORA_TFA_SCAN_EXPLAIN}</p>
+
+		<div class="aurora-tfa-qr">
+			<img src="{AURORA_TFA_QR_DATA_URI}" width="200" height="200" alt="{L_UCP_AURORA_TFA_ENABLE_TITLE}" />
+		</div>
+
+		<p class="aurora-tfa-manual">
+			{L_UCP_AURORA_TFA_MANUAL_ENTRY}<br />
+			<code class="aurora-tfa-secret">{AURORA_TFA_SECRET}</code>
+		</p>
+
+		<dl>
+			<dt>
+				<label for="tfa_code">{L_UCP_AURORA_TFA_FIRST_CODE}{L_COLON}</label><br />
+				<span>{L_UCP_AURORA_TFA_FIRST_CODE_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" name="tfa_code" id="tfa_code" class="inputbox aurora-tfa-code-input" size="10" maxlength="10" autocomplete="one-time-code" inputmode="numeric" pattern="[0-9 ]*" autofocus="autofocus" />
+			</dd>
+		</dl>
+
+		<input type="hidden" name="action" value="enable_confirm" />
+		<input type="hidden" name="pending_payload" value="{AURORA_TFA_PENDING}" />
+		<p><input type="submit" name="submit" value="{L_UCP_AURORA_TFA_CONFIRM_BUTTON}" class="button1" /></p>
+
+	<!-- ELSEIF S_AURORA_TFA_SCREEN eq 'codes' -->
+
+		<h3>{L_UCP_AURORA_TFA_CODES_TITLE}</h3>
+
+		<!-- IF AURORA_TFA_SUCCESS_KEY eq 'UCP_AURORA_TFA_ENABLED_SUCCESS' -->
+			<p class="aurora-tfa-status aurora-tfa-status--on">{L_UCP_AURORA_TFA_ENABLED_SUCCESS}</p>
+		<!-- ELSE -->
+			<p class="aurora-tfa-status aurora-tfa-status--on">{L_UCP_AURORA_TFA_REGENERATED_SUCCESS}</p>
+		<!-- ENDIF -->
+
+		<p>{L_UCP_AURORA_TFA_CODES_EXPLAIN}</p>
+
+		<ul class="aurora-tfa-codes" id="aurora-tfa-codes">
+			<!-- BEGIN backup_codes -->
+			<li><code>{backup_codes.CODE}</code></li>
+			<!-- END backup_codes -->
+		</ul>
+
+		<p>
+			<a href="#" class="button2" id="aurora-tfa-download">{L_UCP_AURORA_TFA_CODES_DOWNLOAD}</a>
+			<a href="{U_AURORA_TFA_ACTION}" class="button1">{L_UCP_AURORA_TFA_CODES_DONE}</a>
+		</p>
+
+		<script>
+		(function () {
+			'use strict';
+			var link = document.getElementById('aurora-tfa-download');
+			if (!link) {
+				return;
+			}
+			link.addEventListener('click', function (e) {
+				e.preventDefault();
+				var codes = Array.prototype.map.call(
+					document.querySelectorAll('#aurora-tfa-codes code'),
+					function (el) { return el.textContent; }
+				).join('\n');
+				var blob = new Blob([codes + '\n'], { type: 'text/plain' });
+				var a = document.createElement('a');
+				a.href = URL.createObjectURL(blob);
+				a.download = 'backup-codes.txt';
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(a.href);
+			});
+		})();
+		</script>
+
+	<!-- ENDIF -->
+
+	</div>
+</div>
+
+{S_FORM_TOKEN}
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

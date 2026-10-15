@@ -1,0 +1,97 @@
+parameters:
+    aurora_tech.tfa.tables.totp: '%core.table_prefix%aurora_tfa_totp'
+    aurora_tech.tfa.tables.backup_codes: '%core.table_prefix%aurora_tfa_backup_codes'
+    aurora_tech.tfa.tables.challenge: '%core.table_prefix%aurora_tfa_challenge'
+
+services:
+    aurora_tech.tfa.listener:
+        class: aurora_tech\tfa\event\main_listener
+        arguments:
+            - '@aurora_tech.tfa.manager'
+            - '@aurora_tech.tfa.service.login_challenge'
+            - '@aurora_tech.tfa.helper.login_page'
+            - '@aurora_tech.tfa.policy'
+            - '@user'
+            - '@request'
+            - '@dbal.conn'
+            - '%tables.user_group%'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    aurora_tech.tfa.policy:
+        class: aurora_tech\tfa\service\policy_service
+        arguments:
+            - '@config'
+            - '@config_text'
+
+    aurora_tech.tfa.manager:
+        class: aurora_tech\tfa\service\tfa_manager
+        arguments:
+            - '@aurora_tech.tfa.service.totp'
+            - '@aurora_tech.tfa.service.secret_cipher'
+            - '@aurora_tech.tfa.service.backup_codes'
+            - '@aurora_tech.tfa.storage.totp'
+
+    aurora_tech.tfa.controller.login:
+        class: aurora_tech\tfa\controller\login_controller
+        arguments:
+            - '@aurora_tech.tfa.manager'
+            - '@aurora_tech.tfa.service.login_challenge'
+            - '@aurora_tech.tfa.helper.login_page'
+            - '@user'
+            - '@request'
+            - '@language'
+            - '@log'
+            - '@dbal.conn'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    aurora_tech.tfa.helper.login_page:
+        class: aurora_tech\tfa\helper\login_page
+        arguments:
+            - '@template'
+            - '@language'
+            - '@controller.helper'
+
+    aurora_tech.tfa.service.totp:
+        class: aurora_tech\tfa\service\totp_service
+        arguments:
+            - '@config'
+
+    aurora_tech.tfa.service.secret_cipher:
+        class: aurora_tech\tfa\service\secret_cipher
+        arguments:
+            - '@config'
+
+    aurora_tech.tfa.service.backup_codes:
+        class: aurora_tech\tfa\service\backup_codes_service
+        arguments:
+            - '@aurora_tech.tfa.storage.backup_codes'
+
+    aurora_tech.tfa.service.login_challenge:
+        class: aurora_tech\tfa\service\login_challenge_service
+        arguments:
+            - '@aurora_tech.tfa.storage.challenge'
+
+    aurora_tech.tfa.storage.totp:
+        class: aurora_tech\tfa\storage\db_totp_repository
+        arguments:
+            - '@dbal.conn'
+            - '%aurora_tech.tfa.tables.totp%'
+
+    aurora_tech.tfa.storage.backup_codes:
+        class: aurora_tech\tfa\storage\db_backup_codes_repository
+        arguments:
+            - '@dbal.conn'
+            - '%aurora_tech.tfa.tables.backup_codes%'
+
+    aurora_tech.tfa.storage.challenge:
+        class: aurora_tech\tfa\storage\db_challenge_repository
+        arguments:
+            - '@dbal.conn'
+            - '%aurora_tech.tfa.tables.challenge%'
+
+    _defaults:
+        public: true
