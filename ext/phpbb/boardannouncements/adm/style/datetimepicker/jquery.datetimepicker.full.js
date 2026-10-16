@@ -780,8 +780,12 @@ var datetimepickerFactory = function ($) {
 	};
 
 	$.fn.xdsoftScroller = function (options, percent) {
+		options = options || {};
 		return this.each(function () {
 			var timeboxparent = $(this),
+				ownerDocument = options.ownerDocument,
+				ownerBody = (ownerDocument && ownerDocument.nodeType === 9 && ownerDocument.body) ? ownerDocument.body : null,
+				ownerWindow = (options.contentWindow && options.contentWindow.window === options.contentWindow) ? options.contentWindow : null,
 				pointerEventToXY = function (e) {
 					var out = {x: 0, y: 0},
 						touch;
@@ -845,15 +849,17 @@ var datetimepickerFactory = function ($) {
 						h1 = scrollbar[0].offsetHeight;
 
 						if (event.type === 'mousedown' || event.type === 'touchstart') {
-							if (options.ownerDocument) {
-								$(options.ownerDocument.body).addClass('xdsoft_noselect');
+							if (ownerBody) {
+								$(ownerBody).addClass('xdsoft_noselect');
 							}
-							$([options.ownerDocument.body, options.contentWindow]).on('touchend mouseup.xdsoft_scroller', function arguments_callee() {
-								$([options.ownerDocument.body, options.contentWindow]).off('touchend mouseup.xdsoft_scroller', arguments_callee)
+							$([ownerBody, ownerWindow]).on('touchend mouseup.xdsoft_scroller', function arguments_callee() {
+								$([ownerBody, ownerWindow]).off('touchend mouseup.xdsoft_scroller', arguments_callee)
 									.off('mousemove.xdsoft_scroller', calcOffset)
 									.removeClass('xdsoft_noselect');
 							});
-							$(options.ownerDocument.body).on('mousemove.xdsoft_scroller', calcOffset);
+							if (ownerBody) {
+								$(ownerBody).on('mousemove.xdsoft_scroller', calcOffset);
+							}
 						} else {
 							touchStart = true;
 							event.stopPropagation();
