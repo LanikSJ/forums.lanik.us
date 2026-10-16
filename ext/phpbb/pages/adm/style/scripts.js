@@ -7,7 +7,7 @@ $(function() {
 	$.fn.toggleBoxes = function(target) {
 		$(this).on('click', function() {
 			if ($(this).is(':checked')) {
-				$(target).prop('checked', false);
+				$($.find(target)).prop('checked', false);
 			}
 		});
 	};
