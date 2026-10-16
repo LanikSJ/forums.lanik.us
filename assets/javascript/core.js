@@ -1591,10 +1591,13 @@ phpbb.colorPalette = function(dir, width, height) {
 */
 phpbb.registerPalette = function(el) {
 	var	orientation	= el.attr('data-color-palette') || el.attr('data-orientation'), // data-orientation kept for backwards compat.
-		height		= el.attr('data-height'),
-		width		= el.attr('data-width'),
+		height		= parseInt(el.attr('data-height'), 10),
+		width		= parseInt(el.attr('data-width'), 10),
 		target		= el.attr('data-target'),
 		bbcode		= el.attr('data-bbcode');
+
+	height = (!isNaN(height) && height > 0) ? Math.min(height, 100) : 12;
+	width = (!isNaN(width) && width > 0) ? Math.min(width, 100) : 12;
 
 	// Insert the palette HTML into the container.
 	el.html(phpbb.colorPalette(orientation, width, height));
