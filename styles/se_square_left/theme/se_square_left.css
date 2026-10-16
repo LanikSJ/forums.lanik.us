@@ -155,6 +155,49 @@ ul#nav-main .dropdown ul.dropdown-contents a {
 [class*="sticky_unread"] a.topictitle {
 	color: #CC0000;
 }
+/* Bottom aligned signature START */
+@media (min-width: 701px) {
+	.section-viewtopic .post.has-profile > .inner {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	/* common.css clearfix pseudo-element would become a flex item */
+	.section-viewtopic .post.has-profile > .inner::after {
+		content: none;
+	}
+	.section-viewtopic .post.has-profile .postbody {
+		display: flex;
+		flex-direction: column;
+	}
+	.section-viewtopic .post.has-profile .postbody > [id^="post_content"] {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+	.section-viewtopic .post.has-profile .postbody .content {
+		flex-grow: 1;
+	}
+	/* attachbox is float:left (shrink-to-fit); floats are ignored in flex */
+	.section-viewtopic .post.has-profile .postbody .attachbox {
+		align-self: flex-start;
+	}
+
+}
+.section-viewtopic .post.has-profile .back2top {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+	line-height: 1;
+}
+.section-viewtopic .post.has-profile .back2top .top {
+	float: right;
+	margin: 0;
+}
+.rtl.section-viewtopic .post.has-profile .back2top {
+	right: auto;
+	left: 5px;
+}
+/* Bottom aligned signature END */
 /* Forum and Topic icons, Cleansilver */
 .global_read,
 .global_read_mine, 
