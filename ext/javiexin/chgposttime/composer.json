@@ -22,12 +22,12 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "phpbb/phpbb": ">=3.1.5,<3.3.0@dev"
+        "phpbb/phpbb": ">=3.1.5,<4.0.0@dev"
     },
     "extra": {
         "display-name": "Change Post Time",
         "soft-require": {
-            "phpbb/phpbb": ">=3.1.5,<3.3.0@dev"
+            "phpbb/phpbb": ">=3.1.5,<4.0.0@dev"
         },
         "version-check": {
             "host": "www.phpbb.com",

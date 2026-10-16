@@ -14,12 +14,12 @@
         "php": ">=5.4",
         "composer/installers": "~1.0.0",
         "duzun/hquery": "^2.2",
-        "phpbb/phpbb": ">=3.2.0,<3.3.0@dev"
+        "phpbb/phpbb": ">=3.2.0,<4.0.0@dev"
     },
     "extra": {
         "display-name": "Extension News",
         "soft-require": {
-            "phpbb/phpbb": ">=3.2.0,<3.3.0@dev"
+            "phpbb/phpbb": ">=3.2.0,<4.0.0@dev"
         },
         "version-check": {
             "host": "www.phpbb.com",
