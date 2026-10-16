@@ -1943,7 +1943,7 @@ var datetimepickerFactory = function ($) {
 							.html(opt);
 
 						for (i = parseInt(options.monthStart, 10), opt = ''; i <= parseInt(options.monthEnd, 10); i += 1) {
-							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + options.i18n[globalLocale].months[i] + '</div>';
+							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + $('<div/>').text(options.i18n[globalLocale].months[i]).html() + '</div>';
 						}
 						monthselect.children().eq(0).html(opt);
 						$(datetimepicker)
