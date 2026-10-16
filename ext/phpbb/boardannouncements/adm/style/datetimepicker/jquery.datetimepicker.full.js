@@ -973,6 +973,14 @@ var datetimepickerFactory = function ($) {
 			lazyInitTimer = 0,
 			createDateTimePicker,
 			destroyDateTimePicker,
+			escapeHtml = function (value) {
+				return String(value)
+					.replace(/&/g, '&amp;')
+					.replace(/</g, '&lt;')
+					.replace(/>/g, '&gt;')
+					.replace(/"/g, '&quot;')
+					.replace(/'/g, '&#39;');
+			},
 
 			lazyInit = function (input) {
 				input
@@ -1943,7 +1951,7 @@ var datetimepickerFactory = function ($) {
 							.html(opt);
 
 						for (i = parseInt(options.monthStart, 10), opt = ''; i <= parseInt(options.monthEnd, 10); i += 1) {
-							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + options.i18n[globalLocale].months[i] + '</div>';
+							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + escapeHtml(options.i18n[globalLocale].months[i]) + '</div>';
 						}
 						monthselect.children().eq(0).html(opt);
 						$(datetimepicker)
