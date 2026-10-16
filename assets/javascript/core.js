@@ -1612,7 +1612,7 @@ phpbb.registerPalette = function(el) {
 		if (bbcode) {
 			bbfontstyle('[color=#' + color + ']', '[/color]');
 		} else {
-			$(target).val(color);
+			$($.find(target)).val(color);
 		}
 		e.preventDefault();
 	});
