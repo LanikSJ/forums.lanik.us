@@ -128,7 +128,23 @@ phpbb.markNotifications = function($popup, unreadCount) {
 	// Update the notification link to the real URL.
 	$popup.each(function() {
 		var link = $(this).find('a');
-		link.attr('href', link.attr('data-real-url'));
+		var realUrl = link.attr('data-real-url') || '';
+		var safeUrl = '#';
+
+		// Only allow relative URLs or absolute HTTP(S) URLs.
+		try {
+			var parsedUrl = new URL(realUrl, window.location.origin);
+			var isRelativePath = realUrl.charAt(0) === '/' && realUrl.charAt(1) !== '/';
+			var isHttpProtocol = parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+
+			if (isRelativePath || isHttpProtocol) {
+				safeUrl = realUrl;
+			}
+		} catch (e) {
+			safeUrl = '#';
+		}
+
+		link.attr('href', safeUrl);
 	});
 
 	// Update the unread count.
