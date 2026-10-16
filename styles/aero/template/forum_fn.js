@@ -37,14 +37,28 @@ function pageJump(item) {
 	var page = parseInt(item.val(), 10),
 		perPage = item.attr('data-per-page'),
 		baseUrl = item.attr('data-base-url'),
-		startName = item.attr('data-start-name');
+		startName = item.attr('data-start-name'),
+		urlObj,
+		offset;
 
 	if (page !== null && !isNaN(page) && page === Math.floor(page) && page > 0) {
-		if (baseUrl.indexOf('?') === -1) {
-			document.location.href = baseUrl + '?' + startName + '=' + ((page - 1) * perPage);
-		} else {
-			document.location.href = baseUrl.replace(/&amp;/g, '&') + '&' + startName + '=' + ((page - 1) * perPage);
+		if (!/^[A-Za-z0-9_-]+$/.test(startName || '')) {
+			return;
 		}
+
+		try {
+			urlObj = new URL((baseUrl || '').replace(/&amp;/g, '&'), window.location.href);
+		} catch (e) {
+			return;
+		}
+
+		if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+			return;
+		}
+
+		offset = (page - 1) * perPage;
+		urlObj.searchParams.set(startName, offset);
+		document.location.href = urlObj.toString();
 	}
 }
 
