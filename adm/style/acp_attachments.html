@@ -119,16 +119,21 @@
 		// <![CDATA[
 			function update_image(newimage)
 			{
-				// Allow only expected icon filename/path characters to prevent unsafe URL interpretation.
-				var safeImage = /^[A-Za-z0-9._\/-]+$/.test(newimage) && newimage.indexOf('..') === -1;
+				var image = String(newimage || '');
+				// Allow only expected icon filename/path characters, disallow traversal and absolute/protocol-relative paths.
+				var safeImage = /^[A-Za-z0-9._\/-]+$/.test(image)
+					&& image.indexOf('..') === -1
+					&& image.charAt(0) !== '/'
+					&& image.indexOf('//') !== 0;
 
-				if (newimage == 'no_image')
+				if (image == 'no_image')
 				{
 					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
 				}
 				else if (safeImage)
 				{
-					document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
+					var encodedImage = image.split('/').map(encodeURIComponent).join('/');
+					document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + encodedImage;
 				}
 				else
 				{
