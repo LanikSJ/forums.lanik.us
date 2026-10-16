@@ -142,14 +142,22 @@
 
 	var _show = function(content) {
 		var body = '';
+		var escapedTitle = '';
+		var escapedCaption = '';
 
 		if (_title != '')
-			body += '<div class="sd_header">' + _title + '</div>';
+			escapedTitle = jQuery('<div/>').text(_title).html();
+
+		if (_caption != '' && typeof _caption != 'undefined')
+			escapedCaption = jQuery('<div/>').text(_caption).html();
+
+		if (escapedTitle != '')
+			body += '<div class="sd_header">' + escapedTitle + '</div>';
 
 		body += '<div class="sd_content">' + content + '</div>';
 
-		if (_caption != '' && typeof _caption != 'undefined')
-			body += ' <div class="sd_footer">' + _caption + '</div>';
+		if (escapedCaption != '')
+			body += ' <div class="sd_footer">' + escapedCaption + '</div>';
 
 		var tmp = jQuery('<div />')
 			.addClass(_t.opts.containerClass)
