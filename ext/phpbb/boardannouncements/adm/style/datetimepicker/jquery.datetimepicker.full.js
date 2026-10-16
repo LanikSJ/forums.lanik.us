@@ -1945,7 +1945,7 @@ var datetimepickerFactory = function ($) {
 						opt = '';
 
 						for (i = parseInt(options.yearStart, 10); i <= parseInt(options.yearEnd, 10); i += 1) {
-							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + (i + options.yearOffset) + '</div>';
+							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '') + '" data-value="' + escapeHtml(i) + '">' + escapeHtml(i + options.yearOffset) + '</div>';
 						}
 						yearselect.children().eq(0)
 							.html(opt);
