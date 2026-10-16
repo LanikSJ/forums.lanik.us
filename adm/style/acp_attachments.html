@@ -119,13 +119,20 @@
 		// <![CDATA[
 			function update_image(newimage)
 			{
+				// Allow only expected icon filename/path characters to prevent unsafe URL interpretation.
+				var safeImage = /^[A-Za-z0-9._\/-]+$/.test(newimage) && newimage.indexOf('..') === -1;
+
 				if (newimage == 'no_image')
 				{
 					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
 				}
-				else
+				else if (safeImage)
 				{
 					document.getElementById('image_upload_icon').src = "{ROOT_PATH}{IMG_PATH}/" + newimage;
+				}
+				else
+				{
+					document.getElementById('image_upload_icon').src = "{ROOT_PATH}images/spacer.gif";
 				}
 			}
 
