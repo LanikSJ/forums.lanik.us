@@ -23,7 +23,17 @@ function versionCheck() {
 		return;
 	}
 
-	$(location).prop('href', $('#extmgrplus_link_version_check').attr('data-url'));
+	const rawUrl = $('#extmgrplus_link_version_check').attr('data-url');
+
+	try {
+		const parsedUrl = new URL(rawUrl, window.location.origin);
+
+		if ((parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:') && parsedUrl.origin === window.location.origin) {
+			$(location).prop('href', parsedUrl.href);
+		}
+	} catch (e) {
+		// Ignore invalid URLs.
+	}
 };
 
 function showExtProperties() {
