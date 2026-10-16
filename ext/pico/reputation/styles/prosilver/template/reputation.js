@@ -159,7 +159,12 @@ reputation.response = function(data, mode) {
 	var error = data.error_msg || data.MESSAGE_TEXT || null;
 
 	if (error) {
-		$popup.empty().append('<div class="rs-message">' + (error.includes('<h3') ? '' : `<h3>${$popup.attr('data-title')}</h3>`) + error + '</div>').reveal();
+		var $message = $('<div class="rs-message"></div>');
+		if (!error.includes('<h3')) {
+			$message.append($('<h3></h3>').text($popup.attr('data-title') || ''));
+		}
+		$message.append(error);
+		$popup.empty().append($message).reveal();
 	}
 	else if (data.comment_error) {
 		$('.error', $popup).detach();
