@@ -62,7 +62,7 @@ function parseAutomaticLinks()
 	while (m = regexp.exec(text))
 	{
 		// Re-escape escape sequences in automatic links
-		var content  = decode(m[0].replace(/\x1B/g, "\\\x1B")).replace(/^<(.+)>$/, '$1'),
+		var content  = decode(m[0].replace(/\x1B/g, function(match) { return '\\' + match; })).replace(/^<(.+)>$/, '$1'),
 			startPos = m.index,
 			endPos   = startPos + m[0].length - 1,
 
