@@ -128,7 +128,15 @@ phpbb.markNotifications = function($popup, unreadCount) {
 	// Update the notification link to the real URL.
 	$popup.each(function() {
 		var link = $(this).find('a');
-		link.attr('href', link.attr('data-real-url'));
+		var realUrl = link.attr('data-real-url') || '';
+		var safeUrl = '#';
+
+		// Only allow relative URLs or absolute HTTP(S) URLs.
+		if (/^(?:\/(?!\/)|https?:\/\/)/i.test(realUrl)) {
+			safeUrl = realUrl;
+		}
+
+		link.attr('href', safeUrl);
 	});
 
 	// Update the unread count.
