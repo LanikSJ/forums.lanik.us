@@ -1942,31 +1942,42 @@ var datetimepickerFactory = function ($) {
 
 						timebox.html(time);
 
-						opt = [];
+						var yearOptions = [],
+							monthOptions = [],
+							yearOption,
+							monthOption;
 
 						for (i = parseInt(options.yearStart, 10); i <= parseInt(options.yearEnd, 10); i += 1) {
-							opt.push(
-								$('<div/>')
-									.addClass('xdsoft_option')
-									.addClass(_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '')
-									.attr('data-value', i)
-									.text(i + options.yearOffset)
-							);
+							yearOption = $('<div/>')
+								.addClass('xdsoft_option')
+								.attr('data-value', i)
+								.text(i + options.yearOffset);
+
+							if (_xdsoft_datetime.currentTime.getFullYear() === i) {
+								yearOption.addClass('xdsoft_current');
+							}
+
+							yearOptions.push(yearOption);
 						}
 						yearselect.children().eq(0)
 							.empty()
-							.append(opt);
+							.append(yearOptions);
 
-						for (i = parseInt(options.monthStart, 10), opt = []; i <= parseInt(options.monthEnd, 10); i += 1) {
-							opt.push(
-								$('<div/>')
-									.addClass('xdsoft_option')
-									.addClass(_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '')
-									.attr('data-value', i)
-									.text(options.i18n[globalLocale].months[i])
-							);
+						for (i = parseInt(options.monthStart, 10); i <= parseInt(options.monthEnd, 10); i += 1) {
+							monthOption = $('<div/>')
+								.addClass('xdsoft_option')
+								.attr('data-value', i)
+								.text(options.i18n[globalLocale].months[i]);
+
+							if (_xdsoft_datetime.currentTime.getMonth() === i) {
+								monthOption.addClass('xdsoft_current');
+							}
+
+							monthOptions.push(monthOption);
 						}
-						monthselect.children().eq(0).empty().append(opt);
+						monthselect.children().eq(0)
+							.empty()
+							.append(monthOptions);
 						$(datetimepicker)
 							.trigger('generate.xdsoft');
 					}, 10);
