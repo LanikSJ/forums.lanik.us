@@ -652,7 +652,7 @@ phpbb.search.handleResponse = function(res, $input, fromCache, callback) {
 	}
 
 	var searchID = $input.attr('data-results'),
-		$container = $(searchID);
+		$container = $($.find(searchID));
 
 	if (this.cache.get(searchID).callback) {
 		callback = this.cache.get(searchID).callback;
