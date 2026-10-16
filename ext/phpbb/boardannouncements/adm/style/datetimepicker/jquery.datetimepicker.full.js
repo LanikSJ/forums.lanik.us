@@ -1942,18 +1942,31 @@ var datetimepickerFactory = function ($) {
 
 						timebox.html(time);
 
-						opt = '';
+						opt = [];
 
 						for (i = parseInt(options.yearStart, 10); i <= parseInt(options.yearEnd, 10); i += 1) {
-							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '') + '" data-value="' + escapeHtml(i) + '">' + escapeHtml(i + options.yearOffset) + '</div>';
+							opt.push(
+								$('<div/>')
+									.addClass('xdsoft_option')
+									.addClass(_xdsoft_datetime.currentTime.getFullYear() === i ? 'xdsoft_current' : '')
+									.attr('data-value', i)
+									.text(i + options.yearOffset)
+							);
 						}
 						yearselect.children().eq(0)
-							.html(opt);
+							.empty()
+							.append(opt);
 
-						for (i = parseInt(options.monthStart, 10), opt = ''; i <= parseInt(options.monthEnd, 10); i += 1) {
-							opt += '<div class="xdsoft_option ' + (_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '') + '" data-value="' + i + '">' + escapeHtml(options.i18n[globalLocale].months[i]) + '</div>';
+						for (i = parseInt(options.monthStart, 10), opt = []; i <= parseInt(options.monthEnd, 10); i += 1) {
+							opt.push(
+								$('<div/>')
+									.addClass('xdsoft_option')
+									.addClass(_xdsoft_datetime.currentTime.getMonth() === i ? 'xdsoft_current' : '')
+									.attr('data-value', i)
+									.text(options.i18n[globalLocale].months[i])
+							);
 						}
-						monthselect.children().eq(0).html(opt);
+						monthselect.children().eq(0).empty().append(opt);
 						$(datetimepicker)
 							.trigger('generate.xdsoft');
 					}, 10);
