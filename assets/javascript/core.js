@@ -1055,6 +1055,25 @@ phpbb.addAjaxCallback('alt_text', function() {
  * Additionally it replaces the class of the link's parent
  * and changes the link itself.
  */
+function getSafeToggleUrl(url) {
+	var normalizedUrl = $.trim(url || ''),
+		safeProtocol = /^(https?:|mailto:|tel:)/i;
+
+	if (!normalizedUrl) {
+		return '#';
+	}
+
+	if (normalizedUrl.charAt(0) === '/' || normalizedUrl.charAt(0) === '#' || normalizedUrl.charAt(0) === '?') {
+		return normalizedUrl;
+	}
+
+	if (safeProtocol.test(normalizedUrl)) {
+		return normalizedUrl;
+	}
+
+	return '#';
+}
+
 phpbb.addAjaxCallback('toggle_link', function() {
 	var $anchor,
 		updateAll = $(this).data('update-all') ,
@@ -1074,7 +1093,7 @@ phpbb.addAjaxCallback('toggle_link', function() {
 		// Toggle link url
 		toggleUrl = $this.attr('data-toggle-url');
 		$this.attr('data-toggle-url', $this.attr('href'));
-		$this.attr('href', toggleUrl);
+		$this.attr('href', getSafeToggleUrl(toggleUrl));
 
 		// Toggle class of link parent
 		toggleClass = $this.attr('data-toggle-class');
