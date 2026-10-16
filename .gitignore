@@ -23,6 +23,7 @@
 *.lock
 error_log
 cache/production/
+!composer.lock
 
 # macOS Ignores
 .DS_Store
