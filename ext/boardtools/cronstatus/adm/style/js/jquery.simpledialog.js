@@ -29,6 +29,15 @@
 		_container = null,
 		_content = null;
 
+	var _escapeHtml = function(str) {
+		return String(str)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;')
+			.replace(/'/g, '&#39;');
+	};
+
 	// Public Methods
 
 	jQuery.fn.simpleDialog = function(options) {
@@ -60,7 +69,7 @@
 						if (_t.opts.useTitleAttr) {
 							var title = $t.attr('title');
 							if (typeof title != 'undefined' && title != '')
-								_title = title;
+								_title = _escapeHtml(title);
 						}
 
 						var href = $t.attr('href');
@@ -74,7 +83,7 @@
 							_show(_escapedContent);
 						} else if ($t.find('img').length > 0) {
 							if (_t.opts.showCaption)
-								_caption = $t.find('img').attr('title');
+								_caption = _escapeHtml($t.find('img').attr('title'));
 							_load(href);
 						} else {
 							_request(href, {});
