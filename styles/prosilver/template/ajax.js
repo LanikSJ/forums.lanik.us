@@ -132,8 +132,16 @@ phpbb.markNotifications = function($popup, unreadCount) {
 		var safeUrl = '#';
 
 		// Only allow relative URLs or absolute HTTP(S) URLs.
-		if (/^(?:\/(?!\/)|https?:\/\/)/i.test(realUrl)) {
-			safeUrl = realUrl;
+		try {
+			var parsedUrl = new URL(realUrl, window.location.origin);
+			var isRelativePath = realUrl.charAt(0) === '/' && realUrl.charAt(1) !== '/';
+			var isHttpProtocol = parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+
+			if (isRelativePath || isHttpProtocol) {
+				safeUrl = realUrl;
+			}
+		} catch (e) {
+			safeUrl = '#';
 		}
 
 		link.attr('href', safeUrl);
