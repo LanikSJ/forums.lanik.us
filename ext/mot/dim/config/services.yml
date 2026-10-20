@@ -44,3 +44,6 @@ services:
             - '@request'
             - '@template'
             - '@user'
+
+    _defaults:
+        public: true

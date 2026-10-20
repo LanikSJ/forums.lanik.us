@@ -1,0 +1,88 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDECSS '@stoker_urlrewrite/urlrewrite_acp.css' %}
+
+<p class="ts-badge-wrap">
+	<span class="ts-badge" role="img" aria-label="{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}">
+		<span class="ts-badge-label">{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}</span><span class="ts-badge-version">{{ VERSIONCHECK_INSTALLED }}</span>
+	</span>
+</p>
+
+<p class="versioncheck">
+	{% if S_VERSIONCHECK_UP_TO_DATE %}
+		<i class="fa fa-check-circle versioncheck-ok" aria-hidden="true" title="{{ lang('ACP_URLREWRITE_VC_OK', VERSIONCHECK_CURRENT)|e('html_attr') }}"></i> <span class="versioncheck-ok">{{ lang('ACP_URLREWRITE_VC_OK', VERSIONCHECK_CURRENT) }}</span>
+	{% elseif S_VERSIONCHECK_OUTDATED %}
+		<a href="{{ U_VERSIONCHECK_DOWNLOAD }}" target="_blank" rel="noopener noreferrer" class="versioncheck-outdated" title="{{ lang('ACP_URLREWRITE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST)|e('html_attr') }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang('ACP_URLREWRITE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST) }}</a>
+	{% elseif S_VERSIONCHECK_UNAVAILABLE %}
+		<i class="fa fa-question-circle versioncheck-unavailable" aria-hidden="true" title="{{ lang('ACP_URLREWRITE_VC_UNAVAILABLE')|e('html_attr') }}"></i> <span class="versioncheck-unavailable">{{ lang('ACP_URLREWRITE_VC_UNAVAILABLE') }}</span>
+	{% endif %}
+</p>
+
+<p class="font-size">{{ lang('ACP_STOKER_SETTINGS_EXPLAIN') ~ lang('COLON') }}<br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/donate" target="_blank" rel="noopener noreferrer"><i class="fa fa-paypal" aria-hidden="true"></i> {{ lang('ACP_STOKER_DONATION') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/home" target="_blank" rel="noopener noreferrer"><i class="fa fa-link" aria-hidden="true"></i> {{ lang('ACP_STOKER_MEMBER') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/viewtopic.php?t=3704" target="_blank" rel="noopener noreferrer"><i class="fa fa-ticket" aria-hidden="true"></i> {{ lang('ACP_STOKER_SUPPORT') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/ext-check/ec_stoker_urlrewrite_1-0-9.html" target="_blank" rel="noopener noreferrer"><i class="fa fa-code" aria-hidden="true"></i> {{ lang('ACP_EC_REPORT') }}</a>
+</p>
+
+<p>{{ lang('ACP_URLREWRITE_SETTINGS_EXPLAIN') }}</p>
+<p class="stoker-warning">{{ IMPORTANT_NOTICE }}</p>
+
+<fieldset class="ts-fieldset">
+	<legend class="ts-legend"><i class="fa fa-toggle-on fa-lg" aria-hidden="true"></i> {{ lang('ACP_URLREWRITE_SETTINGS') }}</legend>
+
+	<dl>
+		<dt><label>{{ lang('STOKER_URLREWRITE_ENABLE') ~ lang('COLON') }}</label><br><span>{{ lang('STOKER_URLREWRITE_ENABLE_EXPLAIN') }}</span></dt>
+		<dd>
+			<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_ENABLE }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if STOKER_URLREWRITE_ENABLE %}true{% else %}false{% endif %}" aria-label="{{ lang('STOKER_URLREWRITE_ENABLE')|e('html_attr') }}">
+				<input type="checkbox" id="stoker_urlrewrite_enable" tabindex="-1"{% if STOKER_URLREWRITE_ENABLE %} checked{% endif %}>
+				<span class="toggle-slider"></span>
+			</span>
+		</dd>
+	</dl>
+	<hr class="jq-hr">
+	<dl>
+		<dt><label>{{ lang('STOKER_URLREWRITE_REDIRECT_ENABLE') ~ lang('COLON') }}</label><br><span>{{ lang('STOKER_URLREWRITE_REDIRECT_ENABLE_EXPLAIN') }}</span></dt>
+		<dd>
+			<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_REDIRECT }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if STOKER_URLREWRITE_REDIRECT_ENABLE %}true{% else %}false{% endif %}" aria-label="{{ lang('STOKER_URLREWRITE_REDIRECT_ENABLE')|e('html_attr') }}">
+				<input type="checkbox" id="stoker_urlrewrite_redirect_enable" tabindex="-1"{% if STOKER_URLREWRITE_REDIRECT_ENABLE %} checked{% endif %}>
+				<span class="toggle-slider"></span>
+			</span>
+		</dd>
+	</dl>
+</fieldset>
+
+<form id="acp_urlrewrite_settings" method="post" action="{{ U_ACTION }}">
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-language fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_TRANSLIT') }}</legend>
+		<dl>
+			<dt><label for="stoker_urlrewrite_translit">{{ lang('STOKER_URLREWRITE_TRANSLIT') ~ lang('COLON') }}</label><br><span>{{ lang('STOKER_URLREWRITE_TRANSLIT_EXPLAIN') }}</span></dt>
+			<dd>
+				<select id="stoker_urlrewrite_translit" name="stoker_urlrewrite_translit">
+					<option value="0"{% if STOKER_URLREWRITE_TRANSLIT == 0 %} selected{% endif %}>{{ lang('STOKER_URLREWRITE_TRANSLIT_OFF') }}</option>
+					<option value="1"{% if STOKER_URLREWRITE_TRANSLIT == 1 %} selected{% endif %}>{{ lang('STOKER_URLREWRITE_TRANSLIT_STATIC') }}</option>
+					{% if S_INTL_AVAILABLE %}
+						<option value="2"{% if STOKER_URLREWRITE_TRANSLIT == 2 %} selected{% endif %}>{{ lang('STOKER_URLREWRITE_TRANSLIT_INTL') }}</option>
+					{% else %}
+						<option value="2" disabled>{{ lang('STOKER_URLREWRITE_TRANSLIT_INTL_MISSING') }}</option>
+					{% endif %}
+				</select>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT')|e('html_attr') }}">&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET')|e('html_attr') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+</form>
+
+{% INCLUDEJS '@stoker_urlrewrite/urlrewrite_acp.js' %}
+
+{% include 'overall_footer.html' %}

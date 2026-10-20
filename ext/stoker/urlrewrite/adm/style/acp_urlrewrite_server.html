@@ -1,0 +1,85 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDECSS '@stoker_urlrewrite/urlrewrite_acp.css' %}
+
+<p class="ts-badge-wrap">
+	<span class="ts-badge" role="img" aria-label="{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}">
+		<span class="ts-badge-label">{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}</span><span class="ts-badge-version">{{ VERSIONCHECK_INSTALLED }}</span>
+	</span>
+</p>
+
+<p class="versioncheck">
+	{% if S_VERSIONCHECK_UP_TO_DATE %}
+		<i class="fa fa-check-circle versioncheck-ok" aria-hidden="true" title="{{ lang('ACP_URLREWRITE_VC_OK', VERSIONCHECK_CURRENT)|e('html_attr') }}"></i> <span class="versioncheck-ok">{{ lang('ACP_URLREWRITE_VC_OK', VERSIONCHECK_CURRENT) }}</span>
+	{% elseif S_VERSIONCHECK_OUTDATED %}
+		<a href="{{ U_VERSIONCHECK_DOWNLOAD }}" target="_blank" rel="noopener noreferrer" class="versioncheck-outdated" title="{{ lang('ACP_URLREWRITE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST)|e('html_attr') }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang('ACP_URLREWRITE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST) }}</a>
+	{% elseif S_VERSIONCHECK_UNAVAILABLE %}
+		<i class="fa fa-question-circle versioncheck-unavailable" aria-hidden="true" title="{{ lang('ACP_URLREWRITE_VC_UNAVAILABLE')|e('html_attr') }}"></i> <span class="versioncheck-unavailable">{{ lang('ACP_URLREWRITE_VC_UNAVAILABLE') }}</span>
+	{% endif %}
+</p>
+
+<p class="font-size">{{ lang('ACP_STOKER_SETTINGS_EXPLAIN') ~ lang('COLON') }}<br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/donate" target="_blank" rel="noopener noreferrer"><i class="fa fa-paypal" aria-hidden="true"></i> {{ lang('ACP_STOKER_DONATION') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/home" target="_blank" rel="noopener noreferrer"><i class="fa fa-link" aria-hidden="true"></i> {{ lang('ACP_STOKER_MEMBER') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/viewtopic.php?t=3704" target="_blank" rel="noopener noreferrer"><i class="fa fa-ticket" aria-hidden="true"></i> {{ lang('ACP_STOKER_SUPPORT') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/ext-check/ec_stoker_urlrewrite_1-0-9.html" target="_blank" rel="noopener noreferrer"><i class="fa fa-code" aria-hidden="true"></i> {{ lang('ACP_EC_REPORT') }}</a>
+</p>
+
+<p class="stoker-warning">{{ lang('ACP_URLREWRITE_SERVER_EXPLAIN') }}</p>
+
+<fieldset class="ts-fieldset">
+	<legend class="ts-legend"><i class="fa fa-server fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_SELECT_SERVER') }}</legend>
+	<dl>
+		<dt><label for="stoker_server_type">{{ lang('STOKER_URLREWRITE_SELECT_SERVER') ~ lang('COLON') }}</label></dt>
+		<dd>
+			<select id="stoker_server_type">
+				<option value="apache">{{ lang('STOKER_URLREWRITE_SERVER_APACHE') }}</option>
+				<option value="nginx">{{ lang('STOKER_URLREWRITE_SERVER_NGINX') }}</option>
+			</select>
+		</dd>
+	</dl>
+</fieldset>
+
+<div id="stoker-server-apache" class="stoker-server-block">
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-code fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_FORWARD_RULES') }}</legend>
+		<p>{{ lang('STOKER_URLREWRITE_APACHE_FORWARD_EXPLAIN') }}</p>
+		<div class="stoker-code-wrap">
+			<button type="button" class="button2 stoker-copy" data-copy="stoker-apache-forward" data-label-copy="{{ lang('STOKER_URLREWRITE_COPY')|e('html_attr') }}" data-label-copied="{{ lang('STOKER_URLREWRITE_COPIED')|e('html_attr') }}" data-label-failed="{{ lang('STOKER_URLREWRITE_COPY_FAILED')|e('html_attr') }}">{{ lang('STOKER_URLREWRITE_COPY') }}</button>
+			<textarea id="stoker-apache-forward" class="stoker-code" rows="8" readonly>{{ APACHE_FORWARD|e }}</textarea>
+		</div>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_REVERSE_RULES') }}</legend>
+		<p class="stoker-warning">{{ lang('STOKER_URLREWRITE_APACHE_REVERSE_EXPLAIN') }}</p>
+		<div class="stoker-code-wrap">
+			<button type="button" class="button2 stoker-copy" data-copy="stoker-apache-reverse" data-label-copy="{{ lang('STOKER_URLREWRITE_COPY')|e('html_attr') }}" data-label-copied="{{ lang('STOKER_URLREWRITE_COPIED')|e('html_attr') }}" data-label-failed="{{ lang('STOKER_URLREWRITE_COPY_FAILED')|e('html_attr') }}">{{ lang('STOKER_URLREWRITE_COPY') }}</button>
+			<textarea id="stoker-apache-reverse" class="stoker-code" rows="8" readonly>{{ APACHE_REVERSE|e }}</textarea>
+		</div>
+	</fieldset>
+</div>
+
+<div id="stoker-server-nginx" class="stoker-server-block stoker-hidden">
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-code fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_FORWARD_RULES') }}</legend>
+		<p>{{ lang('STOKER_URLREWRITE_NGINX_FORWARD_EXPLAIN') }}</p>
+		<div class="stoker-code-wrap">
+			<button type="button" class="button2 stoker-copy" data-copy="stoker-nginx-forward" data-label-copy="{{ lang('STOKER_URLREWRITE_COPY')|e('html_attr') }}" data-label-copied="{{ lang('STOKER_URLREWRITE_COPIED')|e('html_attr') }}" data-label-failed="{{ lang('STOKER_URLREWRITE_COPY_FAILED')|e('html_attr') }}">{{ lang('STOKER_URLREWRITE_COPY') }}</button>
+			<textarea id="stoker-nginx-forward" class="stoker-code" rows="8" readonly>{{ NGINX_FORWARD|e }}</textarea>
+		</div>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-undo fa-lg" aria-hidden="true"></i> {{ lang('STOKER_URLREWRITE_REVERSE_RULES') }}</legend>
+		<p class="stoker-warning">{{ lang('STOKER_URLREWRITE_NGINX_REVERSE_EXPLAIN') }}</p>
+		<div class="stoker-code-wrap">
+			<button type="button" class="button2 stoker-copy" data-copy="stoker-nginx-reverse" data-label-copy="{{ lang('STOKER_URLREWRITE_COPY')|e('html_attr') }}" data-label-copied="{{ lang('STOKER_URLREWRITE_COPIED')|e('html_attr') }}" data-label-failed="{{ lang('STOKER_URLREWRITE_COPY_FAILED')|e('html_attr') }}">{{ lang('STOKER_URLREWRITE_COPY') }}</button>
+			<textarea id="stoker-nginx-reverse" class="stoker-code" rows="8" readonly>{{ NGINX_REVERSE|e }}</textarea>
+		</div>
+	</fieldset>
+</div>
+
+{% INCLUDEJS '@stoker_urlrewrite/urlrewrite_acp.js' %}
+
+{% include 'overall_footer.html' %}

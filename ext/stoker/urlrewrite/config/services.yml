@@ -1,0 +1,50 @@
+services:
+    stoker.urlrewrite.helper:
+        class: stoker\urlrewrite\helper\url_helper
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@content.visibility'
+            - '@dbal.conn'
+            - '@user'
+
+    stoker.urlrewrite.listener:
+        class: stoker\urlrewrite\event\main_listener
+        arguments:
+            - '@config'
+            - '@dbal.conn'
+            - '@auth'
+            - '@request'
+            - '@user'
+            - '@template'
+            - '@stoker.urlrewrite.helper'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    stoker.urlrewrite.controller.acp:
+        class: stoker\urlrewrite\controller\acp_controller
+        arguments:
+            - '@config'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@log'
+            - '@user'
+            - '@cache'
+            - '@ext.manager'
+            - '@file_downloader'
+            - '%core.php_ext%'
+
+    stoker.urlrewrite.quote_helper:
+        class: stoker\urlrewrite\textformatter\s9e\quote_helper
+        decorates: text_formatter.s9e.quote_helper
+        arguments:
+            - '@user'
+            - '@config'
+            - '@stoker.urlrewrite.helper'
+            - '@stoker.urlrewrite.quote_helper.inner'
+
+    _defaults:
+        public: true
