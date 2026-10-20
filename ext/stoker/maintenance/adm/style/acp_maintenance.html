@@ -1,0 +1,138 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDECSS '@stoker_maintenance/maintenance_acp.css' %}
+
+<p class="ts-badge-wrap">
+	<span class="ts-badge" role="img" aria-label="{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}">
+		<span class="ts-badge-label">{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}</span><span class="ts-badge-version">{{ VERSIONCHECK_INSTALLED }}</span>
+	</span>
+</p>
+
+<p class="versioncheck">
+	{% if S_VERSIONCHECK_UP_TO_DATE %}
+		<i class="fa fa-check-circle versioncheck-ok" aria-hidden="true" title="{{ lang('ACP_STOKER_MAINTENANCE_VC_OK', VERSIONCHECK_CURRENT)|e('html_attr') }}"></i> <span class="versioncheck-ok">{{ lang('ACP_STOKER_MAINTENANCE_VC_OK', VERSIONCHECK_CURRENT) }}</span>
+	{% elseif S_VERSIONCHECK_OUTDATED %}
+		<a href="{{ U_VERSIONCHECK_DOWNLOAD }}" target="_blank" rel="noopener noreferrer" class="versioncheck-outdated" title="{{ lang('ACP_STOKER_MAINTENANCE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST)|e('html_attr') }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST) }}</a>
+	{% elseif S_VERSIONCHECK_UNAVAILABLE %}
+		<i class="fa fa-question-circle versioncheck-unavailable" aria-hidden="true" title="{{ lang('ACP_STOKER_MAINTENANCE_VC_UNAVAILABLE')|e('html_attr') }}"></i> <span class="versioncheck-unavailable">{{ lang('ACP_STOKER_MAINTENANCE_VC_UNAVAILABLE') }}</span>
+	{% endif %}
+</p>
+
+<p class="font-size">{{ lang('ACP_STOKER_SETTINGS_EXPLAIN') ~ lang('COLON') }}<br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/donate" target="_blank" rel="noopener noreferrer"><i class="fa fa-paypal" aria-hidden="true"></i> {{ lang('ACP_STOKER_DONATION') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/home" target="_blank" rel="noopener noreferrer"><i class="fa fa-link" aria-hidden="true"></i> {{ lang('ACP_STOKER_MEMBER') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/board-maintenance-t3891" target="_blank" rel="noopener noreferrer"><i class="fa fa-ticket" aria-hidden="true"></i> {{ lang('ACP_STOKER_SUPPORT') }}</a>
+</p>
+
+{% if S_ERROR %}
+	<div class="errorbox">
+		<p>{{ ERROR_MSG }}</p>
+	</div>
+{% endif %}
+
+<form id="acp_stoker_maintenance" method="post" action="{{ U_ACTION }}">
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_GENERAL') }}</legend>
+
+		<dl>
+			<dt><label>{{ lang('ACP_STOKER_MAINTENANCE_ENABLED') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_ENABLED_EXPLAIN') }}</span></dt>
+			<dd>
+				<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_ENABLED }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if STOKER_MAINTENANCE_ENABLED %}true{% else %}false{% endif %}" aria-label="{{ lang('ACP_STOKER_MAINTENANCE_ENABLED')|e('html_attr') }}">
+					<input type="checkbox" id="stoker_maintenance_enabled" tabindex="-1"{% if STOKER_MAINTENANCE_ENABLED %} checked{% endif %}>
+					<span class="toggle-slider"></span>
+				</span>
+			</dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label>{{ lang('ACP_STOKER_MAINTENANCE_PREVIEW') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_PREVIEW_EXPLAIN') }}</span></dt>
+			<dd><a class="font-weight" href="{{ U_STOKER_MAINTENANCE_PREVIEW }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_PREVIEW_LINK') }}</a></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-power-off fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_DISABLE_BOARD') }}</legend>
+
+		<dl>
+			<dt><label>{{ lang('ACP_STOKER_MAINTENANCE_DISABLE_BOARD') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_DISABLE_BOARD_EXPLAIN') }}</span></dt>
+			<dd>
+				<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_BOARD_DISABLE }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" data-toggle-confirm="{{ lang('ACP_STOKER_MAINTENANCE_DISABLE_BOARD_CONFIRM')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if STOKER_MAINTENANCE_BOARD_DISABLE %}true{% else %}false{% endif %}" aria-label="{{ lang('ACP_STOKER_MAINTENANCE_DISABLE_BOARD')|e('html_attr') }}">
+					<input type="checkbox" id="stoker_maintenance_board_disable" tabindex="-1"{% if STOKER_MAINTENANCE_BOARD_DISABLE %} checked{% endif %}>
+					<span class="toggle-slider"></span>
+				</span>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_SCHEDULE') }}</legend>
+
+		<dl>
+			<dt><label for="stoker_maintenance_start">{{ lang('ACP_STOKER_MAINTENANCE_START') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_START_EXPLAIN') }}</span></dt>
+			<dd><input type="datetime-local" id="stoker_maintenance_start" name="stoker_maintenance_start" value="{{ STOKER_MAINTENANCE_START }}"></dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label for="stoker_maintenance_end">{{ lang('ACP_STOKER_MAINTENANCE_END') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_END_EXPLAIN') }}</span></dt>
+			<dd><input type="datetime-local" id="stoker_maintenance_end" name="stoker_maintenance_end" value="{{ STOKER_MAINTENANCE_END }}"></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-comment fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_CONTENT') }}</legend>
+
+		<dl>
+			<dt><label for="stoker_maintenance_heading">{{ lang('ACP_STOKER_MAINTENANCE_HEADING') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_HEADING_EXPLAIN') }}</span></dt>
+			<dd><input type="text" id="stoker_maintenance_heading" name="stoker_maintenance_heading" maxlength="255" value="{{ STOKER_MAINTENANCE_HEADING }}"></dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label for="stoker_maintenance_message">{{ lang('ACP_STOKER_MAINTENANCE_MESSAGE') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_MESSAGE_EXPLAIN') }}</span></dt>
+			<dd><textarea id="stoker_maintenance_message" name="stoker_maintenance_message" rows="4" cols="45" maxlength="65535">{{ STOKER_MAINTENANCE_MESSAGE }}</textarea></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-bullhorn fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_BANNER') }}</legend>
+
+		<dl>
+			<dt><label>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_ENABLED') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_ENABLED_EXPLAIN') }}</span></dt>
+			<dd>
+				<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_BANNER_ENABLED }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if STOKER_MAINTENANCE_BANNER_ENABLED %}true{% else %}false{% endif %}" aria-label="{{ lang('ACP_STOKER_MAINTENANCE_BANNER_ENABLED')|e('html_attr') }}">
+					<input type="checkbox" id="stoker_maintenance_banner_enabled" tabindex="-1"{% if STOKER_MAINTENANCE_BANNER_ENABLED %} checked{% endif %}>
+					<span class="toggle-slider"></span>
+				</span>
+			</dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label for="stoker_maintenance_banner_lead_hours">{{ lang('ACP_STOKER_MAINTENANCE_BANNER_LEAD') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_LEAD_EXPLAIN') }}</span></dt>
+			<dd><input type="number" id="stoker_maintenance_banner_lead_hours" name="stoker_maintenance_banner_lead_hours" value="{{ STOKER_MAINTENANCE_BANNER_LEAD_HOURS }}" min="0" max="720"></dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label for="stoker_maintenance_banner_url">{{ lang('ACP_STOKER_MAINTENANCE_BANNER_URL') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_URL_EXPLAIN') }}</span></dt>
+			<dd><input type="url" id="stoker_maintenance_banner_url" name="stoker_maintenance_banner_url" maxlength="255" size="45" placeholder="https://" value="{{ STOKER_MAINTENANCE_BANNER_URL }}"></dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt><label>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_PREVIEW') ~ lang('COLON') }}</label><br><span>{{ lang('ACP_STOKER_MAINTENANCE_BANNER_PREVIEW_EXPLAIN') }}</span></dt>
+			<dd><a class="font-weight" href="{{ U_STOKER_MAINTENANCE_PREVIEW_BANNER }}" target="_blank" rel="noopener noreferrer"><i class="fa fa-eye" aria-hidden="true"></i> {{ lang('ACP_STOKER_MAINTENANCE_BANNER_PREVIEW_LINK') }}</a></dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT')|e('html_attr') }}"> &nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET')|e('html_attr') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+</form>
+
+{% INCLUDEJS '@stoker_maintenance/maintenance_acp.js' %}
+
+{% include 'overall_footer.html' %}

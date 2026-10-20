@@ -1,0 +1,57 @@
+{% include 'overall_header.html' %}
+
+<div class="stoker-maintenance-card">
+	<h2 class="stoker-maintenance-heading">{{ STOKER_MAINTENANCE_HEADING }}</h2>
+	<p class="stoker-maintenance-text">{{ STOKER_MAINTENANCE_MESSAGE }}</p>
+
+	{% if S_STOKER_MAINTENANCE_COUNTDOWN %}
+	<div id="stoker-maintenance-countdown" class="stoker-maintenance-countdown" data-start="{{ STOKER_MAINTENANCE_START }}" data-end="{{ STOKER_MAINTENANCE_END }}" data-now="{{ STOKER_MAINTENANCE_NOW }}" data-reload="{% if S_STOKER_MAINTENANCE_RELOAD %}1{% else %}0{% endif %}">
+		<div id="stoker-maintenance-live" class="stoker-maintenance-live"{% if S_STOKER_MAINTENANCE_CLOSING %} hidden{% endif %}>
+			<p class="stoker-maintenance-opening">{{ lang('STOKER_MAINTENANCE_OPENING') ~ lang('COLON') }}</p>
+			<div class="stoker-maintenance-timer" aria-live="off">
+				<span class="stoker-maintenance-unit"><span class="stoker-maintenance-value" data-unit="days">00</span><span class="stoker-maintenance-label">{{ lang('STOKER_MAINTENANCE_DAYS') }}</span></span>
+				<span class="stoker-maintenance-unit"><span class="stoker-maintenance-value" data-unit="hours">00</span><span class="stoker-maintenance-label">{{ lang('STOKER_MAINTENANCE_HOURS') }}</span></span>
+				<span class="stoker-maintenance-unit"><span class="stoker-maintenance-value" data-unit="minutes">00</span><span class="stoker-maintenance-label">{{ lang('STOKER_MAINTENANCE_MINUTES') }}</span></span>
+				<span class="stoker-maintenance-unit"><span class="stoker-maintenance-value" data-unit="seconds">00</span><span class="stoker-maintenance-label">{{ lang('STOKER_MAINTENANCE_SECONDS') }}</span></span>
+			</div>
+
+			<div class="stoker-maintenance-window">
+				{% if STOKER_MAINTENANCE_START_DATE %}
+				<div class="stoker-maintenance-window-box">
+					<span class="stoker-maintenance-window-label"><i class="icon fa-play fa-fw stoker-maintenance-window-icon-start" aria-hidden="true"></i> {{ lang('STOKER_MAINTENANCE_WINDOW_START') }}</span>
+					<span class="stoker-maintenance-window-date">{{ STOKER_MAINTENANCE_START_DATE|e }}</span>
+				</div>
+				{% endif %}
+				<div class="stoker-maintenance-window-box">
+					<span class="stoker-maintenance-window-label"><i class="icon fa-stop fa-fw stoker-maintenance-window-icon-end" aria-hidden="true"></i> {{ lang('STOKER_MAINTENANCE_WINDOW_END') }}</span>
+					<span class="stoker-maintenance-window-date">{{ STOKER_MAINTENANCE_END_DATE|e }}</span>
+				</div>
+			</div>
+
+			{% if S_STOKER_MAINTENANCE_PROGRESS %}
+			<p id="stoker-maintenance-progress-label" class="stoker-maintenance-progress-label"><i class="icon fa-tasks fa-fw" aria-hidden="true"></i> {{ lang('STOKER_MAINTENANCE_PROGRESS_LABEL') }}</p>
+
+			<div class="stoker-maintenance-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="stoker-maintenance-progress-label">
+				<div class="stoker-maintenance-progress-bar"></div>
+			</div>
+			{% endif %}
+		</div>
+
+		{% if S_STOKER_MAINTENANCE_CLOSING %}
+		<div id="stoker-maintenance-closing" class="stoker-maintenance-closing" role="status">
+			<span class="stoker-maintenance-spinner" aria-hidden="true"></span>
+			<span>{{ lang('STOKER_MAINTENANCE_CLOSING') }}</span>
+		</div>
+		{% endif %}
+
+		{% if S_STOKER_MAINTENANCE_RELOAD %}
+		<div id="stoker-maintenance-reopening" class="stoker-maintenance-reopening" role="status" hidden>
+			<span class="stoker-maintenance-spinner" aria-hidden="true"></span>
+			<span>{{ lang('STOKER_MAINTENANCE_REOPENING') }}</span>
+		</div>
+		{% endif %}
+	</div>
+	{% endif %}
+</div>
+
+{% include 'overall_footer.html' %}

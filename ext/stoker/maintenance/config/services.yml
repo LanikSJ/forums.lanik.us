@@ -1,0 +1,44 @@
+services:
+    stoker.maintenance.controller.acp_controller:
+        class: stoker\maintenance\controller\acp_controller
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@config_text'
+            - '@ext.manager'
+            - '@file_downloader'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    stoker.maintenance.controller.maintenance_controller:
+        class: stoker\maintenance\controller\maintenance_controller
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@config_text'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+
+    stoker.maintenance.listener.main_listener:
+        class: stoker\maintenance\event\main_listener
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@stoker.maintenance.controller.maintenance_controller'
+        tags:
+            - { name: event.listener }
+
+    _defaults:
+        public: true

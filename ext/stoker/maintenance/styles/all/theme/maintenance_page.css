@@ -1,0 +1,321 @@
+h2.stoker-maintenance-heading {
+	font-size: 2.6em;
+	line-height: 1.6;
+	color: #222;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	text-shadow:
+		0 1px 0 rgba(255, 255, 255, 0.9),
+		0 2px 2px rgba(0, 0, 0, 0.25),
+		0 3px 4px rgba(0, 0, 0, 0.12);
+}
+p.stoker-maintenance-text {
+	margin-bottom: 40px;
+	color: #555;
+	font-size: 1.2em;
+	line-height: 1.2;
+	white-space: pre-line;
+}
+p.stoker-maintenance-opening {
+	color: #555;
+	font-size: 1.5em;
+	margin-bottom: 14px;
+}
+
+/* Nothing follows the body text when there is no countdown, so drop the gap. */
+p.stoker-maintenance-text:last-child { margin-bottom: 0; }
+
+/* Card */
+.stoker-maintenance-card {
+	max-width: 600px;
+	margin: 40px auto 40px;
+	padding: 14px 40px 40px 40px;
+	text-align: center;
+	background: #f9f9f9;
+	border: 1px solid #29547A;
+	border-top: 5px solid #29547A;
+	border-bottom: 5px solid #29547A;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .06), 0 8px 24px rgba(0, 0, 0, .07);
+}
+
+/* Countdown tiles */
+.stoker-maintenance-timer {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+}
+.stoker-maintenance-unit {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	align-items: center;
+	max-width: 92px;
+	padding: 14px 6px 10px;
+	background: #f7f8f9;
+	border: 1px solid #e4e6e8;
+	border-radius: 6px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .14), 0 4px 6px rgba(0, 0, 0, .15);
+}
+.stoker-maintenance-value {
+	font-size: 2.1em;
+	font-weight: bold;
+	line-height: 1;
+	color: #2c3e50;
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum";
+}
+.stoker-maintenance-label {
+	margin-top: 7px;
+	font-size: 1em;
+	letter-spacing: .06em;
+	color: #53595f;
+}
+
+/* Maintenance window boxes */
+.stoker-maintenance-window {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 22px;
+}
+.stoker-maintenance-window-box {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	align-items: center;
+	padding: 12px 10px;
+	background: #f7f8f9;
+	border: 1px solid #e4e6e8;
+	border-radius: 6px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .14), 0 4px 6px rgba(0, 0, 0, .15);
+}
+.stoker-maintenance-window-box i.icon {
+	scale: 1.4;
+	margin-right: 4px;
+}
+.stoker-maintenance-progress-label i.icon {
+	scale: 1.5;
+	margin-right: 4px;
+}
+/* Only the end box is rendered when no start time is set, so stop it
+   stretching across the full card width. */
+.stoker-maintenance-window-box:only-child {
+	flex: 0 1 auto;
+	min-width: 50%;
+}
+.stoker-maintenance-window-label {
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #53595f;
+}
+.stoker-maintenance-window-date {
+	margin-top: 6px;
+	font-size: 1.1em;
+	color: #2c3e50;
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum";
+}
+.stoker-maintenance-window-label i.icon { font-size: inherit; }
+.stoker-maintenance-window-icon-start { color: #2e7d32; }
+.stoker-maintenance-window-icon-end { color: #c62828; }
+
+/* Progress bar */
+.stoker-maintenance-progress-label {
+	margin: 24px 0 8px;
+	font-size: 1em;
+	font-weight: bold;
+	color: #8a9199;
+}
+.stoker-maintenance-progress-label i.icon { font-size: inherit; }
+.stoker-maintenance-progress {
+	width: 100%;
+	height: 18px;
+	background: #e8e8e8;
+	border-radius: 9px;
+	overflow: hidden;
+	box-shadow:
+		inset 0 1px 2px rgba(0, 0, 0, .08),
+		0 2px 4px rgba(0, 0, 0, .14),
+		0 4px 6px rgba(0, 0, 0, .15);
+}
+.stoker-maintenance-progress-bar {
+	height: 100%;
+	width: 100%;
+	background: linear-gradient(90deg, #4688c2, #5ba3dd);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 1s linear;
+}
+.stoker-maintenance-live[hidden] { display: none; }
+
+/* Closing message */
+.stoker-maintenance-closing {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 18px 0 6px;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #c62828;
+}
+.stoker-maintenance-closing[hidden] { display: none; }
+
+/* Re-opening message */
+.stoker-maintenance-reopening {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 18px 0 6px;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #2e7d32;
+}
+.stoker-maintenance-reopening[hidden] { display: none; }
+.stoker-maintenance-spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #c8e6c9;
+	border-top-color: #2e7d32;
+	border-radius: 50%;
+	animation: stoker-maintenance-spin .8s linear infinite;
+}
+
+/* Same spinner in the closing block, recoloured. */
+.stoker-maintenance-closing .stoker-maintenance-spinner {
+	border-color: #f2c4c4;
+	border-top-color: #c62828;
+}
+@keyframes stoker-maintenance-spin {
+	to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.stoker-maintenance-spinner { animation: none; }
+	.stoker-maintenance-progress-bar { transition: none; }
+}
+
+/* Banner */
+.stoker-maintenance-banner {
+	margin-bottom: 8px;
+	padding: 6px 16px;
+	background: linear-gradient(#fffdf7, #fff6e3);
+	color: #6b5310;
+	border: 1px solid #ecd9a6;
+	border-left: 4px solid #e0a800;
+	border-radius: 6px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 3px 10px rgba(0, 0, 0, .06);
+}
+.stoker-maintenance-banner-body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	font-size: 1.2em;
+	line-height: 1.6;
+	text-align: center;
+}
+.stoker-maintenance-banner-body[hidden] { display: none; }
+.stoker-maintenance-banner-icon {
+	flex: 0 0 auto;
+	font-size: 1.15em;
+	scale: 1.4;
+	translate: 30% 0%;
+	color: #c68a00;
+}
+.stoker-maintenance-banner-link {
+	color: inherit;
+	text-decoration: none;
+}
+.stoker-maintenance-banner-link:hover,
+.stoker-maintenance-banner-link:focus-visible {
+	color: inherit;
+}
+#stoker-maintenance-banner-clock {
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum";
+}
+
+/* Banner over the last minutes, once the countdown has taken it over */
+.stoker-maintenance-banner-closing {
+	background: linear-gradient(#fffafa, #fdeef0);
+	color: #8c2f2f;
+	border-color: #f0c4c8;
+	border-left-color: #c62828;
+}
+.stoker-maintenance-banner-closing .stoker-maintenance-banner-icon { color: #c62828; }
+
+/* Responsive */
+@media (max-width: 700px) {
+	.stoker-maintenance-card { padding: 22px 16px 20px; }
+	h2.stoker-maintenance-heading { font-size: 2em;  }
+	.stoker-maintenance-timer { gap: 7px; }
+	.stoker-maintenance-unit { padding: 11px 3px 8px; }
+	.stoker-maintenance-value { font-size: 1.5em; }
+	.stoker-maintenance-label { font-size: 1.1em; }
+	.stoker-maintenance-window { flex-direction: column; gap: 8px; }
+	.stoker-maintenance-window-box:only-child { min-width: 0; }
+	.stoker-maintenance-window-date { font-size: 1em; }
+	.stoker-maintenance-banner { padding: 9px 12px; }
+	.stoker-maintenance-banner-body { gap: 8px; font-size: .95em; }
+}
+
+/* Dark mode */
+html.phpbb-dark-mode h2.stoker-maintenance-heading {
+	text-shadow:
+		0 1px 0 rgba(0, 0, 0, 0.9),
+		0 2px 2px rgba(0, 0, 0, 0.75),
+		0 3px 4px rgba(0, 0, 0, 0.55);
+}
+html.phpbb-dark-mode .stoker-maintenance-card {
+	background: #1e2124;
+	border-color: #33373b;
+	border-top-color: #7cc1ff;
+	border-bottom-color: #7cc1ff;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .35), 0 8px 24px rgba(0, 0, 0, .45);
+}
+html.phpbb-dark-mode h2.stoker-maintenance-heading { color: #f1f2f3; }
+html.phpbb-dark-mode p.stoker-maintenance-text, html.phpbb-dark-mode p.stoker-maintenance-opening { color: #f1f2f3; }
+html.phpbb-dark-mode .stoker-maintenance-unit { color: #f1f2f3; }
+html.phpbb-dark-mode .stoker-maintenance-unit,
+html.phpbb-dark-mode .stoker-maintenance-window-box {
+	background: #26292d;
+	border-color: #33373b;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .35), 0 4px 6px rgba(0, 0, 0, .3);
+}
+html.phpbb-dark-mode .stoker-maintenance-value,
+html.phpbb-dark-mode .stoker-maintenance-window-date { color: #f1f2f3; }
+html.phpbb-dark-mode .stoker-maintenance-label,
+html.phpbb-dark-mode .stoker-maintenance-window-label,
+html.phpbb-dark-mode .stoker-maintenance-progress-label { color: #7cc1ff; }
+html.phpbb-dark-mode .stoker-maintenance-window-icon-start { color: #66bb6a; }
+html.phpbb-dark-mode .stoker-maintenance-window-icon-end { color: #ef5350; }
+html.phpbb-dark-mode .stoker-maintenance-progress-bar { background: linear-gradient(90deg, #4688c2, #7cc1ff); }
+html.phpbb-dark-mode .stoker-maintenance-progress {
+	background: #33373b;
+	box-shadow:
+		inset 0 1px 2px rgba(0, 0, 0, .4),
+		0 2px 4px rgba(0, 0, 0, .35),
+		0 4px 6px rgba(0, 0, 0, .3);
+}
+html.phpbb-dark-mode .stoker-maintenance-closing { color: #ef5350; }
+html.phpbb-dark-mode .stoker-maintenance-reopening { color: #66bb6a; }
+html.phpbb-dark-mode .stoker-maintenance-spinner { border-color: #2f4f31; border-top-color: #66bb6a; }
+html.phpbb-dark-mode .stoker-maintenance-closing .stoker-maintenance-spinner { border-color: #5a2f2f; border-top-color: #ef5350; }
+html.phpbb-dark-mode .stoker-maintenance-banner {
+	background: linear-gradient(#2b2517, #241f13);
+	color: #f0d9a0;
+	border-color: #4a3f22;
+	border-left-color: #c9a227;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 3px 10px rgba(0, 0, 0, .35);
+}
+html.phpbb-dark-mode .stoker-maintenance-banner-icon { color: #e0b84d; }
+html.phpbb-dark-mode .stoker-maintenance-banner-closing {
+	background: linear-gradient(#2e1a1b, #261416);
+	color: #ffb3b3;
+	border-color: #573034;
+	border-left-color: #ef5350;
+}
+html.phpbb-dark-mode .stoker-maintenance-banner-closing .stoker-maintenance-banner-icon { color: #ef5350; }

@@ -1,0 +1,12 @@
+{% if S_STOKER_MAINTENANCE_COUNTDOWN %}
+	{% INCLUDEJS '@stoker_maintenance/maintenance_countdown.js' %}
+{% endif %}
+
+{% if S_STOKER_MAINTENANCE_DISABLE_TIMER %}
+	<div id="stoker-maintenance-disable-timer" data-start="{{ STOKER_MAINTENANCE_DISABLE_START }}" data-now="{{ STOKER_MAINTENANCE_DISABLE_NOW }}" hidden></div>
+	{% INCLUDEJS '@stoker_maintenance/maintenance_disable.js' %}
+{% endif %}
+
+{% if S_STOKER_MAINTENANCE_BANNER_TIMER %}
+	{% INCLUDEJS '@stoker_maintenance/maintenance_banner.js' %}
+{% endif %}

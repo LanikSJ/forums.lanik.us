@@ -1,0 +1,20 @@
+{% if S_STOKER_MAINTENANCE_BANNER %}
+	<div id="stoker-maintenance-banner" class="stoker-maintenance-banner{% if S_STOKER_MAINTENANCE_BANNER_CLOSING %} stoker-maintenance-banner-closing{% endif %}" role="status"{% if S_STOKER_MAINTENANCE_BANNER_TIMER %} data-start="{{ STOKER_MAINTENANCE_BANNER_START }}" data-now="{{ STOKER_MAINTENANCE_BANNER_NOW }}" data-closing="{{ STOKER_MAINTENANCE_BANNER_CLOSING_LEAD }}"{% endif %}>
+		<span id="stoker-maintenance-banner-notice" class="stoker-maintenance-banner-body"{% if S_STOKER_MAINTENANCE_BANNER_CLOSING %} hidden{% endif %}>
+			<i class="fa fa-bullhorn fa-fw stoker-maintenance-banner-icon responsive-hide" aria-hidden="true"></i>
+			{% if U_STOKER_MAINTENANCE_BANNER %}
+				<a class="stoker-maintenance-banner-link" href="{{ U_STOKER_MAINTENANCE_BANNER }}" title="{{ lang('STOKER_MAINTENANCE_BANNER_READ_MORE')|e('html_attr') }}">
+					<span>{{ STOKER_MAINTENANCE_BANNER_MESSAGE }}</span>
+				</a>
+			{% else %}
+				<span>{{ STOKER_MAINTENANCE_BANNER_MESSAGE }}</span>
+			{% endif %}
+		</span>
+		{% if S_STOKER_MAINTENANCE_BANNER_TIMER %}
+			<span id="stoker-maintenance-banner-countdown" class="stoker-maintenance-banner-body"{% if not S_STOKER_MAINTENANCE_BANNER_CLOSING %} hidden{% endif %}>
+				<i class="fa fa-clock-o fa-fw stoker-maintenance-banner-icon responsive-hide" aria-hidden="true"></i>
+				<span>{{ STOKER_MAINTENANCE_BANNER_COUNTDOWN }}</span>
+			</span>
+		{% endif %}
+	</div>
+{% endif %}
