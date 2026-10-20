@@ -39,3 +39,6 @@ services:
             - '@stoker.maintenance.controller.maintenance_controller'
         tags:
             - { name: event.listener }
+
+    _defaults:
+        public: true
