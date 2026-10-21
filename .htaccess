@@ -18,6 +18,41 @@ RewriteEngine on
 #
 #RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 
+# stoker/urlrewrite - Apache forward rules
+# Place these AFTER "RewriteEngine On" and BEFORE the phpBB app.php rewrite rules.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^[^/]*-t([0-9]+)-p([0-9]+)$ viewtopic.php?t=$1&p=$2 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^post-p([0-9]+)$ viewtopic.php?p=$1 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^[^/]*-t([0-9]+)$ viewtopic.php?t=$1 [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^[^/]*-f([0-9]+)$ viewforum.php?f=$1 [QSA,L]
+
+# Hotlink protection - block direct linking to images from external sites
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.lanik.us/.*$      [NC]
+RewriteCond %{HTTP_REFERER} !^https://www.lanik.us$      [NC]
+RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
+
 #
 # The following 3 lines will rewrite URLs passed through the front controller
 # to not require app.php in the actual URL. In other words, a controller is
@@ -140,7 +175,7 @@ RewriteRule ^(.*)$ app.php [QSA,L]
    php_value memory_limit 512M
    php_value post_max_size 100M
    php_value session.gc_maxlifetime 1440
-   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php85"
    php_value upload_max_filesize 64M
    php_flag zlib.output_compression Off
 </IfModule>
@@ -152,33 +187,15 @@ RewriteRule ^(.*)$ app.php [QSA,L]
    php_value memory_limit 512M
    php_value post_max_size 100M
    php_value session.gc_maxlifetime 1440
-   php_value session.save_path "/var/cpanel/php/sessions/ea-php83"
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php85"
    php_value upload_max_filesize 64M
    php_flag zlib.output_compression Off
 </IfModule>
 # END cPanel-generated php ini directives, do not edit
 
-RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://forums.lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://www.forums.lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://www.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^http://www.lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://forums.lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://www.forums.lanik.us$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://www.lanik.us/.*$      [NC]
-RewriteCond %{HTTP_REFERER} !^https://www.lanik.us$      [NC]
-RewriteRule .*\.(jpg|jpeg|gif|png|bmp)$ - [F,NC]
-
 # php -- BEGIN cPanel-generated handler, do not edit
-# Set the “ea-php83” package as the default “PHP” programming language.
+# Set the “ea-php85” package as the default “PHP” programming language.
 <IfModule mime_module>
-  AddHandler application/x-httpd-ea-php83___lsphp .php .php8 .phtml
+  AddHandler application/x-httpd-ea-php85___lsphp .php .php8 .phtml
 </IfModule>
 # php -- END cPanel-generated handler, do not edit

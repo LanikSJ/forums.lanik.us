@@ -34,6 +34,9 @@ follow existing project patterns, and explain any deviation.
   the working tree free of scratch files. `config.php` and the contents of
   `cache/`, `files/`, `store/`, and `images/avatars/upload/` are untracked and
   MUST NOT be committed.
+- **main branch protection**: NEVER commit directly to `main`. Always ask the
+  user for approval before committing; prefer a pull request for review instead
+  of pushing directly to `main`.
 - **composer**: PHP dependency management for `vendor/`
   (`composer install`, `composer validate`).
 - **docker compose**: Local parity with production
