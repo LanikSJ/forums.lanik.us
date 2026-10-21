@@ -34,9 +34,16 @@ follow existing project patterns, and explain any deviation.
   the working tree free of scratch files. `config.php` and the contents of
   `cache/`, `files/`, `store/`, and `images/avatars/upload/` are untracked and
   MUST NOT be committed.
-- **main branch protection**: NEVER commit directly to `main`. Always ask the
-  user for approval before committing; prefer a pull request for review instead
-  of pushing directly to `main`.
+- **main branch protection**: NEVER commit directly to `main` except under the
+  documented escape hatch below. Always ask the user for approval before
+  committing; prefer a pull request for review instead of pushing directly to
+  `main`.
+  **Escape hatch**: Direct commits to `main` are permitted only for production
+  incidents (site down, security exposure, or data-loss risk) where a pull
+  request would cause unacceptable delay, with approval from the repository
+  owner (LanikSJ) or an authorized delegate. The commit message uses an
+  `[Incident]` prefix with a link to the incident ticket or alert, and a
+  follow-up pull request reviews the change within 7 days.
 - **composer**: PHP dependency management for `vendor/`
   (`composer install`, `composer validate`).
 - **docker compose**: Local parity with production
