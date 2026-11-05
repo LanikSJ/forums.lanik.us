@@ -1,0 +1,88 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDECSS '@stoker_emoji/acp_emoji.css' %}
+
+<p class="ts-badge-wrap">
+	<span class="ts-badge" role="img" aria-label="{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}">
+		<span class="ts-badge-label">{{ lang('ACP_STOKER_BADGE') }}</span><span class="ts-badge-version">{{ VERSIONCHECK_INSTALLED }}</span>
+	</span>
+</p>
+
+<p class="versioncheck">
+	{% if S_VERSIONCHECK_UP_TO_DATE %}
+		<i class="fa fa-check-circle versioncheck-ok" aria-hidden="true" title="{{ lang('ACP_STOKER_EMOJI_VC_OK', VERSIONCHECK_CURRENT)|e('html_attr') }}"></i> <span class="versioncheck-ok">{{ lang('ACP_STOKER_EMOJI_VC_OK', VERSIONCHECK_CURRENT) }}</span>
+	{% elseif S_VERSIONCHECK_OUTDATED %}
+		<a href="{{ U_VERSIONCHECK_DOWNLOAD }}" target="_blank" rel="noopener noreferrer" class="versioncheck-outdated" title="{{ lang('ACP_STOKER_EMOJI_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST)|e('html_attr') }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST) }}</a>
+	{% elseif S_VERSIONCHECK_UNAVAILABLE %}
+		<i class="fa fa-question-circle versioncheck-unavailable" aria-hidden="true" title="{{ lang('ACP_STOKER_EMOJI_VC_UNAVAILABLE')|e('html_attr') }}"></i> <span class="versioncheck-unavailable">{{ lang('ACP_STOKER_EMOJI_VC_UNAVAILABLE') }}</span>
+	{% endif %}
+</p>
+
+<p class="font-size">{{ lang('ACP_STOKER_SETTINGS_EXPLAIN') ~ lang('COLON') }}<br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/donate" target="_blank" rel="noopener noreferrer"><i class="fa fa-paypal" aria-hidden="true"></i> {{ lang('ACP_STOKER_DONATION') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/home" target="_blank" rel="noopener noreferrer"><i class="fa fa-link" aria-hidden="true"></i> {{ lang('ACP_STOKER_MEMBER') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/viewtopic.php?t=3731" target="_blank" rel="noopener noreferrer"><i class="fa fa-ticket" aria-hidden="true"></i> {{ lang('ACP_STOKER_SUPPORT') }}</a>
+</p>
+
+<form id="acp_extension" method="post" action="{{ U_ACTION }}">
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-list fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_LIST') }}</legend>
+
+		<p class="stoker-emoji-intro">{{ lang('ACP_STOKER_EMOJI_LIST_EXPLAIN') }}</p>
+
+		<table class="table1 stoker-emoji-table" id="stoker-emoji-table">
+			<thead>
+				<tr>
+					<th class="stoker-emoji-col-char">{{ lang('ACP_STOKER_EMOJI_CHAR') }}</th>
+					<th>{{ lang('ACP_STOKER_EMOJI_CODES') }}</th>
+					<th class="stoker-emoji-col-emotion">{{ lang('ACP_STOKER_EMOJI_EMOTION') }}</th>
+					<th class="stoker-emoji-col-posting">{{ lang('ACP_STOKER_EMOJI_POSTING') }}</th>
+					<th class="stoker-emoji-col-order">{{ lang('ACP_STOKER_EMOJI_ORDER') }}</th>
+					<th class="stoker-emoji-col-act"></th>
+				</tr>
+			</thead>
+			<tbody id="stoker-emoji-rows">
+				{% for emoji in emoji_rows %}
+				<tr class="stoker-emoji-row">
+					<td><input type="text" name="emoji_char[{{ emoji.INDEX }}]" value="{{ emoji.EMOJI|e('html_attr') }}" class="stoker-emoji-char" size="2" maxlength="24"></td>
+					<td><input type="text" name="emoji_codes[{{ emoji.INDEX }}]" value="{{ emoji.CODES|e('html_attr') }}" class="stoker-emoji-codes" spellcheck="false" autocomplete="off" maxlength="255"></td>
+					<td><input type="text" name="emoji_emotion[{{ emoji.INDEX }}]" value="{{ emoji.EMOTION|e('html_attr') }}" class="stoker-emoji-emotion" spellcheck="false" autocomplete="off" maxlength="255"></td>
+					<td class="stoker-emoji-col-posting"><input type="hidden" name="emoji_posting[{{ emoji.INDEX }}]" value="{{ emoji.S_POSTING ? '1' : '0' }}" class="stoker-emoji-posting-val"><input type="checkbox" class="stoker-emoji-posting-box" aria-label="{{ lang('ACP_STOKER_EMOJI_POSTING')|e('html_attr') }}"{% if emoji.S_POSTING %} checked{% endif %}></td>
+					<td class="stoker-emoji-col-order"><input type="button" class="stoker-emoji-up" title="{{ lang('ACP_STOKER_EMOJI_MOVE_UP')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_MOVE_UP')|e('html_attr') }}" value="&#xf062;"><input type="button" class="stoker-emoji-down" title="{{ lang('ACP_STOKER_EMOJI_MOVE_DOWN')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_MOVE_DOWN')|e('html_attr') }}" value="&#xf063;"></td>
+					<td class="stoker-emoji-col-act"><input type="button" class="stoker-emoji-del" title="{{ lang('ACP_STOKER_EMOJI_REMOVE')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_REMOVE')|e('html_attr') }}" value="&#xf014;"></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<p class="submit-buttons"><input type="button" class="button2" id="stoker-emoji-add" value="{{ lang('ACP_STOKER_EMOJI_ADD')|e('html_attr') }}"></p>
+
+		<template id="stoker-emoji-row-tpl">
+			<tr class="stoker-emoji-row">
+				<td><input type="text" name="emoji_char[__INDEX__]" value="" class="stoker-emoji-char" size="2" maxlength="24"></td>
+				<td><input type="text" name="emoji_codes[__INDEX__]" value="" class="stoker-emoji-codes" spellcheck="false" autocomplete="off" maxlength="255"></td>
+				<td><input type="text" name="emoji_emotion[__INDEX__]" value="" class="stoker-emoji-emotion" spellcheck="false" autocomplete="off" maxlength="255"></td>
+				<td class="stoker-emoji-col-posting"><input type="hidden" name="emoji_posting[__INDEX__]" value="1" class="stoker-emoji-posting-val"><input type="checkbox" class="stoker-emoji-posting-box" aria-label="{{ lang('ACP_STOKER_EMOJI_POSTING')|e('html_attr') }}" checked></td>
+				<td class="stoker-emoji-col-order"><input type="button" class="stoker-emoji-up" title="{{ lang('ACP_STOKER_EMOJI_MOVE_UP')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_MOVE_UP')|e('html_attr') }}" value="&#xf062;"><input type="button" class="stoker-emoji-down" title="{{ lang('ACP_STOKER_EMOJI_MOVE_DOWN')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_MOVE_DOWN')|e('html_attr') }}" value="&#xf063;"></td>
+				<td class="stoker-emoji-col-act"><input type="button" class="stoker-emoji-del" title="{{ lang('ACP_STOKER_EMOJI_REMOVE')|e('html_attr') }}" aria-label="{{ lang('ACP_STOKER_EMOJI_REMOVE')|e('html_attr') }}" value="&#xf014;"></td>
+			</tr>
+		</template>
+
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT')|e('html_attr') }}"> &nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET')|e('html_attr') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+		<input type="hidden" name="stoker_emoji_complete" value="1">
+	</fieldset>
+
+</form>
+
+{% INCLUDEJS '@stoker_emoji/acp_emoji.js' %}
+
+{% include 'overall_footer.html' %}

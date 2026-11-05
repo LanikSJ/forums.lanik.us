@@ -1,0 +1,36 @@
+services:
+    stoker.emoji.acp_controller:
+        class: stoker\emoji\controller\acp_controller
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@ext.manager'
+            - '@file_downloader'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@text_formatter.cache'
+            - '@user'
+            - '%tables.stoker.emoji%'
+
+    stoker.emoji.listener:
+        class: stoker\emoji\event\main_listener
+        arguments:
+            - '@auth'
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '%tables.stoker.emoji%'
+        tags:
+            - { name: event.listener }
+
+parameters:
+    tables.stoker.emoji: '%core.table_prefix%stoker_emoji'
+
+    _defaults:
+        public: true

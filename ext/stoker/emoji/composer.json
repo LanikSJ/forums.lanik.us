@@ -1,0 +1,31 @@
+{
+    "name": "stoker/emoji",
+    "type": "phpbb-extension",
+    "description": "Replaces phpBB smilies with modern emojis, with an ACP-managed list, ordering, posting-page picker and quick reply support.",
+    "homepage": "https://phpbb3bbcodes.com/",
+    "version": "2.0.3",
+    "license": "GPL-2.0-only",
+    "authors": [
+        {
+            "name": "stoker",
+            "homepage": "https://phpbb3bbcodes.com/"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "^1.0 || ^2.0",
+        "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+    },
+    "extra": {
+        "display-name": "Emoji V2",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.3.0,<4.0.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/emoji_v2",
+            "filename": "version_check",
+            "ssl": true
+        }
+    }
+}

@@ -1,0 +1,44 @@
+<!-- INCLUDE ucp_header.html -->
+
+<form id="ucp" method="post" action="{S_UCP_ACTION}">
+
+	<h2>{L_UCP_GUESTPRIVACY}</h2>
+
+	<div class="panel">
+		<div class="inner">
+
+			<fieldset>
+				<dl>
+					<dt><label>{L_GUESTPSEUDONYMS_YOUR_NICKNAME}{L_COLON}</label><br /><span>{L_GUESTPSEUDONYMS_NICKNAME_EXPLAIN}</span></dt>
+					<dd><strong>{GUESTPSEUDONYMS_NICKNAME}</strong></dd>
+				</dl>
+				<!-- IF S_ALLOW_REGENERATE -->
+					<dl>
+						<dt><label>{L_GUESTPSEUDONYMS_REGENERATE}{L_COLON}</label><br /><span>{L_GUESTPSEUDONYMS_REGENERATE_EXPLAIN}</span></dt>
+						<dd><input type="submit" name="regenerate" class="button2" value="{L_GUESTPSEUDONYMS_REGENERATE}" /></dd>
+					</dl>
+				<!-- ENDIF -->
+				<!-- IF S_ALLOW_OPT_OUT -->
+					<dl>
+						<dt><label>{L_GUESTPSEUDONYMS_VISIBILITY}{L_COLON}</label><br /><span>{L_GUESTPSEUDONYMS_VISIBILITY_EXPLAIN}</span></dt>
+						<dd>
+							<label><input type="radio" name="gp_privacy_level" value="1"<!-- IF GUESTPSEUDONYMS_LEVEL == 1 --> checked="checked"<!-- ENDIF --> /> {L_GUESTPSEUDONYMS_LEVEL_1}</label><br />
+							<label><input type="radio" name="gp_privacy_level" value="2"<!-- IF GUESTPSEUDONYMS_LEVEL == 2 --> checked="checked"<!-- ENDIF --> /> {L_GUESTPSEUDONYMS_LEVEL_2}</label><br />
+							<label><input type="radio" name="gp_privacy_level" value="3"<!-- IF GUESTPSEUDONYMS_LEVEL == 3 --> checked="checked"<!-- ENDIF --> /> {L_GUESTPSEUDONYMS_LEVEL_3}</label>
+						</dd>
+					</dl>
+				<!-- ENDIF -->
+			</fieldset>
+
+			<fieldset class="submit-buttons">
+				<input type="submit" name="submit" class="button1" value="{L_SUBMIT}" />&nbsp;
+				<input type="reset" value="{L_RESET}" class="button2" />
+				{S_FORM_TOKEN}
+			</fieldset>
+
+		</div>
+	</div>
+
+</form>
+
+<!-- INCLUDE ucp_footer.html -->

@@ -1,0 +1,66 @@
+<!-- INCLUDE overall_header.html -->
+
+	<h1>{L_ACP_GUESTPRIVACY_TITLE}</h1>
+	<p>{L_ACP_GUESTPRIVACY_EXPLAIN}</p>
+
+	<form id="guestpseudonyms_acp" method="post" action="{U_ACTION}">
+
+		<fieldset>
+			<legend>{L_ACP_GUESTPRIVACY_TITLE}</legend>
+
+			<dl>
+				<dt><label>{L_GP_ENABLE}{L_COLON}</label><br /><span>{L_GP_ENABLE_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="gp_enable" value="1"<!-- IF GP_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+					<label><input type="radio" name="gp_enable" value="0"<!-- IF not GP_ENABLE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label>{L_GP_RESOLVE_NAMES}{L_COLON}</label><br /><span>{L_GP_RESOLVE_NAMES_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="gp_resolve_names" value="1"<!-- IF GP_RESOLVE_NAMES --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+					<label><input type="radio" name="gp_resolve_names" value="0"<!-- IF not GP_RESOLVE_NAMES --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset>
+			<legend>{L_GP_MEMBER_CONTROLS}</legend>
+
+			<dl>
+				<dt><label>{L_GP_ALLOW_REGENERATE}{L_COLON}</label><br /><span>{L_GP_ALLOW_REGENERATE_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="gp_allow_regenerate" value="1"<!-- IF GP_ALLOW_REGENERATE --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+					<label><input type="radio" name="gp_allow_regenerate" value="0"<!-- IF not GP_ALLOW_REGENERATE --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label>{L_GP_ALLOW_OPT_OUT}{L_COLON}</label><br /><span>{L_GP_ALLOW_OPT_OUT_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="gp_allow_opt_out" value="1"<!-- IF GP_ALLOW_OPT_OUT --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+					<label><input type="radio" name="gp_allow_opt_out" value="0"<!-- IF not GP_ALLOW_OPT_OUT --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+			<dl>
+				<dt><label for="gp_reminder_months">{L_GP_REMINDER_MONTHS}{L_COLON}</label><br /><span>{L_GP_REMINDER_MONTHS_EXPLAIN}</span></dt>
+				<dd><input type="number" id="gp_reminder_months" name="gp_reminder_months" min="0" value="{GP_REMINDER_MONTHS}" size="4" /></dd>
+			</dl>
+			<dl>
+				<dt><label>{L_GP_AUTOREVERT}{L_COLON}</label><br /><span>{L_GP_AUTOREVERT_EXPLAIN}</span></dt>
+				<dd>
+					<label><input type="radio" name="gp_autorevert" value="1"<!-- IF GP_AUTOREVERT --> checked="checked"<!-- ENDIF --> /> {L_YES}</label>
+					<label><input type="radio" name="gp_autorevert" value="0"<!-- IF not GP_AUTOREVERT --> checked="checked"<!-- ENDIF --> /> {L_NO}</label>
+				</dd>
+			</dl>
+		</fieldset>
+
+		<fieldset class="submit-buttons">
+			<legend>{L_SUBMIT}</legend>
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			{S_FORM_TOKEN}
+		</fieldset>
+
+	</form>
+
+<!-- INCLUDE overall_footer.html -->
