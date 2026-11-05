@@ -1,0 +1,21 @@
+<div class="stoker-emoji" data-emoji-map="{{ STOKER_EMOJI_MAP|e('html_attr') }}">
+	{% if emoji_bar %}
+		<span class="stoker-emoji-bar">
+			{% for e in emoji_bar %}
+				<a href="#" class="stoker-emoji-ins" draggable="false" data-ins="{{ e.INSERT|e('html_attr') }}" title="{{ e.TITLE|e('html_attr') }}">{{ e.CHAR|e }}</a>
+			{% endfor %}
+		</span>
+	{% endif %}
+	{% if S_STOKER_EMOJI_MORE %}
+		<span class="stoker-emoji-more">
+			<a href="#" class="stoker-emoji-more-btn" title="{{ lang('STOKER_EMOJI_MORE')|e('html_attr') }}" aria-haspopup="true" aria-expanded="false">{{ lang('STOKER_EMOJI_MORE') }}</a>
+			<span class="stoker-emoji-panel" role="menu" aria-label="{{ lang('STOKER_EMOJI_MORE')|e('html_attr') }}" hidden>
+				{% for e in emoji_more %}
+					<a href="#" class="stoker-emoji-ins" role="menuitem" draggable="false" data-ins="{{ e.INSERT|e('html_attr') }}" title="{{ e.TITLE|e('html_attr') }}">{{ e.CHAR|e }}</a>
+				{% endfor %}
+			</span>
+		</span>
+	{% endif %}
+</div>
+
+{% INCLUDEJS '@stoker_emoji/emoji.js' %}

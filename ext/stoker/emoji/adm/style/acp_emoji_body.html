@@ -1,0 +1,124 @@
+{% include 'overall_header.html' %}
+
+{% INCLUDECSS '@stoker_emoji/acp_emoji.css' %}
+
+<p class="ts-badge-wrap">
+	<span class="ts-badge" role="img" aria-label="{{ lang('ACP_STOKER_BADGE')|e('html_attr') }}">
+		<span class="ts-badge-label">{{ lang('ACP_STOKER_BADGE') }}</span><span class="ts-badge-version">{{ VERSIONCHECK_INSTALLED }}</span>
+	</span>
+</p>
+
+<p class="versioncheck">
+	{% if S_VERSIONCHECK_UP_TO_DATE %}
+		<i class="fa fa-check-circle versioncheck-ok" aria-hidden="true" title="{{ lang('ACP_STOKER_EMOJI_VC_OK', VERSIONCHECK_CURRENT)|e('html_attr') }}"></i> <span class="versioncheck-ok">{{ lang('ACP_STOKER_EMOJI_VC_OK', VERSIONCHECK_CURRENT) }}</span>
+	{% elseif S_VERSIONCHECK_OUTDATED %}
+		<a href="{{ U_VERSIONCHECK_DOWNLOAD }}" target="_blank" rel="noopener noreferrer" class="versioncheck-outdated" title="{{ lang('ACP_STOKER_EMOJI_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST)|e('html_attr') }}"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_VC_OUTDATED', VERSIONCHECK_CURRENT, VERSIONCHECK_LATEST) }}</a>
+	{% elseif S_VERSIONCHECK_UNAVAILABLE %}
+		<i class="fa fa-question-circle versioncheck-unavailable" aria-hidden="true" title="{{ lang('ACP_STOKER_EMOJI_VC_UNAVAILABLE')|e('html_attr') }}"></i> <span class="versioncheck-unavailable">{{ lang('ACP_STOKER_EMOJI_VC_UNAVAILABLE') }}</span>
+	{% endif %}
+</p>
+
+<p class="font-size">{{ lang('ACP_STOKER_SETTINGS_EXPLAIN') ~ lang('COLON') }}<br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/donate" target="_blank" rel="noopener noreferrer"><i class="fa fa-paypal" aria-hidden="true"></i> {{ lang('ACP_STOKER_DONATION') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/home" target="_blank" rel="noopener noreferrer"><i class="fa fa-link" aria-hidden="true"></i> {{ lang('ACP_STOKER_MEMBER') }}</a><br>
+	<a class="font-weight" href="https://phpbb3bbcodes.com/viewtopic.php?t=3731" target="_blank" rel="noopener noreferrer"><i class="fa fa-ticket" aria-hidden="true"></i> {{ lang('ACP_STOKER_SUPPORT') }}</a>
+</p>
+
+<p class="font-size">{{ lang('ACP_EMOJI_EXPLAIN') }}</p>
+
+<fieldset class="ts-fieldset">
+	<legend class="ts-legend"><i class="fa fa-reply fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_QR') }}</legend>
+	<dl>
+		<dt>
+			<label>{{ lang('ACP_STOKER_EMOJI_QUICKREPLY') ~ lang('COLON') }}</label>
+			<br><span>{{ lang('ACP_STOKER_EMOJI_QUICKREPLY_EXPLAIN') }}</span>
+		</dt>
+		<dd>
+			<span class="toggle-switch" data-toggle-url="{{ U_TOGGLE_QUICKREPLY }}" data-toggle-error="{{ lang('ACP_STOKER_TOGGLE_ERROR')|e('html_attr') }}" tabindex="0" role="switch" aria-checked="{% if S_QUICKREPLY %}true{% else %}false{% endif %}" aria-label="{{ lang('ACP_STOKER_EMOJI_QUICKREPLY')|e('html_attr') }}">
+				<input type="checkbox" id="stoker_emoji_quickreply" tabindex="-1"{% if S_QUICKREPLY %} checked{% endif %}>
+				<span class="toggle-slider"></span>
+			</span>
+		</dd>
+	</dl>
+</fieldset>
+
+<form id="acp_extension" method="post" action="{{ U_ACTION }}">
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-smile-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_SMILIES') }}</legend>
+		<dl>
+			<dt>
+				<label for="stoker_emoji_mode">{{ lang('ACP_STOKER_EMOJI_MODE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_STOKER_EMOJI_MODE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select id="stoker_emoji_mode" name="stoker_emoji_mode" aria-label="{{ lang('ACP_STOKER_EMOJI_MODE')|e('html_attr') }}">
+					<option value="0"{% if STOKER_EMOJI_MODE == 0 %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_MODE_SMILIES') }}</option>
+					<option value="1"{% if STOKER_EMOJI_MODE == 1 %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_MODE_EMOJI') }}</option>
+					<option value="2"{% if STOKER_EMOJI_MODE == 2 %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_MODE_NOTO') }}</option>
+					<option value="3"{% if STOKER_EMOJI_MODE == 3 %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_MODE_TWEMOJI') }}</option>
+				</select>
+			</dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt>
+				<label for="stoker_emoji_noto_full">{{ lang('ACP_STOKER_EMOJI_NOTO_FONT') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_STOKER_EMOJI_NOTO_FONT_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select id="stoker_emoji_noto_full" name="stoker_emoji_noto_full" aria-label="{{ lang('ACP_STOKER_EMOJI_NOTO_FONT')|e('html_attr') }}">
+					<option value="0"{% if not S_STOKER_EMOJI_NOTO_FULL %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_NOTO_FONT_COMMON') }}</option>
+					<option value="1"{% if S_STOKER_EMOJI_NOTO_FULL %} selected{% endif %}>{{ lang('ACP_STOKER_EMOJI_NOTO_FONT_FULL') }}</option>
+				</select>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-arrow-up fa-lg" aria-hidden="true"></i><i class="fa fa-arrow-down fa-lg" aria-hidden="true"></i> {{ lang('ACP_STOKER_EMOJI_SIZING') }}</legend>
+		<dl>
+			<dt>
+				<label for="stoker_emoji_size">{{ lang('ACP_STOKER_EMOJI_SIZE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_STOKER_EMOJI_SIZE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select id="stoker_emoji_size" name="stoker_emoji_size" aria-label="{{ lang('ACP_STOKER_EMOJI_SIZE')|e('html_attr') }}">
+					{% for t in range(5, 50) %}
+						{% set size = ((t - t % 10) / 10) ~ '.' ~ (t % 10) %}
+						<option value="{{ size }}"{% if size == STOKER_EMOJI_SIZE %} selected{% endif %}>{{ size }}rem</option>
+					{% endfor %}
+				</select>
+			</dd>
+		</dl>
+		<hr class="jq-hr">
+		<dl>
+			<dt>
+				<label for="stoker_emoji_noto_size">{{ lang('ACP_STOKER_EMOJI_NOTO_SIZE') ~ lang('COLON') }}</label>
+				<br><span>{{ lang('ACP_STOKER_EMOJI_NOTO_SIZE_EXPLAIN') }}</span>
+			</dt>
+			<dd>
+				<select id="stoker_emoji_noto_size" name="stoker_emoji_noto_size" aria-label="{{ lang('ACP_STOKER_EMOJI_NOTO_SIZE')|e('html_attr') }}">
+					{% for t in range(5, 50) %}
+						{% set size = ((t - t % 10) / 10) ~ '.' ~ (t % 10) %}
+						<option value="{{ size }}"{% if size == STOKER_EMOJI_NOTO_SIZE %} selected{% endif %}>{{ size }}rem</option>
+					{% endfor %}
+				</select>
+			</dd>
+		</dl>
+	</fieldset>
+
+	<fieldset class="ts-fieldset">
+		<legend class="ts-legend"><i class="fa fa-share-square-o fa-lg" aria-hidden="true"></i> {{ lang('ACP_SUBMIT_CHANGES') }}</legend>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT')|e('html_attr') }}"> &nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET')|e('html_attr') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</fieldset>
+
+</form>
+
+{% INCLUDEJS '@stoker_emoji/acp_emoji.js' %}
+
+{% include 'overall_footer.html' %}

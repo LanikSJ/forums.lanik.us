@@ -1,0 +1,32 @@
+{% if S_STOKER_EMOJI %}
+{% INCLUDECSS '@stoker_emoji/emoji.css' %}
+<style>
+span.stoker-emoji {
+	font-size: {{ STOKER_EMOJI_SIZE }}rem;
+}
+.stoker-emoji-ins {
+	font-size: clamp(14px, {{ STOKER_EMOJI_SIZE }}rem, 28px);
+}
+@media (hover: hover) {
+	.postbody .content:has(span.stoker-emoji) {
+		padding: calc({{ STOKER_EMOJI_SIZE }}rem * .25);
+		padding-bottom: calc({{ STOKER_EMOJI_SIZE }}rem * .25 + 1px);
+		margin: calc({{ STOKER_EMOJI_SIZE }}rem * -.25);
+	}
+}
+{% if S_STOKER_EMOJI_FONT %}
+@font-face {
+	font-family: 'Stoker Noto Emoji';
+	font-display: swap;
+	src: url('{{ STOKER_EMOJI_FONT_URL }}') format('woff2');
+}
+.stoker-emoji-ins, span.stoker-emoji, span.stoker-chat-emoji, .stoker-chat-emoji-picker {
+	font-family: 'Stoker Noto Emoji', 'Noto Color Emoji', sans-serif;
+}
+textarea[name="message"],
+textarea[name="signature"] {
+	font-family: "Trebuchet MS", Verdana, Helvetica, Arial, "Stoker Noto Emoji", "Noto Color Emoji", sans-serif;
+}
+{% endif %}
+</style>
+{% endif %}

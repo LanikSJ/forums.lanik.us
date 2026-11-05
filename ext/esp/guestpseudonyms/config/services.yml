@@ -1,0 +1,151 @@
+services:
+    esp.guestpseudonyms.name_generator:
+        class: esp\guestpseudonyms\service\name_generator
+        arguments:
+            - '@language.loader'
+
+    esp.guestpseudonyms.pseudonym_manager:
+        class: esp\guestpseudonyms\service\pseudonym_manager
+        arguments:
+            - '@dbal.conn'
+            - '@esp.guestpseudonyms.name_generator'
+            - '@config'
+            - '%core.table_prefix%'
+
+    esp.guestpseudonyms.setup_listener:
+        class: esp\guestpseudonyms\event\setup_listener
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.reminder_listener:
+        class: esp\guestpseudonyms\event\reminder_listener
+        arguments:
+            - '@config'
+            - '@user'
+            - '@template'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.viewer:
+        class: esp\guestpseudonyms\service\viewer
+        arguments:
+            - '@user'
+            - '@config'
+
+    esp.guestpseudonyms.message_listener:
+        class: esp\guestpseudonyms\event\message_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.username_listener:
+        class: esp\guestpseudonyms\event\username_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '@user'
+            - '@auth'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.memberlist_listener:
+        class: esp\guestpseudonyms\event\memberlist_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '@dbal.conn'
+            - '@config'
+            - '@request'
+            - '%core.table_prefix%'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.livesearch_listener:
+        class: esp\guestpseudonyms\event\livesearch_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '@config'
+            - '@user'
+            - '@auth'
+            - '@request'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.search_listener:
+        class: esp\guestpseudonyms\event\search_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.viewtopic_listener:
+        class: esp\guestpseudonyms\event\viewtopic_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '@dbal.conn'
+            - '%core.table_prefix%'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.content_listener:
+        class: esp\guestpseudonyms\event\content_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '@config'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.signature_listener:
+        class: esp\guestpseudonyms\event\signature_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.quote_listener:
+        class: esp\guestpseudonyms\event\quote_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.feed_listener:
+        class: esp\guestpseudonyms\event\feed_listener
+        arguments:
+            - '@esp.guestpseudonyms.viewer'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.user_listener:
+        class: esp\guestpseudonyms\event\user_listener
+        arguments:
+            - '@dbal.conn'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '%core.table_prefix%'
+        tags:
+            - { name: event.listener }
+
+    esp.guestpseudonyms.command.backfill:
+        class: esp\guestpseudonyms\console\backfill
+        arguments:
+            - '@user'
+            - '@dbal.conn'
+            - '@esp.guestpseudonyms.pseudonym_manager'
+            - '%core.table_prefix%'
+        tags:
+            - { name: console.command }
+
+    _defaults:
+        public: true
