@@ -95,10 +95,10 @@ Alternatively, you can run the project using Docker and Docker Compose:
 ## ⚙️ Skills Automation
 
 This repository maintains agent skills via `skills-lock.json`. The GitHub Actions
-workflow automatically updates the skills weekly and creates a pull request.
+workflow automatically updates the skills monthly and creates a pull request.
 
 - **Workflow**: `.github/workflows/skills-update.yml`
-- **Schedule**: Every Sunday at 00:00 UTC
+- **Schedule**: Monthly on the 3rd at 06:00 UTC
 - **Manual run**: `npx skills update`
 
 ## 📝 License

@@ -1,10 +1,10 @@
 # Skills Update Automation
 #
-# This workflow runs weekly to update skills using the `npm skills update` command
+# This workflow runs monthly to update skills using the `npm skills update` command
 # and creates a pull request with any changes.
 #
 # Features:
-# - Runs every Sunday at midnight UTC
+# - Runs every month on the 3rd at 06:00 UTC
 # - Updates all skills in the project
 # - Creates a PR with changes if any skills have been updated
 # - Uses conventional commit format for skill updates
@@ -15,8 +15,8 @@ name: Skills Update
 
 on:
   schedule:
-    # Run every week on Sunday at 00:00 UTC
-    - cron: '0 0 * * 0'
+    # Run every month on the 3rd at 06:00 UTC
+    - cron: '0 6 3 * *'
   workflow_dispatch: # Allow manual trigger
 
 permissions:
