@@ -27,3 +27,6 @@ cache/production/
 
 # macOS Ignores
 .DS_Store
+
+# Global .agents folder (using global .agents configuration)
+.agents/

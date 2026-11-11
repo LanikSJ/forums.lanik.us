@@ -92,6 +92,15 @@ Alternatively, you can run the project using Docker and Docker Compose:
   and `store/` directories.
 - Ensure PHP extensions `json` and `mbstring` are enabled on your server.
 
+## ⚙️ Skills Automation
+
+This repository maintains agent skills via `skills-lock.json`. The GitHub Actions
+workflow automatically updates the skills weekly and creates a pull request.
+
+- **Workflow**: `.github/workflows/skills-update.yml`
+- **Schedule**: Every Sunday at 00:00 UTC
+- **Manual run**: `npx skills update`
+
 ## 📝 License
 
 [GPL-2.0-only License](LICENSE) © phpBB Limited / LanikSJ
