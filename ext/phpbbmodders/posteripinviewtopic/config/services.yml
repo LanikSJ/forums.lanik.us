@@ -1,6 +1,6 @@
 services:
-    rmcgirr83.posteripinviewtopic.listener:
-        class: rmcgirr83\posteripinviewtopic\event\listener
+    phpbbmodders.posteripinviewtopic.listener:
+        class: phpbbmodders\posteripinviewtopic\event\main_listener
         arguments:
             - '@auth'
             - '@language'
@@ -9,8 +9,8 @@ services:
         tags:
             - { name: event.listener }
 
-    rmcgirr83.posteripinviewtopic.core.freegeoip:
-        class: rmcgirr83\posteripinviewtopic\core\freegeoip
+    phpbbmodders.posteripinviewtopic.controller.freegeoip:
+        class: phpbbmodders\posteripinviewtopic\controller\freegeoip
         arguments:
             - '@auth'
             - '@dbal.conn'

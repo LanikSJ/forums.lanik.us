@@ -1,0 +1,5 @@
+phpbbmodders_posteripinviewtopic_controller_freegeoip:
+    path: /freegeoip/{post_id}
+    defaults: { _controller: phpbbmodders.posteripinviewtopic.controller.freegeoip:freegeoip }
+    requirements:
+        post_id: \d+
