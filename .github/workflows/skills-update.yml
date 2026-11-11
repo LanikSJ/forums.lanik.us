@@ -25,6 +25,10 @@ env:
   # Node.js version required by the skills CLI (22.20+)
   NODE_VERSION: '22'
 
+concurrency:
+  group: skills-update
+  cancel-in-progress: false
+
 jobs:
   update-skills:
     runs-on: ubuntu-latest
@@ -33,9 +37,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Update Skills
         run: |
@@ -61,12 +69,6 @@ jobs:
           else
             echo "No local .agents folder found"
           fi
-
-      - name: Configure Git
-        if: steps.git-check.outputs.has_changes == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
 
       - name: Create Pull Request
         if: steps.git-check.outputs.has_changes == 'true'
