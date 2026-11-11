@@ -1,61 +1,57 @@
 <?php
 /**
-*
-* @package phpBB Extension - Poster IP in viewtopic
-* @copyright (c) 2020 RMcGirr83 (Rich McGirr)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
-*
-*/
+ *
+ * Poster IP in Viewtopic extension for the phpBB Forum Software package
+ *
+ * @copyright (c) 2026, phpBB Modders, https://www.phpbbmodders.com/
+ * @copyright (c) 2016, Rich McGirr (RMcGirr83)
+ * @license GNU General Public License, version 2 (GPL-2.0)
+ *
+ */
 
-namespace rmcgirr83\posteripinviewtopic\core;
+namespace phpbbmodders\posteripinviewtopic\controller;
 
 /**
-* Ignore
-*/
-use phpbb\auth\auth;
-use phpbb\db\driver\driver_interface as db;
-use phpbb\language\language;
-use phpbb\request\request;
+ * @ignore
+ */
 use phpbb\exception\http_exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+/**
+ * Poster IP in Viewtopic IP lookup controller
+ */
 class freegeoip
 {
-	/** @var $auth */
+	/** @var \phpbb\auth\auth */
 	protected $auth;
 
-	/** @var $db */
+	/** @var \phpbb\db\driver\driver_interface */
 	protected $db;
 
-	/** @var $language */
+	/** @var \phpbb\language\language */
 	protected $language;
 
-	/** @var $request */
+	/** @var \phpbb\request\request */
 	protected $request;
 
-	/** @var array phpBB tables */
+	/** @var array */
 	protected $tables;
 
 	/** @var string */
 	protected $err = '';
 
 	/**
-	* Constructor
-	*
-	* @param auth					$auth				Auth object
-	* @param db						$db					Database object
-	* @param language				$language			Language object
-	* @param request				$request			Request object
-	* @param array					$tables				phpBB db tables
-	* @access public
-	*/
-	public function __construct(
-		auth $auth,
-		db $db,
-		language $language,
-		request $request,
-		array $tables
-	)
+	 * Constructor
+	 *
+	 * @param \phpbb\auth\auth                   $auth
+	 * @param \phpbb\db\driver\driver_interface  $db
+	 * @param \phpbb\language\language           $language
+	 * @param \phpbb\request\request             $request
+	 * @param array                              $tables
+	 *
+	 * @access public
+	 */
+	public function __construct(\phpbb\auth\auth $auth, \phpbb\db\driver\driver_interface $db, \phpbb\language\language $language, \phpbb\request\request $request, $tables)
 	{
 		$this->auth = $auth;
 		$this->db = $db;
@@ -64,37 +60,37 @@ class freegeoip
 		$this->tables = $tables;
 	}
 
-	/*
-	* populate a popup to display information retrieved
-	*
-	* @param	$post_id		the post id
-	* @return 	json response
-	* @access	public
-	*/
+	/**
+	 * Populate a popup to display information retrieved
+	 *
+	 * @param $post_id
+	 * @return json response
+	 * @access public
+	 */
 	public function freegeoip($post_id = 0)
 	{
 		if ($this->request->is_ajax())
 		{
-			$this->language->add_lang('common', 'rmcgirr83/posteripinviewtopic');
+			$this->language->add_lang('common', 'phpbbmodders/posteripinviewtopic');
 			$this->language->add_lang('mcp');
 
-			$sql = 'SELECT poster_ip, forum_id
+			$sql= 'SELECT poster_ip, forum_id
 				FROM ' . $this->tables['posts'] . '
 				WHERE post_id = ' . (int) $post_id;
 			$result = $this->db->sql_query_limit($sql, 1);
 			$row = $this->db->sql_fetchrow($result);
 			$this->db->sql_freeresult($result);
 
-			// sanity check in case someone is just inserting post_ids at random
+			// Sanity check in case someone is just inserting post_ids at random
 			if (!$row)
 			{
-				throw new http_exception(404, 'POST_NOT_EXIST');
+				throw new http_exception(404, $this->language->lang('POST_NOT_EXIST'));
 			}
 
-			// auth check
-			if (!$this->auth->acl_gets('a_', 'm_') || !$this->auth->acl_get('m_', (int) $row['forum_id']))
+			// Same check as the listener: admins, global moderators, or moderators of the post's forum
+			if (!$this->auth->acl_gets('a_', 'm_') && !$this->auth->acl_get('m_', (int) $row['forum_id']))
 			{
-				throw new http_exception(403, 'NOT_AUTHORISED');
+				throw new http_exception(403, $this->language->lang('NOT_AUTHORISED'));
 			}
 
 			$response = $this->freegeoip_api($row['poster_ip']);
@@ -107,38 +103,44 @@ class freegeoip
 				];
 
 				$json_response = new JsonResponse($data);
+
 				return $json_response;
 			}
 
 			$json_decode = json_decode($response, true);
 			$message = '';
+
 			foreach ($json_decode as $key => $value)
 			{
-				if (!in_array($key, array('as', 'org', 'status')) && !empty($value))
+				if (!in_array($key, ['as', 'org', 'status']) && !empty($value))
 				{
 					$message .= '<pre>' . $this->language->lang('PIPIV_' . strtoupper($key), ucfirst($value)) . '</pre>';
 				}
 			}
 
 			$data = [
-				'MESSAGE_TITLE' => $this->language->lang('PAGE_TITLE'),
+				'MESSAGE_TITLE'	=> $this->language->lang('PAGE_TITLE'),
 				'MESSAGE_TEXT'	=> $message,
+
 				'success'	=> true,
 			];
+
 			$json_response = new JsonResponse($data);
+
 			return $json_response;
 		}
 
-		throw new http_exception(405, 'EXTENSION_REQUIRES_JAVASCRIPT');
+		throw new http_exception(405, $this->language->lang('EXTENSION_REQUIRES_JAVASCRIPT'));
 	}
 
-	/*
-	* Query the freegoip database
-	* @param	$posterip		the posters ip
-	* @return 	string			return either a string on failure or json data
-	* @access	private
-	*/
-	public function freegeoip_api($poster_ip)
+	/**
+	 * Query the freegoip database
+	 *
+	 * @param $posterip
+	 * @return string
+	 * @access private
+	 */
+	private function freegeoip_api($poster_ip)
 	{
 		$url = 'http://ip-api.com/json/' . $poster_ip;
 
