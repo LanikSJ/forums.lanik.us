@@ -19,8 +19,13 @@
 	<fieldset>
 		<legend>{{ lang('GENERAL_SETTINGS') }}</legend>
 		<dl>
+			<dt><label>{{ lang('PWA_METADATA_ENABLED') ~ lang('COLON') }}</label><br><span>{{ lang('PWA_METADATA_ENABLED_EXPLAIN') }}</span></dt>
+			<dd><label><input type="radio" class="radio" name="config[pwa_metadata_enabled]" value="1"{% if S_PWA_METADATA_ENABLED %} checked="checked"{% endif %}> {{ lang('YES') }}</label>
+				<label><input type="radio" class="radio" name="config[pwa_metadata_enabled]" value="0"{% if not S_PWA_METADATA_ENABLED %} checked="checked"{% endif %}> {{ lang('NO') }}</label></dd>
+		</dl>
+		<dl>
 			<dt><label for="pwa_short_name">{{ lang('PWA_SHORT_NAME') ~ lang('COLON') }}</label><br><span>{{ lang('PWA_SHORT_NAME_EXPLAIN') }}</span></dt>
-			<dd><input id="pwa_short_name" type="text" size="40" maxlength="12" name="config[pwa_short_name]" value="{{ PWA_SHORT_NAME }}"></dd>
+			<dd><input id="pwa_short_name" type="text" size="40" maxlength="12" name="config[pwa_short_name]" value="{{ PWA_SHORT_NAME }}" placeholder="{{ PWA_SHORT_NAME_PLACEHOLDER|e('html_attr') }}"></dd>
 		</dl>
 		<dl>
 			<dt><label for="pwa_icon_small">{{ lang('PWA_ICON_SMALL') ~ lang('COLON') }}</label><br><span>{{ lang('PWA_ICON_SMALL_EXPLAIN', iconDir) }}</span></dt>
@@ -60,6 +65,16 @@
 						<input type="text" id="pwa_bg_color_{{ style.style_id }}" name="pwa_bg_color_{{ style.style_id }}" size="8" value="{{ style.pwa_bg_color }}" placeholder="#ffffff">
 						<input type="color" id="pwa_bg_color_picker_{{ style.style_id }}" aria-label="{{ lang('PWA_BACKGROUND_COLOUR') }}" value="{{ style.pwa_bg_color|default(default_color) }}">
 					</span>
+					<input
+						type="button"
+						class="button2 pwa-detect-colours"
+						value="{{ lang('PWA_DETECT_COLOURS')|e('html_attr') }}"
+						data-style-id="{{ style.style_id|e('html_attr') }}"
+						data-preview-url="{{ U_INDEX }}"
+						data-detecting-label="{{ lang('PWA_DETECTING_COLOURS')|e('html_attr') }}"
+						data-no-background-message="{{ lang('PWA_DETECT_COLOURS_NO_BG')|e('html_attr') }}"
+						data-error-message="{{ lang('PWA_DETECT_COLOURS_FAILED')|e('html_attr') }}">
+					<span class="pwa-detect-status error" role="status"></span>
 				</dd>
 			</dl>
 		{% endfor %}
