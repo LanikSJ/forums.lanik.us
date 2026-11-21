@@ -19,6 +19,7 @@ use phpbb\notification\manager;
 use phpbb\webpushnotifications\ext;
 use phpbb\webpushnotifications\form\form_helper;
 use phpbb\webpushnotifications\json\sanitizer as json_sanitizer;
+use phpbb\webpushnotifications\subscription\validator as subscription_validator;
 use phpbb\path_helper;
 use phpbb\request\request_interface;
 use phpbb\symfony_request;
@@ -40,6 +41,7 @@ class webpush
 	public const PUSH_SERVICE_WHITELIST = [
 		'android.googleapis.com',
 		'fcm.googleapis.com',
+		'jmt17.google.com',
 		'updates.push.services.mozilla.com',
 		'updates-autopush.stage.mozaws.net',
 		'updates-autopush.dev.mozaws.net',
@@ -246,10 +248,15 @@ class webpush
 	{
 		$row_data = json_decode($notification_data, true);
 
-		// Old notification data is pre-parsed and just needs to be returned
+		// Old notification data is pre-parsed, but its URL is relative to the board root.
 		if (isset($row_data['heading']))
 		{
-			return $notification_data;
+			if (is_string($row_data['url'] ?? null))
+			{
+				$row_data['url'] = $this->normalize_notification_url($row_data['url']);
+			}
+
+			return json_encode($row_data);
 		}
 
 		// Get notification from row_data
@@ -260,11 +267,38 @@ class webpush
 
 		return json_encode([
 			'heading'	=> ext::decode_entities($this->config['sitename'], ENT_QUOTES),
-			'title'		=> strip_tags(ext::decode_entities($notification->get_title())),
-			'text'		=> strip_tags(ext::decode_entities($notification->get_reference())),
-			'url'		=> htmlspecialchars_decode($notification->get_url()),
+			'title'		=> ext::decode_entities(strip_tags($notification->get_title()), ENT_QUOTES),
+			'text'		=> ext::decode_entities(strip_tags($notification->get_reference()), ENT_QUOTES),
+			'url'		=> $this->normalize_notification_url(htmlspecialchars_decode($notification->get_url())),
 			'avatar'	=> $this->prepare_avatar($notification->get_avatar()),
 		]);
+	}
+
+	/**
+	 * Convert a relative notification URL to an absolute URL
+	 *
+	 * @param string $url Notification URL
+	 * @return string
+	 */
+	protected function normalize_notification_url(string $url): string
+	{
+		if (parse_url($url, PHP_URL_SCHEME) !== null)
+		{
+			return $url;
+		}
+
+		if (strpos($url, '//') === 0)
+		{
+			$scheme = parse_url($this->get_board_url(), PHP_URL_SCHEME);
+			return (is_string($scheme) ? $scheme . ':' : '') . $url;
+		}
+
+		if (strpos($url, '/') === 0)
+		{
+			return generate_board_url(true) . $url;
+		}
+
+		return $this->get_board_url() . preg_replace('#^(?:(?:\.\.?)/)+#', '', $url);
 	}
 
 	/**
@@ -304,14 +338,13 @@ class webpush
 	 */
 	public function is_valid_endpoint(string $endpoint): bool
 	{
-		$host = parse_url($endpoint, PHP_URL_HOST);
-
-		if (!is_string($host) || empty($host))
+		if (!subscription_validator::is_valid_endpoint_url($endpoint))
 		{
 			return false;
 		}
 
-		$host = strtolower($host);
+		$parts = parse_url($endpoint);
+		$host = strtolower($parts['host']);
 
 		if (in_array($host, self::PUSH_SERVICE_WHITELIST, true))
 		{
@@ -419,7 +452,7 @@ class webpush
 		$p256dh = is_string($keys['p256dh'] ?? null) ? $keys['p256dh'] : '';
 		$auth = is_string($keys['auth'] ?? null) ? $keys['auth'] : '';
 
-		if ($p256dh === '' || $auth === '')
+		if (!subscription_validator::is_valid($p256dh, $auth))
 		{
 			throw new http_exception(Response::HTTP_BAD_REQUEST, 'AJAX_ERROR_TEXT');
 		}
@@ -466,6 +499,10 @@ class webpush
 		$data = json_sanitizer::decode($symfony_request->get('data', ''));
 
 		$endpoint = is_string($data['endpoint'] ?? null) ? $data['endpoint'] : '';
+		if ($endpoint === '')
+		{
+			throw new http_exception(Response::HTTP_BAD_REQUEST, 'WEBPUSH_INVALID_ENDPOINT');
+		}
 
 		$sql = 'DELETE FROM ' . $this->push_subscriptions_table . '
 			WHERE user_id = ' . (int) $this->user->id() . "
@@ -526,7 +563,7 @@ class webpush
 	}
 
 	/**
-	 * Returns the board url (and caches it in the function)
+	 * Returns the board URL
 	 *
 	 * @return string the generated board url
 	 */

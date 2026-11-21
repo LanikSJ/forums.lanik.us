@@ -12,6 +12,7 @@ namespace phpbb\webpushnotifications\event;
 
 use phpbb\config\config;
 use phpbb\controller\helper as controller_helper;
+use phpbb\db\driver\driver_interface;
 use phpbb\language\language;
 use phpbb\notification\manager;
 use phpbb\request\request_interface;
@@ -29,26 +30,35 @@ class listener implements EventSubscriberInterface
 	/** @var config */
 	protected $config;
 
-	/* @var controller_helper */
+	/** @var controller_helper */
 	protected $controller_helper;
 
-	/* @var form_helper */
+	/** @var form_helper */
 	protected $form_helper;
 
-	/* @var language */
+	/** @var language */
 	protected $language;
 
 	/** @var request_interface */
 	protected $request;
 
-	/* @var template */
+	/** @var template */
 	protected $template;
 
 	/** @var user */
 	protected $user;
 
-	/* @var manager */
+	/** @var manager */
 	protected $phpbb_notifications;
+
+	/** @var driver_interface */
+	protected $db;
+
+	/** @var string */
+	protected $notification_webpush_table;
+
+	/** @var string */
+	protected $push_subscriptions_table;
 
 	/**
 	 * Constructor
@@ -61,8 +71,11 @@ class listener implements EventSubscriberInterface
 	 * @param template $template Template object
 	 * @param user $user
 	 * @param manager $phpbb_notifications Notifications manager object
+	 * @param driver_interface $db Database connection
+	 * @param string $notification_webpush_table Web Push notification table
+	 * @param string $push_subscriptions_table Web Push subscriptions table
 	 */
-	public function __construct(config $config, controller_helper $controller_helper, form_helper $form_helper, language $language, request_interface $request, template $template, user $user, manager $phpbb_notifications)
+	public function __construct(config $config, controller_helper $controller_helper, form_helper $form_helper, language $language, request_interface $request, template $template, user $user, manager $phpbb_notifications, driver_interface $db, $notification_webpush_table, $push_subscriptions_table)
 	{
 		$this->config = $config;
 		$this->controller_helper = $controller_helper;
@@ -72,6 +85,9 @@ class listener implements EventSubscriberInterface
 		$this->template = $template;
 		$this->user = $user;
 		$this->phpbb_notifications = $phpbb_notifications;
+		$this->db = $db;
+		$this->notification_webpush_table = $notification_webpush_table;
+		$this->push_subscriptions_table = $push_subscriptions_table;
 	}
 
 	public static function getSubscribedEvents()
@@ -82,6 +98,8 @@ class listener implements EventSubscriberInterface
 			'core.ucp_display_module_before'		=> 'load_language',
 			'core.acp_main_notice'					=> 'compatibility_notice',
 			'core.help_manager_add_block_after'		=> 'wpn_faq',
+			'core.page_footer' 						=> 'append_agreement',
+			'core.delete_user_before'				=> 'delete_user_data',
 		];
 	}
 
@@ -152,11 +170,11 @@ class listener implements EventSubscriberInterface
 	public function pwa_manifest()
 	{
 		$this->template->assign_vars([
+			'S_PWA_METADATA_ENABLED' => !empty($this->config['pwa_metadata_enabled']),
 			'U_MANIFEST_URL'	=> $this->controller_helper->route('phpbb_webpushnotifications_manifest_controller'),
 			'U_TOUCH_ICON'		=> $this->config['pwa_icon_small'] ? ext::PWA_ICON_DIR . '/' . $this->config['pwa_icon_small'] : null,
 			'SHORT_SITE_NAME'	=> $this->config['pwa_short_name'] ?: $this->trim_shortname($this->config['sitename']),
 			'PWA_THEME_COLOR'	=> $this->user->style['pwa_theme_color'] ?? '',
-			'PWA_BG_COLOR'		=> $this->user->style['pwa_bg_color'] ?? '',
 			'S_PWA_SHOW_BANNER'	=> !empty($this->config['pwa_show_install_banner']) && $this->is_mobile_phone(),
 		]);
 	}
@@ -196,6 +214,54 @@ class listener implements EventSubscriberInterface
 			}
 
 			$this->template->assign_block_vars_array('faq_block.faq_row', $faq_rows);
+		}
+	}
+
+	/**
+	 * Append Web Push disclosure to privacy agreement.
+	 *
+	 * @return void
+	 */
+	public function append_agreement()
+	{
+		if (!$this->config['wpn_webpush_enable']
+			|| !$this->template->retrieve_var('S_AGREEMENT')
+			|| $this->template->retrieve_var('AGREEMENT_TITLE') !== $this->language->lang('PRIVACY'))
+		{
+			return;
+		}
+
+		if (!$this->language->is_set('NOTIFY_WEBPUSH_PRIVACY_POLICY_TEXT'))
+		{
+			$this->language->add_lang('webpushnotifications_module_ucp', 'phpbb/webpushnotifications');
+		}
+
+		$this->template->set_filenames([
+			'wpn_privacy_policy' => '@phpbb_webpushnotifications/privacy_policy.html',
+		]);
+		$this->template->append_var('AGREEMENT_TEXT', $this->template->assign_display('wpn_privacy_policy'));
+	}
+
+	/**
+	 * Delete Web Push data belonging to deleted users
+	 *
+	 * @param \phpbb\event\data $event The event object
+	 * @return void
+	 */
+	public function delete_user_data($event)
+	{
+		$user_ids = array_map('intval', $event['user_ids']);
+
+		if (!$user_ids)
+		{
+			return;
+		}
+
+		foreach ([$this->notification_webpush_table, $this->push_subscriptions_table] as $table)
+		{
+			$sql = 'DELETE FROM ' . $table . '
+				WHERE ' . $this->db->sql_in_set('user_id', $user_ids);
+			$this->db->sql_query($sql);
 		}
 	}
 

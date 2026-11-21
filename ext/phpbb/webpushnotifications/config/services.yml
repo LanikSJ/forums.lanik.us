@@ -2,6 +2,21 @@ imports:
     - { resource: tables.yml }
 
 services:
+    phpbb.wpn.acp.controller:
+        class: phpbb\webpushnotifications\controller\acp_controller
+        arguments:
+            - '@cache'
+            - '@config'
+            - '@dbal.conn'
+            - '@upload_imagesize'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@symfony_request'
+            - '@template'
+            - '@user'
+            - '%core.root_path%'
+
     phpbb.wpn.form_helper:
         class: phpbb\webpushnotifications\form\form_helper
         arguments:
@@ -20,6 +35,9 @@ services:
             - '@template'
             - '@user'
             - '@notification_manager'
+            - '@dbal.conn'
+            - '%tables.phpbb.wpn.notification_push%'
+            - '%tables.phpbb.wpn.push_subscriptions%'
         tags:
             - { name: event.listener }
 
@@ -61,6 +79,3 @@ services:
         arguments:
             - '@config'
             - '@user'
-
-    _defaults:
-        public: true
