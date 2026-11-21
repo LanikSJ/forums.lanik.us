@@ -1,0 +1,68 @@
+{% include 'mcp_header.html' %}
+
+<h2>{{ lang('MCP_TOPICBAN_LIST') }}</h2>
+
+<form method="post" id="mcp_topicban_list" action="{{ U_ACTION }}">
+
+<div class="panel">
+	<div class="inner">
+
+	<p>{{ lang('MCP_TOPICBAN_LIST_EXPLAIN') }}</p>
+
+	{% if loops.bans|length %}
+		<div class="action-bar bar-top">
+			<div class="pagination">
+				{{ TOTAL_BANS }}
+				{% if loops.pagination|length %}{% include 'pagination.html' %}{% endif %}
+			</div>
+		</div>
+
+		<table class="table1">
+		<thead>
+		<tr>
+			<th class="name">{{ lang('TOPICBAN_TOPIC') }}</th>
+			<th class="name">{{ lang('TOPICBAN_USER') }}</th>
+			<th class="name">{{ lang('TOPICBAN_BANNED_BY') }}</th>
+			<th class="info">{{ lang('TOPICBAN_BAN_TIME') }}</th>
+			<th class="info">{{ lang('TOPICBAN_BAN_END') }}</th>
+			<th class="info">{{ lang('TOPICBAN_REASON') }}</th>
+			<th class="mark">{{ lang('MARK') }}</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for ban in loops.bans %}
+		<tr class="{% if ban.S_ROW_COUNT is odd %}bg1{% else %}bg2{% endif %}">
+			<td><a href="{{ ban.U_TOPIC }}">{{ ban.TOPIC_TITLE }}</a></td>
+			<td>{{ ban.USERNAME_FULL }}</td>
+			<td>{{ ban.BANNED_BY }}</td>
+			<td>{{ ban.BAN_TIME }}</td>
+			<td>{{ ban.BAN_END }}</td>
+			<td>{{ ban.REASON }}</td>
+			<td class="mark"><input type="checkbox" name="mark[]" value="{{ ban.KEY }}"></td>
+		</tr>
+		{% endfor %}
+		</tbody>
+		</table>
+
+		<div class="action-bar bar-bottom">
+			<div class="pagination">
+				{{ TOTAL_BANS }}
+				{% if loops.pagination|length %}{% include 'pagination.html' %}{% endif %}
+			</div>
+		</div>
+
+		<fieldset class="display-actions">
+			<input class="button2" type="submit" name="unban" value="{{ lang('TOPICBAN_UNBAN_MARKED') }}">
+			<div><a href="#" onclick="marklist('mcp_topicban_list', 'mark', true); return false;">{{ lang('MARK_ALL') }}</a> &bull; <a href="#" onclick="marklist('mcp_topicban_list', 'mark', false); return false;">{{ lang('UNMARK_ALL') }}</a></div>
+		</fieldset>
+	{% else %}
+		<p><strong>{{ lang('TOPICBAN_NO_BANS') }}</strong></p>
+	{% endif %}
+
+	</div>
+</div>
+
+{{ S_FORM_TOKEN }}
+</form>
+
+{% include 'mcp_footer.html' %}

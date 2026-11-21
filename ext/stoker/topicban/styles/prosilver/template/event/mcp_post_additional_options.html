@@ -1,0 +1,43 @@
+{% if S_TOPICBAN_CAN %}
+	<form method="post" id="mcp_topicban" action="{{ U_POST_ACTION }}">
+
+	<fieldset>
+	<dl>
+		<dt><label>{{ lang('TOPICBAN_TITLE') ~ lang('COLON') }}</label></dt>
+		<dd>{{ TOPICBAN_STATUS }}</dd>
+	</dl>
+	{% if not S_TOPICBAN_PROTECTED %}
+	<dl>
+		<dt><label for="topicban_length">{{ lang('TOPICBAN_LENGTH') ~ lang('COLON') }}</label></dt>
+		<dd>
+			<select name="topicban_length" id="topicban_length">
+				<option value="0"{% if not S_TOPICBAN_UNTIL %} selected{% endif %}>{{ lang('TOPICBAN_PERMANENT') }}</option>
+				<option value="60">{{ lang('TOPICBAN_1_HOUR') }}</option>
+				<option value="360">{{ lang('TOPICBAN_6_HOURS') }}</option>
+				<option value="1440">{{ lang('TOPICBAN_1_DAY') }}</option>
+				<option value="10080">{{ lang('TOPICBAN_7_DAYS') }}</option>
+				<option value="43200">{{ lang('TOPICBAN_30_DAYS') }}</option>
+				<option value="-1"{% if S_TOPICBAN_UNTIL %} selected{% endif %}>{{ lang('TOPICBAN_UNTIL_DATE') }}</option>
+			</select>
+			<input type="datetime-local" class="inputbox autowidth" name="topicban_until" id="topicban_until" value="{{ TOPICBAN_UNTIL }}" min="{{ TOPICBAN_MIN_DATE }}" max="{{ TOPICBAN_MAX_DATE }}">
+		</dd>
+	</dl>
+	<dl>
+		<dt><label for="topicban_reason">{{ lang('TOPICBAN_REASON') ~ lang('COLON') }}</label><br><span>{{ lang('TOPICBAN_REASON_EXPLAIN') }}</span></dt>
+		<dd><input type="text" class="inputbox" name="topicban_reason" id="topicban_reason" value="{{ TOPICBAN_REASON }}" maxlength="200"></dd>
+	</dl>
+	{% endif %}
+	{% if not S_TOPICBAN_PROTECTED or S_TOPICBAN_ACTIVE %}
+	<dl>
+		<dt>&nbsp;</dt>
+		<dd>
+			{% if not S_TOPICBAN_PROTECTED %}<input type="submit" class="button2" name="action[topicban]" value="{% if S_TOPICBAN_ACTIVE %}{{ lang('TOPICBAN_UPDATE') }}{% else %}{{ lang('TOPICBAN_BAN') }}{% endif %}">{% endif %}
+			{% if S_TOPICBAN_ACTIVE %}<input type="submit" class="button2" name="action[topicunban]" value="{{ lang('TOPICBAN_UNBAN') }}" formnovalidate>{% endif %}
+		</dd>
+	</dl>
+	{% endif %}
+	{{ S_FORM_TOKEN }}
+	</fieldset>
+	</form>
+	{% if not S_TOPICBAN_PROTECTED %}{% INCLUDEJS '@stoker_topicban/js/topicban_mcp.js' %}{% endif %}
+{% endif %}

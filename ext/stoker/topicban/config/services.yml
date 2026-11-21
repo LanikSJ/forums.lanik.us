@@ -1,0 +1,74 @@
+parameters:
+    stoker.topicban.tables.topic_bans: '%core.table_prefix%stoker_topic_bans'
+
+services:
+    stoker.topicban.manager:
+        class: stoker\topicban\service\topicban_manager
+        arguments:
+            - '@auth'
+            - '@cache.driver'
+            - '@config'
+            - '@dbal.conn'
+            - '@notification_manager'
+            - '@user'
+            - '%stoker.topicban.tables.topic_bans%'
+
+    stoker.topicban.listener:
+        class: stoker\topicban\event\main_listener
+        arguments:
+            - '@auth'
+            - '@language'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@stoker.topicban.manager'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    stoker.topicban.mcp_listener:
+        class: stoker\topicban\event\mcp_listener
+        arguments:
+            - '@auth'
+            - '@language'
+            - '@log'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@stoker.topicban.manager'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
+
+    stoker.topicban.controller.mcp:
+        class: stoker\topicban\controller\mcp_controller
+        arguments:
+            - '@auth'
+            - '@config'
+            - '@language'
+            - '@log'
+            - '@pagination'
+            - '@request'
+            - '@template'
+            - '@user'
+            - '@stoker.topicban.manager'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+
+    stoker.topicban.notification.type.topic_ban:
+        class: stoker\topicban\notification\type\topic_ban
+        shared: false
+        parent: notification.type.base
+        tags:
+            - { name: notification.type }
+
+    stoker.topicban.cron.task.purge_expired:
+        class: stoker\topicban\cron\task\purge_expired
+        arguments:
+            - '@config'
+            - '@stoker.topicban.manager'
+        calls:
+            - [set_name, [cron.task.stoker.topicban.purge_expired]]
+        tags:
+            - { name: cron.task }

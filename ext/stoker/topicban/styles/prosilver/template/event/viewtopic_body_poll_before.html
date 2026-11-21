@@ -1,0 +1,8 @@
+{% if S_TOPICBAN_BANNED %}
+	<div class="rules topicban-notice">
+		<div class="inner">
+			<strong>{{ TOPICBAN_NOTICE }}</strong>
+			{% if TOPICBAN_REASON %}<br>{{ lang('TOPICBAN_REASON_LABEL') ~ lang('COLON') }} {{ TOPICBAN_REASON }}{% endif %}
+		</div>
+	</div>
+{% endif %}
